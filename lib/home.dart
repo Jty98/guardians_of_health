@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -13,7 +14,7 @@ class Home extends StatelessWidget {
     final HomeController homecontroller = Get.put(HomeController());
 
     return Scaffold(
-      // appBar: ,
+      appBar: const MyAppBar(),
       body: PersistentTabView(
         context,
         controller: homecontroller.tabController,
