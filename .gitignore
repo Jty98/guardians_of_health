@@ -1,0 +1,61 @@
+# Flutter/Dart specific
+**/build/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+
+# Xcode
+**/*.xcworkspace/
+**/*.xcuserstate
+**/*.xcproj/
+**/*.pbxproj
+**/*.mode1v3
+**/*.mode2v3
+**/*.perspectivev3
+**/Pods/
+**/ios/Podfile.lock
+
+# Android
+**/android/build/
+**/android/app/build/
+**/android/gradle/
+**/android/.gradle/
+**/android/local.properties
+**/android/Flutter/.last_build_id
+
+# IntelliJ
+**/*.iml
+**/.idea/
+
+# VSCode
+**/.vscode/
+
+# macOS
+**/.DS_Store
+
+# Flutter Windows
+**/windows/Flutter/.last_build_id
+**/windows/Flutter/flutter_assets/
+**/windows/Flutter/flutter_export_environment.sh
+
+# Web
+**/web/build/
+**/web/dart_tool/
+**/web/packages/
+
+# Build artifacts
+**/lib/generated_plugin_registrant.dart
+**/lib/generated_runner.dart
+
+# Avoid including generated files for FlutterWeb in the git repository.
+**/webdev/
+**/build/web/
+
+# Dependencies
+**/.idea/
+**/.vscode/
+**/.pub-cache/
