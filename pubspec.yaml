@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   # GetX 상태관리
   get: ^4.6.6 
+  # Tabbar 꾸미기
+  persistent_bottom_nav_bar_v2: ^4.2.8
 
 dev_dependencies:
   flutter_test:
