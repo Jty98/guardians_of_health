@@ -15,6 +15,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
+      
       body: PersistentTabView(
         context,
         controller: homecontroller.tabController,
