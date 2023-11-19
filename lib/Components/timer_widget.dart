@@ -135,11 +135,14 @@ class TimerWidget extends StatelessWidget {
                               Center(
                                 child: AnimatedOpacity(
                                   duration: const Duration(milliseconds: 2400),
-                                  opacity: timerController.opacityUpdateFunction4(),
-                                  child: Text("축하합니다!\n${timerController.formattedTime()}의 ",
-                                  style: const TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold,
-                                  ),
+                                  opacity:
+                                      timerController.opacityUpdateFunction4(),
+                                  child: Text(
+                                    "축하합니다!\n${timerController.formattedTime()}의 ",
+                                    style: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -168,10 +171,10 @@ class TimerWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            
-                          }, 
+                            showButtomSheet();
+                          },
                           child: const Text("기록 남기러가기"),
-                          ),
+                        ),
                       ],
                     );
                   default:
@@ -185,7 +188,79 @@ class TimerWidget extends StatelessWidget {
       },
     );
   }
+
   // --- Functions ---
-
-
+  showButtomSheet() {
+    Get.bottomSheet(Container(
+      color: Colors.amber,
+      height: 600,
+      width: 400,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                "배변기록",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // const Padding(
+            //   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //   child: Text("사진 남기기"),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Text("사진 남기기"),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.add_a_photo),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.add_photo_alternate_rounded),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    const Text("만족도"),
+                    
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
 } // End
