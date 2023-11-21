@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Model/result_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
 
@@ -30,6 +35,7 @@ class TimerWidget extends StatelessWidget {
                             builder: (context) => const MainPageView()))
                     .then((value) {});
                 // timerController.buttonStatus -= 2;
+                // MainPageView 내부에서 사용자의 액션에 따라 호출되는 부분
               }
               print("new buttonStatus: ${timerController.buttonStatus}");
             },
@@ -171,7 +177,7 @@ class TimerWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            showButtomSheet();
+                            showButtomSheet(context);
                           },
                           child: const Text("기록 남기러가기"),
                         ),
@@ -190,77 +196,105 @@ class TimerWidget extends StatelessWidget {
   }
 
   // --- Functions ---
-  showButtomSheet() {
-    Get.bottomSheet(Container(
-      color: Colors.amber,
-      height: 600,
-      width: 400,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
+showButtomSheet(context) {
+  TimerController timerController = Get.find();
+
+  Get.bottomSheet(
+    SingleChildScrollView(
+      child: GestureDetector(
+        onTap: () {
+          // iOS에서만 키보드 강제로 내리기
+          if (Platform.isIOS) {
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
+          }
+          // FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          color: Colors.pink,
+          height: 600,
+          width: 400,
+          child: Column(
+            children: [
+              const Text(
                 "배변기록",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            // const Padding(
-            //   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            //   child: Text("사진 남기기"),
-            // ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              const Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Text("사진 남기기"),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text("사진 남기기"),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 100,
-                        color: Colors.blue,
-                      ),
-                    ],
+                  Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.blue,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.add_a_photo),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.add_photo_alternate_rounded),
-                        ),
-                      ],
-                    ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_a_photo),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_photo_alternate_rounded),
                   ),
                 ],
               ),
-            ),
-            Row(
-              children: [
-                Column(
-                  children: [
-                    const Text("만족도"),
-                    
-                  ],
+              const Text("만족도"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  starRatingbar(),
+                ],
+              ),
+              const Text("기록"),
+              SizedBox(
+                height: 150,
+                width: 300,
+                child: TextField(
+                  controller: timerController.resultTextController,
+                  maxLines: null, // 여러 줄을 쓰기위해 null
+                  decoration: const InputDecoration(
+                    hintText: "배변 중 특이사항을 기록해주세요.",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ],
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
-    ));
+    ),
+  );
+}
+
+  // ratingbar
+  Widget starRatingbar() {
+    return RatingBar.builder(
+      initialRating: ResultModel.resultRating,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      itemBuilder: (context, _) => const Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        ResultModel.resultRating = rating;
+        // timerController.resultRating.value = rating;
+        print(rating);
+        print(ResultModel.resultRating);
+      },
+    );
   }
 } // End

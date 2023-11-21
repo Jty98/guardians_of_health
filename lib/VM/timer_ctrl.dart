@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {
@@ -11,9 +12,13 @@ class TimerController extends GetxController {
   RxDouble opacityUpdate2 = 0.0.obs;
   RxDouble opacityUpdate3 = 0.0.obs;
   RxDouble opacityUpdate4 = 0.0.obs;
+  late TextEditingController resultTextController;
+  
+  
 
   // 버튼에 애니메이션 효과 부여
   startAnimation() async {
+    resultTextController = TextEditingController();
     while (buttonStatus == 0) {
       print("buttonStatus: $buttonStatus");
       await Future.delayed(const Duration(seconds: 2));
@@ -33,6 +38,12 @@ class TimerController extends GetxController {
     } else if (buttonStatus > 2) {
       timer.cancel();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    resultTextController.dispose();
   }
 
   // 화면이 소멸될 때 Timer 해제
