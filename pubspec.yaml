@@ -45,6 +45,12 @@ dependencies:
   # Calendar 패키지
   table_calendar: ^3.0.9
 
+
+  # Location 설정
+  flutter_localizations:
+    sdk: flutter
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

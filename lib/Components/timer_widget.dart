@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -181,6 +182,10 @@ class TimerWidget extends StatelessWidget {
                           },
                           child: const Text("기록 남기러가기"),
                         ),
+                        // CupertinoButton.filled(
+                        //   child: const Text("기록 남기러가기"),
+                        //   onPressed: () => showButtomSheet(context),
+                        //   ),
                       ],
                     );
                   default:
@@ -196,12 +201,11 @@ class TimerWidget extends StatelessWidget {
   }
 
   // --- Functions ---
-showButtomSheet(context) {
-  TimerController timerController = Get.find();
-
-  Get.bottomSheet(
-    SingleChildScrollView(
-      child: GestureDetector(
+  showButtomSheet(context) {
+    TimerController timerController = Get.find();
+    Get.bottomSheet(
+      backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+      GestureDetector(
         onTap: () {
           // iOS에서만 키보드 강제로 내리기
           if (Platform.isIOS) {
@@ -209,72 +213,125 @@ showButtomSheet(context) {
           }
           // FocusScope.of(context).unfocus();
         },
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          color: Colors.pink,
-          height: 600,
-          width: 400,
-          child: Column(
-            children: [
-              const Text(
-                "배변기록",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text("사진 남기기"),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.blue,
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add_a_photo),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add_photo_alternate_rounded),
-                  ),
-                ],
-              ),
-              const Text("만족도"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  starRatingbar(),
-                ],
-              ),
-              const Text("기록"),
-              SizedBox(
-                height: 150,
-                width: 300,
-                child: TextField(
-                  controller: timerController.resultTextController,
-                  maxLines: null, // 여러 줄을 쓰기위해 null
-                  decoration: const InputDecoration(
-                    hintText: "배변 중 특이사항을 기록해주세요.",
-                    border: OutlineInputBorder(),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            // color: Theme.of(context).colorScheme.tertiaryContainer,
+            height: 700,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                const Text(
+                  "배변기록",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-            ],
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(
+                    "사진 남기기",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 120,
+                      color: Colors.blueGrey,
+                      child: const Icon(
+                        Icons.add,
+                        size: 60,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // IconButton(
+                          //   onPressed: () {},
+                          //   icon: const Icon(Icons.add_a_photo),
+                          // ),
+                          // const Text("카메라")
+                          TextButton(
+                            child: Column(
+                              children: const [
+                                Icon(Icons.add_a_photo),
+                                Text("카메라")
+                              ],
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            child: Column(
+                              children: const [
+                                Icon(Icons.add_photo_alternate_rounded),
+                                Text("앨범")
+                              ],
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30,),
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text("만족도"),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    starRatingbar(),
+                  ],
+                ),
+                const SizedBox(height: 30,),
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text("기록"),
+                ),
+                SizedBox(
+                  height: 150,
+                  width: 300,
+                  child: TextField(
+                    controller: timerController.resultTextController,
+                    maxLines: 3, // 여러 줄을 쓰기위해 null
+                    maxLength: 60,
+                    decoration: const InputDecoration(
+                      hintText: "배변 중 특이사항을 기록해주세요.",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   // ratingbar
   Widget starRatingbar() {
