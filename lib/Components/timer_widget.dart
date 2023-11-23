@@ -257,11 +257,6 @@ class TimerWidget extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // IconButton(
-                          //   onPressed: () {},
-                          //   icon: const Icon(Icons.add_a_photo),
-                          // ),
-                          // const Text("카메라")
                           TextButton(
                             child: Column(
                               children: const [
@@ -280,8 +275,8 @@ class TimerWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            child: Column(
-                              children: const [
+                            child: const Column(
+                              children: [
                                 Icon(Icons.add_photo_alternate_rounded),
                                 Text("앨범")
                               ],
@@ -293,7 +288,7 @@ class TimerWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 20,),
                 const Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text("만족도"),
@@ -307,7 +302,7 @@ class TimerWidget extends StatelessWidget {
                     starRatingbar(),
                   ],
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 20,),
                 const Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text("기록"),
@@ -324,7 +319,15 @@ class TimerWidget extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 20,),
+                ElevatedButton(
+                  onPressed: () {
+                    // SQLite에 insrt하는거
+                    Get.back();
+                  }, 
+                  child: const Text("저장하기"),
+                  ),
               ],
             ),
           ),

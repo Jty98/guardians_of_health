@@ -40,9 +40,9 @@ class Home extends StatelessWidget {
         context,
         controller: homecontroller.tabController,
         screens: _buildScreens(), // 탭바누르면 이동할 페이지들 함수
-        items: _navBarsItems(), // 탭들 디자인하는 함수
+        items: _navBarsItems(context), // 탭들 디자인하는 함수
         confineInSafeArea: true,
-        // backgroundColor: Colors.white, 
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         // handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true, // 키보드 눌렀을 때 화면 자동으로 위로 올라감
         // stateManagement: true, 
@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
         //   // curve: Curves.ease,
         //   duration: Duration(milliseconds: 100),
         // ),
-        navBarStyle: NavBarStyle.style6,
+        navBarStyle: NavBarStyle.style11,
       ),
     );
   }
@@ -72,24 +72,27 @@ class Home extends StatelessWidget {
   // ---------- Functions ----------
 
   // 탭바 디자인 설정 리스트 함수
-  List<PersistentBottomNavBarItem> _navBarsItems() {
+  List<PersistentBottomNavBarItem> _navBarsItems(context) {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.home),
         title: "홈",
-        activeColorPrimary: CupertinoColors.activeBlue,
+        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.calendar),
         title: "배변기록",
-        activeColorPrimary: CupertinoColors.activeBlue,
+        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.map),
         title: "급똥지도",
-        activeColorPrimary: CupertinoColors.activeBlue,
+        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];

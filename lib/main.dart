@@ -46,7 +46,12 @@ class MyApp extends StatelessWidget {
                 MaterialStateProperty.all(seedColor), // 일반 버튼 배경 색상
             foregroundColor:
                 MaterialStateProperty.all(Colors.black), // 일반 버튼 글자색
-          // shape: MaterialStatePropertyAll()
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
+                side: const BorderSide(color: Colors.black), // 테두리 선 색상 및 너비 설정
+              ),
+            ),
           ),
         ),
         // outlineButton 세팅

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/calendar_bottomsheet_widget.dart';
+import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -8,7 +10,8 @@ class CalendarWidget extends StatelessWidget {
 
   final CalendarController calendarController = Get.put(CalendarController());
   DateTime focusedDay = DateTime.now();
-  
+  Map<DateTime, List<CalendarEventModel>> events = {}; // 날짜별로 이벤트값을 저장함
+
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -34,37 +37,14 @@ class CalendarWidget extends StatelessWidget {
     );
   }
 
+
+
   // --- Functions ---
   void _daySelected(DateTime selectedDay, DateTime _) {
     calendarController.changeSelectedDay(selectedDay);
-
-    // CalendarBu
   }
 
-  _showBottomSheet() {
-    SizedBox(
-      // height: MediaQuery.of(context).size.height * (3 / 4) + bottomInset,
-    );
-    
-    // Get.bottomSheet(
-    //   Center(
-    //     child: Column(
-    //       children: [
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.end,
-    //           children: [
-    //             IconButton(
-    //               onPressed: () => Get.back(),
-    //               icon: const Icon(Icons.cancel_outlined),
-    //             ),
-    //           ],
-    //         ),
-    //         // Display content based on the selected date
-    //         Text("Selected Date: ${calendarController.selectedDay.value}"),
-    //       ],
-    //     ),
-    //   ),
-    //   isDismissible: false,
-    // );
-  }
+
+
+
 } // End
