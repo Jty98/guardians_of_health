@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-class Record{
+class RecordModel{
   // 사용자의 배변 기록을 저장하는 테이블의 속성들을 정의하는 클래스
   // 필요한 속성 - 배변 이미지 : Uint8List type, 만족도(rating) : double type,
   // 배변에 대한 기록 : String(text) type, 배변 시간: Timestamp(now) type
@@ -13,7 +13,7 @@ class Record{
   final String takenTime;           // 배변에 걸린 시간
   final String currentTime;         // 현재 시간
 
-  Record(
+  RecordModel(
     {
       this.id,
       required this.image,
@@ -25,7 +25,7 @@ class Record{
   );
 
   // 데이터베이스에서 받아온 데이터를 Record 생성자에게 넘겨주는 생성자 정의
-  Record.fromMap(Map<String, dynamic> res)   
+  RecordModel.fromMap(Map<String, dynamic> res)   
     :
       id= res['id'],
       image= res['image'], 

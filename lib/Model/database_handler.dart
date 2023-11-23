@@ -1,8 +1,9 @@
+import 'package:guardians_of_health_project/Model/record.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseHandler{
+  // record 테이블 생성
   Future <Database> initializeDB() async{
     String path = await getDatabasesPath();
     return openDatabase(
@@ -16,4 +17,21 @@ class DatabaseHandler{
     );
     
   }
+
+
+  // record insert
+  insertAction(RecordModel record) async {
+    final Database db = await initializeDB();
+    await db.rawInsert(
+      "INSERT INTO record(image, rating, review, takenTime, currentTime) values(?,?,?,?,datetime('now', 'localtime'))",
+      [
+        record.image,
+        record.rating,
+        record.review,
+        record.takenTime,
+      ]
+    );
+  }
+
+  
 }
