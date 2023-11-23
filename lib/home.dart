@@ -16,6 +16,25 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
+
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text("내 쾌변 기록"),
+            ),
+            ListTile(
+              title: Text("비밀번호 설정"),
+            ),
+            ListTile(
+              title: Text("건강 정보"),
+            ),
+            ListTile(
+              title: Text("테마 변경"),
+            ),
+          ],
+        ),
+      ),
       
       body: PersistentTabView(
         context,
