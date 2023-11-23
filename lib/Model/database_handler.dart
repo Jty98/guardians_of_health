@@ -1,4 +1,4 @@
-import 'package:guardians_of_health_project/Model/record.dart';
+import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,5 +33,12 @@ class DatabaseHandler{
     );
   }
 
-  
+
+  // record query 
+  Future<List<RecordModel>> queryRecord() async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> queryResult = await db.rawQuery("SELECT * FROM record");
+    return queryResult.map((e) => RecordModel.fromMap(e)).toList();
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Model/result_model.dart';
+import 'package:guardians_of_health_project/Model/result_rating_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
 
@@ -339,7 +339,7 @@ class TimerWidget extends StatelessWidget {
   // ratingbar
   Widget starRatingbar() {
     return RatingBar.builder(
-      initialRating: ResultModel.resultRating,
+      initialRating: ResultRatingModel.resultRating,
       minRating: 1,
       direction: Axis.horizontal,
       allowHalfRating: true,
@@ -350,10 +350,10 @@ class TimerWidget extends StatelessWidget {
         color: Colors.amber,
       ),
       onRatingUpdate: (rating) {
-        ResultModel.resultRating = rating;
+        ResultRatingModel.resultRating = rating;
         // timerController.resultRating.value = rating;
         print(rating);
-        print(ResultModel.resultRating);
+        print(ResultRatingModel.resultRating);
       },
     );
   }
