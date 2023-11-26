@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TimerController extends GetxController {
   int buttonStatus = 0; // 버튼 상태 (flase는 누르지 않음 / true는 누름)
@@ -13,8 +15,23 @@ class TimerController extends GetxController {
   RxDouble opacityUpdate3 = 0.0.obs;
   RxDouble opacityUpdate4 = 0.0.obs;
   late TextEditingController resultTextController;
-  
-  
+  // final ImagePicker picker = ImagePicker();
+
+  // XFile? imageFile; // 이미지 선택
+
+  // image picker
+  // getImage(ImageSource imageSource) async {
+  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
+
+  //   if (pickedFile == null) {
+  //     return pickedFile;
+  //   } else {
+  //     imageFile = XFile(pickedFile.path);
+  //   }
+
+  //   // UI를 갱신하기 위해 update() 호출
+  //   update();
+  // }
 
   // 버튼에 애니메이션 효과 부여
   startAnimation() async {
@@ -67,37 +84,40 @@ class TimerController extends GetxController {
     return '$hoursStr:$minutesStr:$secondsStr';
   }
 
-double opacityUpdateFunction1() {
-  if (buttonStatus == 2) {
-    Future.delayed(const Duration(milliseconds: 600), () {
-      opacityUpdate1.value = 1.0;
-    });
+  double opacityUpdateFunction1() {
+    if (buttonStatus == 2) {
+      Future.delayed(const Duration(milliseconds: 600), () {
+        opacityUpdate1.value = 1.0;
+      });
+    }
+    return opacityUpdate1.value;
   }
-  return opacityUpdate1.value;
-}
-double opacityUpdateFunction2() {
-  if (buttonStatus == 2) {
-    Future.delayed(const Duration(milliseconds: 1200), () {
-      opacityUpdate2.value = 1.0;
-    });
+
+  double opacityUpdateFunction2() {
+    if (buttonStatus == 2) {
+      Future.delayed(const Duration(milliseconds: 1200), () {
+        opacityUpdate2.value = 1.0;
+      });
+    }
+    return opacityUpdate2.value;
   }
-  return opacityUpdate2.value;
-}
-double opacityUpdateFunction3() {
-  if (buttonStatus == 2) {
-    Future.delayed(const Duration(milliseconds: 1800), () {
-      opacityUpdate3.value = 0.7;
-    });
+
+  double opacityUpdateFunction3() {
+    if (buttonStatus == 2) {
+      Future.delayed(const Duration(milliseconds: 1800), () {
+        opacityUpdate3.value = 0.7;
+      });
+    }
+    return opacityUpdate3.value;
   }
-  return opacityUpdate3.value;
-}
-double opacityUpdateFunction4() {
-  if (buttonStatus == 2) {
-    Future.delayed(const Duration(milliseconds: 2400), () {
-      opacityUpdate4.value = 1.0;
-    });
+
+  double opacityUpdateFunction4() {
+    if (buttonStatus == 2) {
+      Future.delayed(const Duration(milliseconds: 2400), () {
+        opacityUpdate4.value = 1.0;
+      });
+    }
+    return opacityUpdate4.value;
   }
-  return opacityUpdate4.value;
-}
 } // End
 

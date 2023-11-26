@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
 import 'package:guardians_of_health_project/Model/result_rating_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
@@ -59,7 +60,7 @@ class TimerWidget extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Text(
-                          "배변을 시작하면 나를 눌러주세요!",
+                          "쾌변을 시작하면 나를 눌러주세요!",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
@@ -92,7 +93,7 @@ class TimerWidget extends StatelessWidget {
                               height: 30,
                             ),
                             const Text(
-                              "배변이 끝나면 나를 눌러주세요!",
+                              "쾌변이 끝나면 나를 눌러주세요!",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -178,7 +179,10 @@ class TimerWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            showButtomSheet(context);
+                            // showButtomSheet(context);
+                            // Get.to(InsertButtomsheet());
+                            final InsertButtomsheet insertButtomsheet = InsertButtomsheet();
+                            insertButtomsheet.showButtomSheet(context);
                           },
                           child: const Text("기록 남기러가기"),
                         ),
@@ -201,160 +205,161 @@ class TimerWidget extends StatelessWidget {
   }
 
   // --- Functions ---
-  showButtomSheet(context) {
-    TimerController timerController = Get.find();
-    Get.bottomSheet(
-      backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-      GestureDetector(
-        onTap: () {
-          // iOS에서만 키보드 강제로 내리기
-          if (Platform.isIOS) {
-            SystemChannels.textInput.invokeMethod('TextInput.hide');
-          }
-          // FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            // color: Theme.of(context).colorScheme.tertiaryContainer,
-            height: 700,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                const Text(
-                  "배변기록",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    "사진 남기기",
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 120,
-                      color: Colors.blueGrey,
-                      child: const Icon(
-                        Icons.add,
-                        size: 60,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            child: Column(
-                              children: const [
-                                Icon(Icons.add_a_photo),
-                                Text("카메라")
-                              ],
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            child: const Column(
-                              children: [
-                                Icon(Icons.add_photo_alternate_rounded),
-                                Text("앨범")
-                              ],
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20,),
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text("만족도"),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    starRatingbar(),
-                  ],
-                ),
-                const SizedBox(height: 20,),
-                const Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text("기록"),
-                ),
-                SizedBox(
-                  height: 150,
-                  width: 300,
-                  child: TextField(
-                    controller: timerController.resultTextController,
-                    maxLines: 3, // 여러 줄을 쓰기위해 null
-                    maxLength: 60,
-                    decoration: const InputDecoration(
-                      hintText: "배변 중 특이사항을 기록해주세요.",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                ElevatedButton(
-                  onPressed: () {
-                    // SQLite에 insrt하는거
-                    Get.back();
-                  }, 
-                  child: const Text("저장하기"),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // showButtomSheet(context) {
+  //   TimerController timerController = Get.find();
+  //   Get.bottomSheet(
+  //     backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+  //     GestureDetector(
+  //       onTap: () {
+  //         // iOS에서만 키보드 강제로 내리기
+  //         if (Platform.isIOS) {
+  //           SystemChannels.textInput.invokeMethod('TextInput.hide');
+  //         }
+  //         // FocusScope.of(context).unfocus();
+  //       },
+  //       child: Container(
+  //         padding: const EdgeInsets.all(20.0),
+  //         // color: Theme.of(context).colorScheme.tertiaryContainer,
+          
+  //         height: MediaQuery.of(context).size.height * 0.8,
+  //         width: MediaQuery.of(context).size.width,
+  //         child: SingleChildScrollView(
+  //           child: Column(
+  //             children: [
+  //               const Text(
+  //                 "쾌변기록",
+  //                 style: TextStyle(
+  //                   fontSize: 22,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //               const Padding(
+  //                 padding: EdgeInsets.all(15.0),
+  //                 child: Text(
+  //                   "사진 남기기",
+  //                   style: TextStyle(
+  //                     fontSize: 15,
+  //                   ),
+  //                 ),
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Container(
+  //                     width: 120,
+  //                     height: 120,
+  //                     color: Colors.blueGrey,
+  //                     child: const Icon(
+  //                       Icons.add,
+  //                       size: 60,
+  //                     ),
+  //                   ),
+  //                   const SizedBox(
+  //                     width: 20,
+  //                   ),
+  //                   SizedBox(
+  //                     height: 100,
+  //                     child: Column(
+  //                       mainAxisAlignment: MainAxisAlignment.end,
+  //                       children: [
+  //                         TextButton(
+  //                           child: Column(
+  //                             children: const [
+  //                               Icon(Icons.add_a_photo),
+  //                               Text("카메라")
+  //                             ],
+  //                           ),
+  //                           onPressed: () {},
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 100,
+  //                     child: Column(
+  //                       mainAxisAlignment: MainAxisAlignment.end,
+  //                       children: [
+  //                         TextButton(
+  //                           child: const Column(
+  //                             children: [
+  //                               Icon(Icons.add_photo_alternate_rounded),
+  //                               Text("앨범")
+  //                             ],
+  //                           ),
+  //                           onPressed: () {},
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               const SizedBox(height: 20,),
+  //               const Padding(
+  //                 padding: EdgeInsets.all(15.0),
+  //                 child: Text("만족도"),
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   const SizedBox(
+  //                     width: 10,
+  //                   ),
+  //                   starRatingbar(),
+  //                 ],
+  //               ),
+  //               const SizedBox(height: 20,),
+  //               const Padding(
+  //                 padding: EdgeInsets.all(15.0),
+  //                 child: Text("기록"),
+  //               ),
+  //               SizedBox(
+  //                 height: 150,
+  //                 width: 300,
+  //                 child: TextField(
+  //                   controller: timerController.resultTextController,
+  //                   maxLines: 3, // 여러 줄을 쓰기위해 null
+  //                   maxLength: 60,
+  //                   decoration: const InputDecoration(
+  //                     hintText: "배변 중 특이사항을 기록해주세요.",
+  //                     border: OutlineInputBorder(),
+  //                   ),
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 20,),
+  //               ElevatedButton(
+  //                 onPressed: () {
+  //                   // SQLite에 insrt하는거
+  //                   Get.back();
+  //                 }, 
+  //                 child: const Text("저장하기"),
+  //                 ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  // ratingbar
-  Widget starRatingbar() {
-    return RatingBar.builder(
-      initialRating: ResultRatingModel.resultRating,
-      minRating: 1,
-      direction: Axis.horizontal,
-      allowHalfRating: true,
-      itemCount: 5,
-      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-      itemBuilder: (context, _) => const Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        ResultRatingModel.resultRating = rating;
-        // timerController.resultRating.value = rating;
-        print(rating);
-        print(ResultRatingModel.resultRating);
-      },
-    );
-  }
+  // // ratingbar
+  // Widget starRatingbar() {
+  //   return RatingBar.builder(
+  //     initialRating: ResultRatingModel.resultRating,
+  //     minRating: 1,
+  //     direction: Axis.horizontal,
+  //     allowHalfRating: true,
+  //     itemCount: 5,
+  //     itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+  //     itemBuilder: (context, _) => const Icon(
+  //       Icons.star,
+  //       color: Colors.amber,
+  //     ),
+  //     onRatingUpdate: (rating) {
+  //       ResultRatingModel.resultRating = rating;
+  //       // timerController.resultRating.value = rating;
+  //       print(rating);
+  //       print(ResultRatingModel.resultRating);
+  //     },
+  //   );
+  // }
 } // End
