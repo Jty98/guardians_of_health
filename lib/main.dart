@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
-        fontFamily: "NotoSansKR-Regular",
+        fontFamily: "omyu-pretty",
         // primaryColor: seedColor, // 앱바 및 기본 색상
         scaffoldBackgroundColor: seedColor, // Scaffold의 배경 색상
         appBarTheme: const AppBarTheme(
