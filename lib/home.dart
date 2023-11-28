@@ -48,88 +48,82 @@ class Home extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.settings_suggest
               ),
               title: Text("테마 변경"),
-              onTap: (){
-                // Get.bottomSheet(
-                  
-                // );
-
-              },
             ),
-            // ListTile(
-            //   title: Row(
-            //     children: [
-            //       SizedBox(
-            //         width: 25,
-            //         height: 25,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.red
-            //           ),
-            //           onPressed: (){
+            ListTile(
+              title: Row(
+                children: [
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red
+                      ),
+                      onPressed: (){
                         
-            //           }, 
-            //           child: const Text(""),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 25,
-            //         height: 25,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.yellow
-            //           ),
-            //           onPressed: (){
+                      }, 
+                      child: const Text(""),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow
+                      ),
+                      onPressed: (){
                         
-            //           }, 
-            //           child: const Text(""),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 25,
-            //         height: 25,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.green
-            //           ),
-            //           onPressed: (){
+                      }, 
+                      child: const Text(""),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green
+                      ),
+                      onPressed: (){
                         
-            //           }, 
-            //           child: const Text(""),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 25,
-            //         height: 25,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.blue
-            //           ),
-            //           onPressed: (){
+                      }, 
+                      child: const Text(""),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue
+                      ),
+                      onPressed: (){
                         
-            //           }, 
-            //           child: const Text(""),
-            //         ),
-            //       ),
-            //       SizedBox(
-            //         width: 25,
-            //         height: 25,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: Colors.purple
-            //           ),
-            //           onPressed: (){
+                      }, 
+                      child: const Text(""),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple
+                      ),
+                      onPressed: (){
                         
-            //           }, 
-            //           child: const Text(""),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // )
+                      }, 
+                      child: const Text(""),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
