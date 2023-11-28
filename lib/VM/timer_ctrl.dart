@@ -1,37 +1,104 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class TimerController extends GetxController {
   int buttonStatus = 0; // 버튼 상태 (flase는 누르지 않음 / true는 누름)
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
   RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
   late Timer timer;
+  // 투명도 변수들
   RxDouble opacityUpdate1 = 0.0.obs;
   RxDouble opacityUpdate2 = 0.0.obs;
   RxDouble opacityUpdate3 = 0.0.obs;
   RxDouble opacityUpdate4 = 0.0.obs;
+
+  // bottom sheet 변수들
+  RxList<Widget> shape = <Widget>[
+    SizedBox(
+        width: 40, height: 40, child: Image.asset("assets/images/banana.png")),
+    SizedBox(
+        width: 40, height: 40, child: Image.asset("assets/images/grape.png")),
+    SizedBox(
+        width: 40, height: 40, child: Image.asset("assets/images/water.png")),
+  ].obs;
+
+  RxList<Widget> colors = <Widget>[
+    Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+      color: Colors.amber[700],
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+      color: Colors.brown[700],
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+      color: Colors.black,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+      color: Colors.red,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+      color: Colors.green,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+  ].obs;
+
+  RxList<Widget> smells = <Widget>[
+    const SizedBox(width: 40, height: 40, child: Text("상", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
+    const SizedBox(width: 40, height: 40, child: Text("중", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
+    const SizedBox(width: 40, height: 40, child: Text("하", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
+  ].obs;
+
+  RxList<bool> selectedShape = [true, false, false].obs;
+  RxList<bool> selectedColors = [true, false, false, false, false].obs;
+  RxList<bool> selectedSmells = [true, false, false].obs;
+
   late TextEditingController resultTextController;
-  // final ImagePicker picker = ImagePicker();
 
-  // XFile? imageFile; // 이미지 선택
+  shapeFunc(int index) {
+    for (int i = 0; i < selectedShape.length; i++) {
+      selectedShape[i] = i == index;
+    }
+    print(index);
+  }
 
-  // image picker
-  // getImage(ImageSource imageSource) async {
-  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
+  colorsFunc(int index) {
+    for (int i = 0; i < selectedColors.length; i++) {
+      selectedColors[i] = i == index;
+    }
+    print(index);
+  }
 
-  //   if (pickedFile == null) {
-  //     return pickedFile;
-  //   } else {
-  //     imageFile = XFile(pickedFile.path);
-  //   }
-
-  //   // UI를 갱신하기 위해 update() 호출
-  //   update();
-  // }
+  smellsFunc(int index) {
+    for (int i = 0; i < selectedSmells.length; i++) {
+      selectedSmells[i] = i == index;
+    }
+    print(index);
+  }
 
   // 버튼에 애니메이션 효과 부여
   startAnimation() async {
