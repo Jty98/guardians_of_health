@@ -15,6 +15,12 @@ class TimerController extends GetxController {
   RxDouble opacityUpdate4 = 0.0.obs;
 
   // bottom sheet 변수들
+  // String resultRating = "";
+  String resultShape = "";
+  String resultColor = "";
+  String resultSmell = "";
+  // String resultReview = "";
+
   RxList<Widget> shape = <Widget>[
     SizedBox(
         width: 40, height: 40, child: Image.asset("assets/images/banana.png")),
@@ -29,7 +35,7 @@ class TimerController extends GetxController {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-      color: Colors.amber[700],
+        color: Colors.amber[700],
         borderRadius: BorderRadius.circular(10),
       ),
     ),
@@ -37,7 +43,7 @@ class TimerController extends GetxController {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-      color: Colors.brown[700],
+        color: Colors.brown[700],
         borderRadius: BorderRadius.circular(10),
       ),
     ),
@@ -45,7 +51,7 @@ class TimerController extends GetxController {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-      color: Colors.black,
+        color: Colors.black,
         borderRadius: BorderRadius.circular(10),
       ),
     ),
@@ -53,7 +59,7 @@ class TimerController extends GetxController {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-      color: Colors.red,
+        color: Colors.red,
         borderRadius: BorderRadius.circular(10),
       ),
     ),
@@ -61,16 +67,37 @@ class TimerController extends GetxController {
       width: 35,
       height: 35,
       decoration: BoxDecoration(
-      color: Colors.green,
+        color: Colors.green,
         borderRadius: BorderRadius.circular(10),
       ),
     ),
   ].obs;
 
   RxList<Widget> smells = <Widget>[
-    const SizedBox(width: 40, height: 40, child: Text("상", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
-    const SizedBox(width: 40, height: 40, child: Text("중", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
-    const SizedBox(width: 40, height: 40, child: Text("하", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,)),
+    const SizedBox(
+        width: 40,
+        height: 40,
+        child: Text(
+          "상",
+          style: TextStyle(fontSize: 25),
+          textAlign: TextAlign.center,
+        )),
+    const SizedBox(
+        width: 40,
+        height: 40,
+        child: Text(
+          "중",
+          style: TextStyle(fontSize: 25),
+          textAlign: TextAlign.center,
+        )),
+    const SizedBox(
+        width: 40,
+        height: 40,
+        child: Text(
+          "하",
+          style: TextStyle(fontSize: 25),
+          textAlign: TextAlign.center,
+        )),
   ].obs;
 
   RxList<bool> selectedShape = [true, false, false].obs;
@@ -83,6 +110,16 @@ class TimerController extends GetxController {
     for (int i = 0; i < selectedShape.length; i++) {
       selectedShape[i] = i == index;
     }
+    switch (index) {
+      case 0:
+        resultShape = "바나나 모양";
+      case 1:
+        resultShape = "포도알 모양";
+      case 2:
+        resultShape = "설사";
+      default:
+        break;
+    }
     print(index);
   }
 
@@ -90,12 +127,37 @@ class TimerController extends GetxController {
     for (int i = 0; i < selectedColors.length; i++) {
       selectedColors[i] = i == index;
     }
+    switch (index) {
+      case 0:
+        resultColor = "황금색";
+      case 1:
+        resultColor = "진갈색";
+      case 2:
+        resultColor = "검정색";
+      case 3:
+        resultColor = "빨간색";
+      case 4:
+        resultColor = "녹색";
+      default:
+        break;
+    }
+
     print(index);
   }
 
   smellsFunc(int index) {
     for (int i = 0; i < selectedSmells.length; i++) {
       selectedSmells[i] = i == index;
+    }
+    switch (index) {
+      case 0:
+        resultSmell = "심각";
+      case 1:
+        resultSmell = "보통";
+      case 2:
+        resultSmell = "안남";
+      default:
+        break;
     }
     print(index);
   }

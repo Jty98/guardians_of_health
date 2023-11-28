@@ -7,20 +7,24 @@ class RecordModel{
 
   // property
   final int? id;                    // 기록의 순서 인덱스. 자동생성, auto increment primarykey
-  final Uint8List image;            // 배변 이미지
   final double rating;              // 배변 만족도
+  final String shape;               // 배변 모양
+  final String color;               // 배변 색상
+  final String smell;               // 배변 냄새 단계
   final String review;              // 배변 상태 기록
   final String takenTime;           // 배변에 걸린 시간
-  final String currentTime;         // 현재 시간
+  final String? currentTime;         // 현재 시간
 
   RecordModel(
     {
       this.id,
-      required this.image,
       required this.rating,
+      required this.shape,
+      required this.color,
+      required this.smell,
       required this.review,
       required this.takenTime,
-      required this.currentTime
+      this.currentTime
     }
   );
 
@@ -28,8 +32,10 @@ class RecordModel{
   RecordModel.fromMap(Map<String, dynamic> res)   
     :
       id= res['id'],
-      image= res['image'], 
       rating= res['rating'], 
+      shape= res['shape'],
+      color= res['color'],
+      smell= res['smell'],
       review= res['review'], 
       takenTime= res['takenTime'],
       currentTime= res['currentTime'];

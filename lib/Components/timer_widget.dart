@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
+import 'package:guardians_of_health_project/home.dart';
 
 class TimerWidget extends StatelessWidget {
   const TimerWidget({Key? key}) : super(key: key);
@@ -30,8 +31,6 @@ class TimerWidget extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => const MainPageView()))
                     .then((value) {});
-                // timerController.buttonStatus -= 2;
-                // MainPageView 내부에서 사용자의 액션에 따라 호출되는 부분
               }
               print("new buttonStatus: ${timerController.buttonStatus}");
             },
@@ -54,10 +53,10 @@ class TimerWidget extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Text(
-                          "쾌변을 시작하면 나를 눌러주세요!",
+                          "볼일을 시작하면 나를 눌러주세요!",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -87,10 +86,10 @@ class TimerWidget extends StatelessWidget {
                               height: 30,
                             ),
                             const Text(
-                              "쾌변이 끝나면 나를 눌러주세요!",
+                              "볼일이 끝나면 나를 눌러주세요!",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -100,7 +99,7 @@ class TimerWidget extends StatelessWidget {
                     );
                   case 2:
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
                           children: [
@@ -139,12 +138,24 @@ class TimerWidget extends StatelessWidget {
                                   duration: const Duration(milliseconds: 2400),
                                   opacity:
                                       timerController.opacityUpdateFunction4(),
-                                  child: Text(
-                                    "축하합니다!\n${timerController.formattedTime()}의 ",
-                                    style: const TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "총 ${timerController.formattedTime()}이 걸렸습니다!",
+                                        style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "",
+                                        style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -173,18 +184,34 @@ class TimerWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // showButtomSheet(context);
-                            // Get.to(InsertButtomsheet());
-                            // InsertButtomsheet insertButtomsheet = InsertButtomsheet();
-                            // insertButtomsheet.showBottomSheet(context);
                             insertBottomSheet(context);
                           },
                           child: const Text("기록 남기러가기"),
                         ),
-                        // CupertinoButton.filled(
-                        //   child: const Text("기록 남기러가기"),
-                        //   onPressed: () => showButtomSheet(context),
-                        //   ),
+                        timerController.buttonStatus == 2
+                            ? TextButton(
+                                onPressed: () {
+                                  timerController.buttonStatus = 0;
+                                  Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MainPageView()))
+                                      .then((value) {});
+                                },
+                                child: const Column(
+                                  children: [
+                                    Icon(Icons.refresh),
+                                    Text(
+                                      "다시하기",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(),
                       ],
                     );
                   default:
@@ -200,5 +227,4 @@ class TimerWidget extends StatelessWidget {
   }
 
   // --- Functions ---
-
 } // End

@@ -2,43 +2,39 @@ import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHandler{
+class DatabaseHandler {
   // record 테이블 생성
-  Future <Database> initializeDB() async{
+  Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
-    return openDatabase(
-      join(path, 'record.db'),
-      onCreate: (db, version) async{
-        await db.execute(
-          "create table record(id integer primary key autoincrement, image blob, rating double, review text, takenTime text, currentTime text)"
-        );
-      },
-      version: 1
-    );
-    
+    return openDatabase(join(path, 'record.db'), onCreate: (db, version) async {
+      await db.execute(
+          "create table record(id integer primary key autoincrement, rating real, shape text, color text, smell text, review text, takenTime text, currentTime text)");
+    }, version: 1);
   }
-
 
   // record insert
-  insertAction(RecordModel record) async {
+  Future<int> insertAction(RecordModel record) async {
+    int result = 0;
     final Database db = await initializeDB();
-    await db.rawInsert(
-      "INSERT INTO record(image, rating, review, takenTime, currentTime) values(?,?,?,?,datetime('now', 'localtime'))",
-      [
-        record.image,
-        record.rating,
-        record.review,
-        record.takenTime,
-      ]
-    );
+    result = await db.rawInsert(
+        "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) VALUES(?,?,?,?,?,datetime('now', 'localtime'), ?)",
+        [
+          record.rating,
+          record.shape,
+          record.color,
+          record.smell,
+          record.review,
+          record.takenTime,
+          record.currentTime,
+        ]);
+    return result;
   }
 
-
-  // record query 
+  // record query
   Future<List<RecordModel>> queryRecord() async {
     final Database db = await initializeDB();
-    final List<Map<String, Object?>> queryResult = await db.rawQuery("SELECT * FROM record");
+    final List<Map<String, Object?>> queryResult =
+        await db.rawQuery("SELECT * FROM record");
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
   }
-
 }
