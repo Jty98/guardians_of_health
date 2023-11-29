@@ -182,6 +182,8 @@ void insertBottomSheet(BuildContext context) {
     String color = timerController.resultColor;
     String smell = timerController.resultSmell;
     String review = timerController.resultTextController.text;
+    DateTime now = DateTime.now();
+    String currentTime = now.toString();
 
     print("shape: $shape");
     print("color: $color");
@@ -195,9 +197,10 @@ void insertBottomSheet(BuildContext context) {
       smell: smell, 
       review: review, 
       takenTime: timerController.formattedTime(), 
-      // currentTime: currentTime,
+      currentTime: currentTime,
       );
     result = await handler.insertAction(recordInsert);
+    print(result);
     // if(result == 1){
       _showDialog();
     // } else {

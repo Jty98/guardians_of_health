@@ -17,7 +17,8 @@ class DatabaseHandler {
     int result = 0;
     final Database db = await initializeDB();
     result = await db.rawInsert(
-        "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) VALUES(?,?,?,?,?,datetime('now', 'localtime'), ?)",
+        // "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) values(?,?,?,?,?,?,datetime('now', 'localtime'))",
+        "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) values(?,?,?,?,?,?,?)",
         [
           record.rating,
           record.shape,
