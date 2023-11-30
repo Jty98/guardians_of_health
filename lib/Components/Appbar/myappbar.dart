@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
-import 'package:guardians_of_health_project/home.dart';
 
 // AppBar를 위젯으로 쓰기 위해서는 사이즈 문제 때문에 implements PreferredSizeWidget를 해줘야함
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,9 +6,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimerController timerController = Get.put(TimerController());
+    // TimerController timerController = Get.put(TimerController());
 
     return AppBar(
+      // automaticallyImplyLeading: false, // 뒤로가기 버튼 없애기
       title: const Text("골든타임"),
     );
   }

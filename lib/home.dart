@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
+import 'package:guardians_of_health_project/Components/Drawer/mydrawer.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
@@ -16,118 +17,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
-
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              leading: const Icon(
-                Icons.description_outlined
-              ),
-              title: const Text("내 쾌변 기록"),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.key_outlined
-              ),
-              title: const Text("비밀번호 설정"),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.medical_information_outlined
-              ),
-              title: const Text("건강 정보"),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.settings_suggest
-              ),
-              title: Text("테마 변경"),
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red
-                      ),
-                      onPressed: (){
-                        
-                      }, 
-                      child: const Text(""),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow
-                      ),
-                      onPressed: (){
-                        
-                      }, 
-                      child: const Text(""),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green
-                      ),
-                      onPressed: (){
-                        
-                      }, 
-                      child: const Text(""),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue
-                      ),
-                      onPressed: (){
-                        
-                      }, 
-                      child: const Text(""),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple
-                      ),
-                      onPressed: (){
-                        
-                      }, 
-                      child: const Text(""),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      
+      drawer: const MyDrawer(),
       body: PersistentTabView(
         context,
         controller: homecontroller.tabController,
@@ -137,8 +27,9 @@ class Home extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         // handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true, // 키보드 눌렀을 때 화면 자동으로 위로 올라감
-        // stateManagement: true, 
-        hideNavigationBarWhenKeyboardShows: true, // resizeToAvoidBottomInset를 돕는애
+        // stateManagement: true,
+        hideNavigationBarWhenKeyboardShows:
+            true, // resizeToAvoidBottomInset를 돕는애
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(10.0),
           // colorBehindNavBar: Colors.red,
@@ -169,21 +60,27 @@ class Home extends StatelessWidget {
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.home),
         title: "홈",
-        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onTertiary),
         activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.calendar),
         title: "배변기록",
-        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onTertiary),
         activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.map),
         title: "급똥지도",
-        textStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary),
+        textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onTertiary),
         activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -198,6 +95,4 @@ class Home extends StatelessWidget {
       MainPageView(),
     ];
   }
-
-
 } // End

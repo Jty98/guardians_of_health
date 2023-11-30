@@ -24,14 +24,12 @@ class TimerController extends GetxController {
   String resultSmell = "심각";
   double rating = 0.0;
 
-
-
-
   RxList<bool> selectedShape = [true, false, false].obs;
   RxList<bool> selectedColors = [true, false, false, false, false].obs;
   RxList<bool> selectedSmells = [true, false, false].obs;
 
-  shapeFunc(int index) {
+  /// 모양 선택 버튼 index
+  selectedShapeFunc(int index) {
     for (int i = 0; i < selectedShape.length; i++) {
       selectedShape[i] = i == index;
     }
@@ -51,7 +49,8 @@ class TimerController extends GetxController {
     print(index);
   }
 
-  colorsFunc(int index) {
+  /// 색상 선택 버튼 index
+  selectedColorsFunc(int index) {
     for (int i = 0; i < selectedColors.length; i++) {
       selectedColors[i] = i == index;
     }
@@ -78,7 +77,8 @@ class TimerController extends GetxController {
     print(index);
   }
 
-  smellsFunc(int index) {
+  /// 냄새 선택 버튼 index
+  selectedSmellsFunc(int index) {
     for (int i = 0; i < selectedSmells.length; i++) {
       selectedSmells[i] = i == index;
     }
@@ -98,16 +98,24 @@ class TimerController extends GetxController {
     print(index);
   }
 
-  // 바텀시트 초기화
-  resetValues() {
+  /// 바텀시트 초기화
+  resetBottomSheetValues() {
     rating = 0.0;
     resultTextController.text = "";
-    shapeFunc(0);
-    colorsFunc(0);
-    smellsFunc(0);
+    selectedShapeFunc(0);
+    selectedColorsFunc(0);
+    selectedColorsFunc(0);
   }
 
-// 버튼에 애니메이션 효과 부여
+  /// 투명도 초기화
+  resetOpacityValues() {
+    opacityUpdate1.value = 0.0;
+    opacityUpdate2.value = 0.0;
+    opacityUpdate3.value = 0.0;
+    opacityUpdate4.value = 0.0;
+  }
+
+  /// 버튼에 애니메이션 효과 부여
   startAnimation() async {
     if (!animationStarted) {
       animationStarted = true;
@@ -123,7 +131,7 @@ class TimerController extends GetxController {
     }
   }
 
-  // 타이머 시작을 누르면 1초 간격으로 증가되게끔 하는 함수
+  /// 타이머 시작을 누르면 1초 간격으로 증가되게끔 하는 함수
   showTimer(bool status) {
     print("status: $status");
     if (!status) {
@@ -134,7 +142,7 @@ class TimerController extends GetxController {
     }
   }
 
-  // 타이머가 status에 따라서 돌아가고 멈추게하는 함수
+  /// 타이머가 status에 따라서 돌아가고 멈추게하는 함수
   void updateTimer(Timer timer) {
     secondsUpdate.value++;
   }
@@ -146,7 +154,13 @@ class TimerController extends GetxController {
     super.dispose();
   }
 
-  // 타이머 돌아간 시간을 보기 좋게 변환
+  @override
+  void onClose() {
+    timer.cancel();
+    super.onClose();
+  }
+
+  /// 타이머 돌아간 시간을 보기 좋게 변환
   String formattedTime() {
     //String result = "";
     int hours = secondsUpdate.value ~/ 3600;
@@ -162,43 +176,31 @@ class TimerController extends GetxController {
     // return result;
   }
 
-  // 결과 시간을 변환해주는 함수
+  /// 결과 시간을 변환해주는 함수
   String resultFormattedTime() {
     int hours = secondsUpdate.value ~/ 3600;
     int minutes = (secondsUpdate.value % 3600) ~/ 60;
     int seconds = secondsUpdate.value % 60;
 
     // 차이를 문자열로 표시
-
     return '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds > 0 ? '$seconds초' : ''}';
   }
 
-  double opacityUpdateFunction1() {
-    Future.delayed(const Duration(milliseconds: 600), () {
-      opacityUpdate1.value = 1.0;
+  /// 투명도 관련 애니메이션
+  ///
+  /// @Params : `RxDouble` opacityUpdate1 : 왼쪽 위 빵빠래 투명도
+  /// @Params : `RxDouble` opacityUpdate2 : 오른쪽 아래 빵빠래 투명도
+  /// @Params : `RxDouble` opacityUpdate3 : 가운데 빵빠래 투명도
+  /// @Params : `RxDouble` opacityUpdate4 : 글씨 투명도 투명도
+  ///
+  double opacityUpdateFunction(int milliseconds, RxDouble update) {
+    Future.delayed(Duration(milliseconds: milliseconds), () {
+      if (update == opacityUpdate3) {
+        update.value = 0.5;
+      } else {
+        update.value = 1.0;
+      }
     });
-    return opacityUpdate1.value;
-  }
-
-  double opacityUpdateFunction2() {
-    Future.delayed(const Duration(milliseconds: 1200), () {
-      opacityUpdate2.value = 1.0;
-    });
-    return opacityUpdate2.value;
-  }
-
-  double opacityUpdateFunction3() {
-    Future.delayed(const Duration(milliseconds: 1800), () {
-      opacityUpdate3.value = 0.5;
-    });
-    return opacityUpdate3.value;
-  }
-
-  double opacityUpdateFunction4() {
-    Future.delayed(const Duration(milliseconds: 2400), () {
-      opacityUpdate4.value = 1.0;
-    });
-    return opacityUpdate4.value;
+    return update.value;
   }
 } // End
-

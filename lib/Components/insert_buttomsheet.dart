@@ -94,7 +94,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
                       width: 20,
                       child: IconButton(
                         onPressed: () {
-                          timerController.resetValues();
+                          timerController.resetBottomSheetValues();
                           Get.back();
                         },
                         icon: const Icon(
@@ -132,7 +132,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
                 ),
                 ToggleButtons(
                   onPressed: (int index) {
-                    timerController.shapeFunc(index);
+                    timerController.selectedShapeFunc(index);
                   },
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   selectedBorderColor: Colors.grey,
@@ -155,7 +155,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
                 ),
                 ToggleButtons(
                   onPressed: (int index) {
-                    timerController.colorsFunc(index);
+                    timerController.selectedColorsFunc(index);
                   },
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   selectedBorderColor: Colors.grey,
@@ -178,7 +178,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
                 ),
                 ToggleButtons(
                   onPressed: (int index) {
-                    timerController.smellsFunc(index);
+                    timerController.selectedSmellsFunc(index);
                   },
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   selectedBorderColor: Colors.grey,
@@ -218,7 +218,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
                 ElevatedButton(
                   onPressed: () {
                     _insertAction(context);
-                    timerController.resetValues();
+                    timerController.resetBottomSheetValues();
                     Get.back();
                   },
                   child: const Text("저장하기"),

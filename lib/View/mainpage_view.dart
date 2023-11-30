@@ -39,7 +39,9 @@ class _MainPageViewState extends State<MainPageView> {
           onTap: () {
             // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
             timerController.showTimer(true);
-            Get.to(const TimerView());
+            Get.to(const TimerView(),
+            transition: Transition.noTransition,
+            );
           },
           child: AnimatedContainer(
             duration: const Duration(seconds: 2),
