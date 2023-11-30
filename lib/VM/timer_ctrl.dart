@@ -17,9 +17,12 @@ class TimerController extends GetxController {
   RxDouble opacityUpdate4 = 0.0.obs;
 
   // bottom sheet 변수들
+  TextEditingController resultTextController = TextEditingController();
+
   String resultShape = "바나나 모양";
   String resultColor = "황금색";
   String resultSmell = "심각";
+  double rating = 0.0;
 
   RxList<Widget> shape = <Widget>[
     SizedBox(
@@ -104,8 +107,6 @@ class TimerController extends GetxController {
   RxList<bool> selectedColors = [true, false, false, false, false].obs;
   RxList<bool> selectedSmells = [true, false, false].obs;
 
-  late TextEditingController resultTextController;
-
   shapeFunc(int index) {
     for (int i = 0; i < selectedShape.length; i++) {
       selectedShape[i] = i == index;
@@ -173,6 +174,15 @@ class TimerController extends GetxController {
     print(index);
   }
 
+  // 바텀시트 초기화
+  resetValues() {
+    rating = 0.0;
+    resultTextController.text = "";
+    shapeFunc(0);
+    colorsFunc(0);
+    smellsFunc(0);
+  }
+
 // 버튼에 애니메이션 효과 부여
   startAnimation() async {
     if (!animationStarted) {
@@ -190,35 +200,31 @@ class TimerController extends GetxController {
   }
 
   // 타이머 시작을 누르면 1초 간격으로 증가되게끔 하는 함수
-  void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), updateTimer);
+  showTimer(bool status) {
+    print("status: $status");
+    if (!status) {
+      timer.cancel();
+    } else {
+      secondsUpdate.value = 0;
+      timer = Timer.periodic(const Duration(seconds: 1), updateTimer);
+    }
   }
 
   // 타이머가 status에 따라서 돌아가고 멈추게하는 함수
   void updateTimer(Timer timer) {
-    if (buttonStatus.value == 1) {
-      secondsUpdate++;
-    } else if (buttonStatus.value > 2) {
-      timer.cancel();
-    }
+    secondsUpdate.value++;
   }
 
   @override
   void dispose() {
-    super.dispose();
+    timer.cancel(); // 예시: 사용 중인 타이머를 취소
     resultTextController.dispose();
-  }
-
-  // 화면이 소멸될 때 Timer 해제
-  @override
-  void onClose() {
-    super.onClose();
-    timer.cancel();
+    super.dispose();
   }
 
   // 타이머 돌아간 시간을 보기 좋게 변환
   String formattedTime() {
-    String result = "";
+    //String result = "";
     int hours = secondsUpdate.value ~/ 3600;
     int minutes = (secondsUpdate.value % 3600) ~/ 60;
     int seconds = secondsUpdate.value % 60;
@@ -234,51 +240,40 @@ class TimerController extends GetxController {
 
   // 결과 시간을 변환해주는 함수
   String resultFormattedTime() {
-    String result = "";
     int hours = secondsUpdate.value ~/ 3600;
     int minutes = (secondsUpdate.value % 3600) ~/ 60;
     int seconds = secondsUpdate.value % 60;
 
     // 차이를 문자열로 표시
-    result =
-        '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds > 0 ? '$seconds초' : ''}';
 
-    return result;
+    return '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds > 0 ? '$seconds초' : ''}';
   }
 
   double opacityUpdateFunction1() {
-    if (buttonStatus.value == 2) {
-      Future.delayed(const Duration(milliseconds: 600), () {
-        opacityUpdate1.value = 1.0;
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 600), () {
+      opacityUpdate1.value = 1.0;
+    });
     return opacityUpdate1.value;
   }
 
   double opacityUpdateFunction2() {
-    if (buttonStatus.value == 2) {
-      Future.delayed(const Duration(milliseconds: 1200), () {
-        opacityUpdate2.value = 1.0;
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      opacityUpdate2.value = 1.0;
+    });
     return opacityUpdate2.value;
   }
 
   double opacityUpdateFunction3() {
-    if (buttonStatus.value == 2) {
-      Future.delayed(const Duration(milliseconds: 1800), () {
-        opacityUpdate3.value = 0.5;
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 1800), () {
+      opacityUpdate3.value = 0.5;
+    });
     return opacityUpdate3.value;
   }
 
   double opacityUpdateFunction4() {
-    if (buttonStatus.value == 2) {
-      Future.delayed(const Duration(milliseconds: 2400), () {
-        opacityUpdate4.value = 1.0;
-      });
-    }
+    Future.delayed(const Duration(milliseconds: 2400), () {
+      opacityUpdate4.value = 1.0;
+    });
     return opacityUpdate4.value;
   }
 } // End

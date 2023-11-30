@@ -39,13 +39,19 @@ void insertBottomSheet(BuildContext context) {
                       height: 20,
                       width: 20,
                       child: IconButton(
-                        onPressed: () => Get.back(), 
-                        icon: const Icon(Icons.cancel,
-                        size: 15,
+                        onPressed: () {
+                          timerController.resetValues();
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
+                          size: 15,
                         ),
-                        ),
+                      ),
                     ),
-                    const SizedBox(width: 10,),
+                    const SizedBox(
+                      width: 10,
+                    ),
                   ],
                 ),
                 const Text(
@@ -62,7 +68,7 @@ void insertBottomSheet(BuildContext context) {
                   "만족도",
                   style: TextStyle(fontSize: 18),
                 ),
-                starRatingbar(),
+                starRatingbar(timerController),
                 const SizedBox(
                   height: 10,
                 ),
@@ -158,6 +164,7 @@ void insertBottomSheet(BuildContext context) {
                 ElevatedButton(
                   onPressed: () {
                     _insertAction(context);
+                    timerController.resetValues();
                     Get.back();
                   },
                   child: const Text("저장하기"),
@@ -171,88 +178,77 @@ void insertBottomSheet(BuildContext context) {
   );
 }
 
-  _insertAction(context) async {
-    DatabaseHandler handler = DatabaseHandler();
+_insertAction(context) async {
+  DatabaseHandler handler = DatabaseHandler();
 
-    TimerController timerController = Get.find();
-    int result = 0;
+  TimerController timerController = Get.find();
+  int result = 0;
 
-    // double rating = timerController.resultRating.valuel;
-    String shape = timerController.resultShape;
-    String color = timerController.resultColor;
-    String smell = timerController.resultSmell;
-    String review = timerController.resultTextController.text;
-    DateTime now = DateTime.now();
-    String currentTime = now.toString();
+  // double rating = timerController.resultRating.valuel;
+  String shape = timerController.resultShape;
+  String color = timerController.resultColor;
+  String smell = timerController.resultSmell;
+  String review = timerController.resultTextController.text;
+  DateTime now = DateTime.now();
+  String currentTime = now.toString();
 
-    print("shape: $shape");
-    print("color: $color");
-    print("smell: $smell");
-    print("review: $review");
+  print("shape: $shape");
+  print("color: $color");
+  print("smell: $smell");
+  print("review: $review");
 
-    var recordInsert = RecordModel(
-      rating: ResultRatingModel.resultRating, 
-      shape: shape, 
-      color: color, 
-      smell: smell, 
-      review: review, 
-      takenTime: timerController.formattedTime(), 
-      currentTime: currentTime,
-      );
-    result = await handler.insertAction(recordInsert);
-    print(result);
-    // if(result == 1){
-      _showDialog();
-    // } else {
-      // _showSnackbar(context);
-    // }
-  }
+  var recordInsert = RecordModel(
+    rating: ResultRatingModel.resultRating,
+    shape: shape,
+    color: color,
+    smell: smell,
+    review: review,
+    takenTime: timerController.formattedTime(),
+    currentTime: currentTime,
+  );
+  result = await handler.insertAction(recordInsert);
+  print(result);
+  // if(result == 1){
+  _showDialog();
+  // } else {
+  // _showSnackbar(context);
+  // }
+}
 
-    _showDialog() {
-    Get.defaultDialog(
-        title: "입력 결과",
-        middleText: "입력이 완료 되었습니다.",
-        barrierDismissible: false,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text("OK"),
-          ),
-        ]);
-  }
+_showDialog() {
+  Get.defaultDialog(
+      title: "입력 결과",
+      middleText: "입력이 완료 되었습니다.",
+      barrierDismissible: false,
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: const Text("OK"),
+        ),
+      ]);
+}
 
-    // _showSnackbar(context){
-    //   Get.snackbar(
-    //     "입력 결과", 
-    //     "입력에 실패했습니다.",
-    //     duration: const Duration(seconds: 1),
-    //     backgroundColor: Theme.of(context).colorScheme.error,
-    //     colorText: Theme.of(context).colorScheme.onError,
-    //     );
-    // }
-
-
-  // ratingbar
-  Widget starRatingbar() {
-    return RatingBar.builder(
-      initialRating: ResultRatingModel.resultRating,
-      minRating: 1,
-      direction: Axis.horizontal,
-      allowHalfRating: true,
-      itemCount: 5,
-      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-      itemBuilder: (context, _) => const Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        ResultRatingModel.resultRating = rating;
-        // timerController.resultRating.value = rating;
-        print(rating);
-        print(ResultRatingModel.resultRating);
-      },
-    );
-  }
+// ratingbar
+Widget starRatingbar(controller) {
+  return RatingBar.builder(
+    initialRating: controller.rating,
+    minRating: 1,
+    direction: Axis.horizontal,
+    allowHalfRating: true,
+    itemCount: 5,
+    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+    itemBuilder: (context, _) => const Icon(
+      Icons.star,
+      color: Colors.amber,
+    ),
+    onRatingUpdate: (rating) {
+      controller.rating = rating;
+      // timerController.resultRating.value = rating;
+      print(rating);
+      print(controller.rating);
+    },
+  );
+}
 // } // End
