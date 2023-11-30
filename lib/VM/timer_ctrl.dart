@@ -24,84 +24,8 @@ class TimerController extends GetxController {
   String resultSmell = "심각";
   double rating = 0.0;
 
-  RxList<Widget> shape = <Widget>[
-    SizedBox(
-        width: 40, height: 40, child: Image.asset("assets/images/banana.png")),
-    SizedBox(
-        width: 40, height: 40, child: Image.asset("assets/images/grape.png")),
-    SizedBox(
-        width: 40, height: 40, child: Image.asset("assets/images/water.png")),
-  ].obs;
 
-  RxList<Widget> colors = <Widget>[
-    Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: Colors.amber[700],
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-    Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        color: Colors.brown[700],
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-    Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-    Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-    Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(10),
-      ),
-    ),
-  ].obs;
 
-  RxList<Widget> smells = <Widget>[
-    const SizedBox(
-        width: 40,
-        height: 40,
-        child: Text(
-          "상",
-          style: TextStyle(fontSize: 25),
-          textAlign: TextAlign.center,
-        )),
-    const SizedBox(
-        width: 40,
-        height: 40,
-        child: Text(
-          "중",
-          style: TextStyle(fontSize: 25),
-          textAlign: TextAlign.center,
-        )),
-    const SizedBox(
-        width: 40,
-        height: 40,
-        child: Text(
-          "하",
-          style: TextStyle(fontSize: 25),
-          textAlign: TextAlign.center,
-        )),
-  ].obs;
 
   RxList<bool> selectedShape = [true, false, false].obs;
   RxList<bool> selectedColors = [true, false, false, false, false].obs;

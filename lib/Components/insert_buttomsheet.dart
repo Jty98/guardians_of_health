@@ -6,7 +6,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
-import 'package:guardians_of_health_project/Model/result_rating_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 
 // class InsertButtomsheet extends StatelessWidget {
@@ -14,6 +13,61 @@ import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 
 void insertBottomSheet(BuildContext context) {
   TimerController timerController = Get.find();
+
+  // 모양
+  List<String> imagePaths = [
+  "assets/images/banana.png",
+  "assets/images/grape.png",
+  "assets/images/water.png",
+];
+
+List<SizedBox> shapeContainer = imagePaths.map((path) {
+  return SizedBox(
+    width: 40,
+    height: 40,
+    child: Image.asset(path),
+  );
+}).toList();
+
+
+  
+  // 색상
+  List<Color> containerColors = [
+    Colors.amber[700]!,
+    Colors.brown[700]!,
+    Colors.black,
+    Colors.red,
+    Colors.green,
+  ];
+
+  List<Widget> coloredContainers = List.generate(
+    containerColors.length,
+    (index) => Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+        color: containerColors[index],
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+  );
+
+  // 냄새
+  List<String> labels = ["상", "중", "하"];
+
+List<SizedBox> smellsSizedbox = labels.map((label) {
+  return SizedBox(
+    width: 40,
+    height: 40,
+    child: Text(
+      label,
+      style: TextStyle(fontSize: 25),
+      textAlign: TextAlign.center,
+    ),
+  );
+}).toList();
+
+
 
   Get.bottomSheet(
     isScrollControlled: true, // 바텀시트 높이 조절할려면 이 옵션이 필수
@@ -90,7 +144,7 @@ void insertBottomSheet(BuildContext context) {
                     minWidth: 45.0,
                   ),
                   isSelected: timerController.selectedShape,
-                  children: timerController.shape,
+                  children: shapeContainer,
                 ),
                 const SizedBox(
                   height: 10,
@@ -113,7 +167,7 @@ void insertBottomSheet(BuildContext context) {
                     minWidth: 45.0,
                   ),
                   isSelected: timerController.selectedColors,
-                  children: timerController.colors,
+                  children: coloredContainers,
                 ),
                 const SizedBox(
                   height: 10,
@@ -136,7 +190,7 @@ void insertBottomSheet(BuildContext context) {
                     minWidth: 45.0,
                   ),
                   isSelected: timerController.selectedSmells,
-                  children: timerController.smells,
+                  children: smellsSizedbox,
                 ),
                 const SizedBox(
                   height: 10,
@@ -198,7 +252,7 @@ _insertAction(context) async {
   print("review: $review");
 
   var recordInsert = RecordModel(
-    rating: ResultRatingModel.resultRating,
+    rating: timerController.rating,
     shape: shape,
     color: color,
     smell: smell,
