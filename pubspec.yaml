@@ -44,13 +44,15 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   # Calendar 패키지
   table_calendar: ^3.0.9
+  # 날짜 포멧해주는 패키지
+  intl: ^0.18.1
   
   # sqlite
   sqflite: ^2.3.0
   # database path
   path: ^1.8.3
 
-  # 갤러리 및 카메라 에 접근
+  # 갤러리 및 카메라에 접근
   image_picker: ^1.0.4
 
 

@@ -1,7 +1,12 @@
 class CalendarEventModel {
-  final String title;
+  final DateTime actionDate;
+  final String takenTime;
+  final double rating;
+  final String review;
 
-  CalendarEventModel(
-    this.title
-    );
+  CalendarEventModel({required this.actionDate, required this.takenTime, required this.rating, required this.review});
+
+  static fromMap(Map<String, Object?> e) {}
+
+  // static fromMap(Map<String, Object?> row) {}
 }

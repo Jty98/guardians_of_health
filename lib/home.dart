@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
         hideNavigationBarWhenKeyboardShows:
             true, // resizeToAvoidBottomInset를 돕는애
         decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(100.0),
           // colorBehindNavBar: Colors.red,
         ),
         // // popAllScreensOnTapOfSelectedTab: true,
@@ -47,6 +47,7 @@ class Home extends StatelessWidget {
         //   // curve: Curves.ease,
         //   duration: Duration(milliseconds: 100),
         // ),
+        navBarHeight: 80,
         navBarStyle: NavBarStyle.style11,
       ),
     );
@@ -68,7 +69,7 @@ class Home extends StatelessWidget {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.calendar),
-        title: "배변기록",
+        title: "쾌변기록",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.onTertiary),
@@ -77,7 +78,7 @@ class Home extends StatelessWidget {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.map),
-        title: "급똥지도",
+        title: "긴급지도",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.onTertiary),

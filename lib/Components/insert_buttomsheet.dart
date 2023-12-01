@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
+import 'package:guardians_of_health_project/home.dart';
 
 // class InsertButtomsheet extends StatelessWidget {
 // const InsertButtomsheet({super.key});
@@ -234,22 +235,14 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
 
 _insertAction(context) async {
   DatabaseHandler handler = DatabaseHandler();
-
   TimerController timerController = Get.find();
-  int result = 0;
 
-  // double rating = timerController.resultRating.valuel;
   String shape = timerController.resultShape;
   String color = timerController.resultColor;
   String smell = timerController.resultSmell;
   String review = timerController.resultTextController.text;
   DateTime now = DateTime.now();
   String currentTime = now.toString();
-
-  print("shape: $shape");
-  print("color: $color");
-  print("smell: $smell");
-  print("review: $review");
 
   var recordInsert = RecordModel(
     rating: timerController.rating,
@@ -260,13 +253,8 @@ _insertAction(context) async {
     takenTime: timerController.formattedTime(),
     currentTime: currentTime,
   );
-  result = await handler.insertAction(recordInsert);
-  print(result);
-  // if(result == 1){
+  await handler.insertAction(recordInsert);
   _showDialog();
-  // } else {
-  // _showSnackbar(context);
-  // }
 }
 
 _showDialog() {
@@ -277,7 +265,7 @@ _showDialog() {
       actions: [
         TextButton(
           onPressed: () {
-            Get.back();
+            Get.offAll(() => const Home());
           },
           child: const Text("OK"),
         ),
@@ -299,9 +287,6 @@ Widget starRatingbar(controller) {
     ),
     onRatingUpdate: (rating) {
       controller.rating = rating;
-      // timerController.resultRating.value = rating;
-      print(rating);
-      print(controller.rating);
     },
   );
 }

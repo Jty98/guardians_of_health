@@ -6,7 +6,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TimerController timerController = Get.put(TimerController());
 
     return AppBar(
       // automaticallyImplyLeading: false, // 뒤로가기 버튼 없애기

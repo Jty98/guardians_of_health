@@ -17,7 +17,6 @@ class DatabaseHandler {
     int result = 0;
     final Database db = await initializeDB();
     result = await db.rawInsert(
-        // "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) values(?,?,?,?,?,?,datetime('now', 'localtime'))",
         "INSERT INTO record(rating, shape, color, smell, review, takenTime, currentTime) values(?,?,?,?,?,?,?)",
         [
           record.rating,
@@ -36,6 +35,20 @@ class DatabaseHandler {
     final Database db = await initializeDB();
     final List<Map<String, Object?>> queryResult =
         await db.rawQuery("SELECT * FROM record");
+    return queryResult.map((e) => RecordModel.fromMap(e)).toList();
+  }
+
+  // calendar query
+  Future<List> getDataForDate(String date) async {
+    final Database db = await initializeDB();
+
+    // SQLite 쿼리 실행
+    final List<Map<String, Object?>> queryResult = await db.rawQuery(
+      'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) = ?',
+      [date],
+    );
+
+    // 쿼리 결과를 YourDataModel로 변환
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
   }
 }

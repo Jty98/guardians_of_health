@@ -39,7 +39,6 @@ class TimerResultView extends StatelessWidget {
               List<dynamic>? timerRecord = snapshot.data?[0];
               for (int i = 0; i < timerRecord!.length; i++) {
                 timeList.add(timerRecord[i].takenTime);
-                print("timerRecord: ${timerRecord[i].takenTime}");
               }
               // 문자열 형태의 시간을 Duration으로 변환
               List<Duration> durations = timeList.map((time) {
@@ -75,7 +74,6 @@ class TimerResultView extends StatelessWidget {
               // String 형식의 시간을 Duration으로 변환하는 함수
               durationFromString(String timeString) {
                 List<String> parts = timeString.split(':');
-                print(parts);
                 int hours = int.parse(parts[0]);
                 int minutes = int.parse(parts[1]);
                 int seconds = int.parse(parts[2]);
@@ -117,7 +115,7 @@ class TimerResultView extends StatelessWidget {
               } else if (resultTime > 0) {
                 result = '약 $timeDifference 오래걸렸습니다.';
               } else {
-                result = '평균적인 시간입니다.';
+                result = '평균적인 시간에 끝났습니다.';
               }
             }
           } else {

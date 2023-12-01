@@ -1,4 +1,4 @@
-class ResultRatingModel {
-  static double resultRating = 0.0;
+class DateCount {
+  static int date = 0;
 
 }
