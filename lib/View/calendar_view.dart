@@ -8,6 +8,7 @@ class CalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     CalendarController calendarController = Get.put(CalendarController());
 
     return Scaffold(
@@ -16,9 +17,6 @@ class CalendarView extends StatelessWidget {
         child: Column(
           children: [
             CalendarWidget(),
-            
-            
-            // calendarDetail(actionDate: [])
           ],
         ),
       ),

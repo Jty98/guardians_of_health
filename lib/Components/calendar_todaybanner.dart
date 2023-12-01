@@ -9,8 +9,6 @@ class TodayBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CalendarController calendarController = Get.put(CalendarController());
-    // final calendarController = Get.find<CalendarController>();
 
     return Container(
       color: Theme.of(context).colorScheme.primary,
@@ -20,10 +18,10 @@ class TodayBanner extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일',
-            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text('$count회',
-            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),            
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),            
             )
           ],
         ),

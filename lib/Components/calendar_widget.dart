@@ -21,7 +21,8 @@ class CalendarWidget extends StatelessWidget {
   // 날짜를 yyyy-MM-dd 형식으로 변환해서 저장할 변수
   String formattedDate = "";
 
-  List<dynamic>? recordList = []; // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
+  List<dynamic>? recordList =
+      []; // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
   int dateCount = 0; // 그날 이벤트의 갯수
 
   @override
@@ -38,7 +39,6 @@ class CalendarWidget extends StatelessWidget {
             recordList = snapshot.data ?? [];
 
             for (int i = 0; i < snapshot.data!.length; i++) {
-
               // CalendarEventModel에다가 불러온거 넣어주기
               // DateTime 키 생성
               String dateTimeKey = DateFormat('yyyy-MM-dd').format(
@@ -48,7 +48,7 @@ class CalendarWidget extends StatelessWidget {
               if (events.containsKey(dateTimeKey)) {
                 // 이미 존재한다면 기존 리스트에 CalendarEventModel 추가
                 events[dateTimeKey]!.add(CalendarEventModel.fromMap({
-                  'currentTime': dateTimeKey,
+                  'currentTime': recordList![i].currentTime,
                   'takenTime': recordList![i].takenTime,
                   'rating': recordList![i].rating,
                   'review': recordList![i].review,
@@ -57,7 +57,7 @@ class CalendarWidget extends StatelessWidget {
                 // 존재하지 않는다면 새로운 리스트를 생성하고 CalendarEventModel 추가
                 events[dateTimeKey] = [
                   CalendarEventModel.fromMap({
-                    'currentTime': dateTimeKey,
+                    'currentTime': recordList![i].currentTime,
                     'takenTime': recordList![i].takenTime,
                     'rating': recordList![i].rating,
                     'review': recordList![i].review,
@@ -71,7 +71,7 @@ class CalendarWidget extends StatelessWidget {
                   return Column(
                     children: [
                       TableCalendar(
-                          rowHeight: 55,
+                          rowHeight: 45,
                           focusedDay: calendarController.selectedDay.value!,
                           firstDay: DateTime.utc(2000, 1, 1),
                           lastDay: DateTime.utc(2050, 12, 31),
@@ -87,17 +87,19 @@ class CalendarWidget extends StatelessWidget {
                             return calendarController.getEventsForDay(
                                 day, recordList);
                           }),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       TodayBanner(
                         selectedDate: calendarController.selectedDay.value!,
                         count: calendarController
-                                .getEventsForDay(
-                                    calendarController.selectedDay.value!,
-                                    recordList)
-                                .length,
-                        // count: dateCount,
+                            .getEventsForDay(
+                                calendarController.selectedDay.value!,
+                                recordList)
+                            .length,
                       ),
                       SizedBox(
-                        height: 300,
+                        height: 320,
                         child: calendarDetail(
                             listLength: calendarController
                                 .getEventsForDay(
@@ -106,7 +108,7 @@ class CalendarWidget extends StatelessWidget {
                                 .length,
                             selectedDate: calendarController.selectedDay.value!,
                             events: events),
-                      )
+                      ),
                     ],
                   );
                 },
@@ -129,5 +131,4 @@ class CalendarWidget extends StatelessWidget {
   void _daySelected(DateTime selectedDay, DateTime focusedDay) {
     calendarController.changeSelectedDay(selectedDay);
   }
-
 } // End

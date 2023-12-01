@@ -104,7 +104,7 @@ class TimerResultView extends StatelessWidget {
 
               // 차이를 문자열로 표시
               timeDifference =
-                  '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds > 0 ? '$seconds초' : ''}';
+                  '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds >= 0 ? '$seconds초' : ''}';
 
               // 두 Duration을 비교
               int resultTime = formattedDuration.compareTo(averageDuration);

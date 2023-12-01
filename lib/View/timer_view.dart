@@ -23,7 +23,7 @@ class TimerView extends StatelessWidget {
         body: GestureDetector(
           onTap: () {
             timerController.showTimer(false);
-            Get.to(const TimerResultView(),
+            Get.to(() => const TimerResultView(),
             transition: Transition.noTransition,
             );
           },

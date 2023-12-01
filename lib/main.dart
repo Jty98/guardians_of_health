@@ -20,7 +20,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static const seedColor = Color.fromARGB(255, 206, 222, 211); // 신선한 녹색
+  static const seedColor = Color.fromARGB(255, 228, 244, 233); // 신선한 녹색
 
   @override
   Widget build(BuildContext context) {

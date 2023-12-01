@@ -183,7 +183,7 @@ class TimerController extends GetxController {
     int seconds = secondsUpdate.value % 60;
 
     // 차이를 문자열로 표시
-    return '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds > 0 ? '$seconds초' : ''}';
+    return '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds >= 0 ? '$seconds초' : ''}';
   }
 
   /// 투명도 관련 애니메이션

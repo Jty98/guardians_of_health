@@ -46,6 +46,8 @@ dependencies:
   table_calendar: ^3.0.9
   # 날짜 포멧해주는 패키지
   intl: ^0.18.1
+  # 리스트 슬라이더 패키지
+  flutter_slidable: ^3.0.1
   
   # sqlite
   sqflite: ^2.3.0
