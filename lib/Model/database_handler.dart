@@ -1,4 +1,5 @@
 import 'package:guardians_of_health_project/Model/record_model.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -38,17 +39,18 @@ class DatabaseHandler {
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
   }
 
-  // calendar query
-  Future<List> getDataForDate(String date) async {
-    final Database db = await initializeDB();
+// calendar query
+Future<List> getDataForDate(List<dynamic> dates) async {
+  final Database db = await initializeDB();
 
-    // SQLite 쿼리 실행
-    final List<Map<String, Object?>> queryResult = await db.rawQuery(
-      'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) = ?',
-      [date],
-    );
+  // SQLite 쿼리 실행
+  final List<Map<String, Object?>> queryResult = await db.rawQuery(
+    'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) IN (${List.filled(dates.length, '?').join(', ')})',
+    dates.map((date) => DateFormat('yyyy-MM-dd').format(DateTime.parse(date.toString()))).toList(),
+  );
 
-    // 쿼리 결과를 YourDataModel로 변환
-    return queryResult.map((e) => RecordModel.fromMap(e)).toList();
-  }
+  // 쿼리 결과를 YourDataModel로 변환
+  return queryResult.map((e) => RecordModel.fromMap(e)).toList();
+}
+
 }

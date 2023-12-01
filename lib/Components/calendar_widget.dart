@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/calendar_detail.dart';
@@ -7,7 +5,6 @@ import 'package:guardians_of_health_project/Components/calendar_todaybanner.dart
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
-import 'package:guardians_of_health_project/Model/result_rating_model.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -19,16 +16,17 @@ class CalendarWidget extends StatelessWidget {
 
   DatabaseHandler handler = DatabaseHandler();
 
-  Map<DateTime, List<RecordModel>> events = {};
-  // List<RecordModel> recordList = [];
+  // CalendarEventModel모델을 쓴 events 맵리스트
+  Map<String, List<CalendarEventModel>> events = {};
+  // 날짜를 yyyy-MM-dd 형식으로 변환해서 저장할 변수
   String formattedDate = "";
-  List<String> timelist = [];
 
-  List<dynamic>? recordList = [];
+  List<dynamic>? recordList = []; // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
   int dateCount = 0; // 그날 이벤트의 갯수
 
   @override
   Widget build(BuildContext context) {
+    // 날짜 포멧
     formattedDate = DateFormat('yyyy-MM-dd')
         .format(calendarController.selectedDay.value!.toLocal());
 
@@ -40,10 +38,33 @@ class CalendarWidget extends StatelessWidget {
             recordList = snapshot.data ?? [];
 
             for (int i = 0; i < snapshot.data!.length; i++) {
-              timelist.add(DateFormat('yyyy-MM-dd').format(DateTime.parse(recordList![i].currentTime.toString())));
-            }
-            // print(timelist);
 
+              // CalendarEventModel에다가 불러온거 넣어주기
+              // DateTime 키 생성
+              String dateTimeKey = DateFormat('yyyy-MM-dd').format(
+                  DateTime.parse(recordList![i].currentTime.toString()));
+
+              // 키가 이미 맵에 있는지 확인
+              if (events.containsKey(dateTimeKey)) {
+                // 이미 존재한다면 기존 리스트에 CalendarEventModel 추가
+                events[dateTimeKey]!.add(CalendarEventModel.fromMap({
+                  'currentTime': dateTimeKey,
+                  'takenTime': recordList![i].takenTime,
+                  'rating': recordList![i].rating,
+                  'review': recordList![i].review,
+                }));
+              } else {
+                // 존재하지 않는다면 새로운 리스트를 생성하고 CalendarEventModel 추가
+                events[dateTimeKey] = [
+                  CalendarEventModel.fromMap({
+                    'currentTime': dateTimeKey,
+                    'takenTime': recordList![i].takenTime,
+                    'rating': recordList![i].rating,
+                    'review': recordList![i].review,
+                  })
+                ];
+              }
+            }
             return Center(
               child: Obx(
                 () {
@@ -62,50 +83,51 @@ class CalendarWidget extends StatelessWidget {
                           onDaySelected: _daySelected,
                           selectedDayPredicate: (day) => isSameDay(
                               day, calendarController.selectedDay.value!),
-                          // eventLoader: (day) => getEventsForDay(day, timelist),
                           eventLoader: (day) {
-                            // DateCount.date = getEventsForDay(day, recordList).length;
-                            return calendarController.getEventsForDay(day, recordList);
+                            return calendarController.getEventsForDay(
+                                day, recordList);
                           }),
                       TodayBanner(
                         selectedDate: calendarController.selectedDay.value!,
-                        count: DateCount.date,
+                        count: calendarController
+                                .getEventsForDay(
+                                    calendarController.selectedDay.value!,
+                                    recordList)
+                                .length,
                         // count: dateCount,
                       ),
+                      SizedBox(
+                        height: 300,
+                        child: calendarDetail(
+                            listLength: calendarController
+                                .getEventsForDay(
+                                    calendarController.selectedDay.value!,
+                                    recordList)
+                                .length,
+                            selectedDate: calendarController.selectedDay.value!,
+                            events: events),
+                      )
                     ],
                   );
                 },
               ),
             );
           }
-          return calendarDetail(
-              actionDate: calendarController.getEventsForDay(calendarController.selectedDay.value!, recordList));
+          return const SizedBox(
+            height: 300,
+          );
         } else {
-          return const SizedBox();
+          return const SizedBox(
+            height: 300,
+          );
         }
       },
     );
   }
+  // --- Functions ---
 
   void _daySelected(DateTime selectedDay, DateTime focusedDay) {
     calendarController.changeSelectedDay(selectedDay);
   }
 
-//  // 이벤트를 가져오는 함수 업데이트
-//   List<dynamic> getEventsForDay(DateTime day, List<dynamic>? recordList) {
-//     // 날짜를 'yyyy-MM-dd' 형식의 문자열로 변환
-//     String formattedDate = DateFormat('yyyy-MM-dd').format(day.toLocal());
-
-//     // 해당 날짜에 해당하는 이벤트 리스트 필터링
-//     List<dynamic> eventsForDay = recordList
-//         ?.where((record) =>
-//             DateFormat('yyyy-MM-dd').format(DateTime.parse(record.currentTime)) == formattedDate)
-//         .toList() ?? [];
-
-//     // 해당 날짜의 이벤트 갯수 출력
-//   // print('날짜 $formattedDate의 이벤트 갯수: ${eventsForDay.length}');
-//   handler.getDataForDate(day.toString());
-
-//     return eventsForDay;
-//   }
-}
+} // End
