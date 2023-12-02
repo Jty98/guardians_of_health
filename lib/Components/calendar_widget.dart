@@ -52,6 +52,7 @@ class CalendarWidget extends StatelessWidget {
                   'takenTime': recordList![i].takenTime,
                   'rating': recordList![i].rating,
                   'review': recordList![i].review,
+                  'color': recordList![i].color,
                 }));
               } else {
                 // 존재하지 않는다면 새로운 리스트를 생성하고 CalendarEventModel 추가
@@ -61,6 +62,7 @@ class CalendarWidget extends StatelessWidget {
                     'takenTime': recordList![i].takenTime,
                     'rating': recordList![i].rating,
                     'review': recordList![i].review,
+                    'color': recordList![i].color,
                   })
                 ];
               }
@@ -71,22 +73,29 @@ class CalendarWidget extends StatelessWidget {
                   return Column(
                     children: [
                       TableCalendar(
-                          rowHeight: 45,
-                          focusedDay: calendarController.selectedDay.value!,
-                          firstDay: DateTime.utc(2000, 1, 1),
-                          lastDay: DateTime.utc(2050, 12, 31),
-                          locale: "ko_KR",
-                          headerStyle: const HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true,
-                          ),
-                          onDaySelected: _daySelected,
-                          selectedDayPredicate: (day) => isSameDay(
-                              day, calendarController.selectedDay.value!),
-                          eventLoader: (day) {
-                            return calendarController.getEventsForDay(
-                                day, recordList);
-                          }),
+                        rowHeight: 45,
+                        focusedDay: calendarController.selectedDay.value!,
+                        firstDay: DateTime.utc(2000, 1, 1),
+                        lastDay: DateTime.utc(2050, 12, 31),
+                        locale: "ko_KR",
+                        headerStyle: const HeaderStyle(
+                          formatButtonVisible: false,
+                          titleCentered: true,
+                        ),
+                        onDaySelected: _daySelected,
+                        selectedDayPredicate: (day) => isSameDay(
+                            day, calendarController.selectedDay.value!),
+                        eventLoader: (day) {
+                          return calendarController.getEventsForDay(
+                              day, recordList);
+                        },
+                        // 토요일, 일요일 글씨색
+                        calendarStyle: const CalendarStyle(
+                          markerSize: 8.0,
+                          weekendTextStyle: TextStyle(color: Colors.red),
+                          // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -128,7 +137,12 @@ class CalendarWidget extends StatelessWidget {
   }
   // --- Functions ---
 
+  /// 선택된 날짜를 알게해주는 함수
   void _daySelected(DateTime selectedDay, DateTime focusedDay) {
     calendarController.changeSelectedDay(selectedDay);
   }
+
+
 } // End
+
+// http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=2019&solMonth=03&ServiceKey=서비스키
