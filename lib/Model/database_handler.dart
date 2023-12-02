@@ -35,26 +35,32 @@ class DatabaseHandler {
     return result;
   }
 
-  // record query
+  // record query (얘가 다 가져옴)
   Future<List<RecordModel>> queryRecord() async {
     final Database db = await initializeDB();
+
+    // SQLite 쿼리 실행 (currentTime 내림차순으로 정렬)
     final List<Map<String, Object?>> queryResult =
-        await db.rawQuery("SELECT * FROM record");
+        await db.rawQuery("SELECT * FROM record ORDER BY currentTime DESC");
+
+    // 쿼리 결과를 RecordModel로 변환
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
   }
 
 // calendar query
-Future<List> getDataForDate(List<dynamic> dates) async {
-  final Database db = await initializeDB();
+  Future<List> getDataForDate(List<dynamic> dates) async {
+    final Database db = await initializeDB();
 
-  // SQLite 쿼리 실행
-  final List<Map<String, Object?>> queryResult = await db.rawQuery(
-    'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) IN (${List.filled(dates.length, '?').join(', ')})',
-    dates.map((date) => DateFormat('yyyy-MM-dd').format(DateTime.parse(date.toString()))).toList(),
-  );
+    // SQLite 쿼리 실행
+    final List<Map<String, Object?>> queryResult = await db.rawQuery(
+      'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) IN (${List.filled(dates.length, '?').join(', ')})',
+      dates
+          .map((date) =>
+              DateFormat('yyyy-MM-dd').format(DateTime.parse(date.toString())))
+          .toList(),
+    );
 
-  // 쿼리 결과를 YourDataModel로 변환
-  return queryResult.map((e) => RecordModel.fromMap(e)).toList();
-}
-
+    // 쿼리 결과를 RecordModel로 변환
+    return queryResult.map((e) => RecordModel.fromMap(e)).toList();
+  }
 }

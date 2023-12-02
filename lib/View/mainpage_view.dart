@@ -53,7 +53,7 @@ class _MainPageViewState extends State<MainPageView> {
             width: animationStatus ? 320.0 : 370.0,
             height: animationStatus ? 320.0 : 370.0,
             decoration: BoxDecoration(
-              color: animationStatus ? Colors.blue : Colors.amber,
+              color: animationStatus ? Colors.green[500] : Colors.amber[500],
               borderRadius: BorderRadius.circular(200.0),
             ),
             child: const Center(
@@ -76,6 +76,7 @@ class _MainPageViewState extends State<MainPageView> {
   // 버튼에 애니메이션 효과 부여
   void startAnimation() {
     animationTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      // mounted는 트리내에 위젯이 속해있나 없나의 bool값
       if (mounted) {
         animationStatus = !animationStatus;
         setState(() {});
