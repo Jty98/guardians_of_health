@@ -47,7 +47,7 @@ class DatabaseHandler {
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
   }
 
-// calendar query
+  // calendar query
   Future<List> getDataForDate(List<dynamic> dates) async {
     final Database db = await initializeDB();
 
@@ -62,5 +62,16 @@ class DatabaseHandler {
 
     // 쿼리 결과를 RecordModel로 변환
     return queryResult.map((e) => RecordModel.fromMap(e)).toList();
+  }
+
+  // record 삭제
+  Future deleteRecord(int id) async {
+    final Database db = await initializeDB();
+    await db.rawDelete(
+      "DELETE FROM record WHERE id = ?",
+      [
+        id
+      ]
+    );
   }
 }

@@ -280,7 +280,7 @@ _showDialog() {
 Widget starRatingbar(controller) {
   return RatingBar.builder(
     initialRating: controller.rating,
-    minRating: 1,
+    minRating: 0.5,
     direction: Axis.horizontal,
     allowHalfRating: true,
     itemCount: 5,

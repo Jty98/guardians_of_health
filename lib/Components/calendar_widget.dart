@@ -53,6 +53,7 @@ class CalendarWidget extends StatelessWidget {
               if (events.containsKey(dateTimeKey)) {
                 // 이미 존재한다면 기존 리스트에 CalendarEventModel 추가
                 events[dateTimeKey]!.add(CalendarEventModel.fromMap({
+                  'id': recordList![i].id,
                   'currentTime': recordList![i].currentTime,
                   'takenTime': recordList![i].takenTime,
                   'rating': recordList![i].rating,
@@ -63,6 +64,7 @@ class CalendarWidget extends StatelessWidget {
                 // 존재하지 않는다면 새로운 리스트를 생성하고 CalendarEventModel 추가
                 events[dateTimeKey] = [
                   CalendarEventModel.fromMap({
+                    'id': recordList![i].id,
                     'currentTime': recordList![i].currentTime,
                     'takenTime': recordList![i].takenTime,
                     'rating': recordList![i].rating,
@@ -139,7 +141,7 @@ class CalendarWidget extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 320,
-                        child: calendarDetail(
+                        child: CalendarDetail(
                             listLength: calendarController
                                 .getEventsForDay(
                                     calendarController.selectedDay.value!,

@@ -5,27 +5,28 @@
 
 /// 캘린더의 이벤트를 보여주기위한 모델
 class CalendarEventModel {
-  final DateTime currentTime;   // 저장할때의 시간
-  final String takenTime;       // 배변 중 걸린시간
-  final double rating;          // 배변 만족도
-  final String review;          // 배변시 특이사항
-  final String color;           // 배변 색상
+  final int id;               // 저장된 이벤트의 id
+  final DateTime currentTime; // 저장할때의 시간
+  final String takenTime;     // 배변 중 걸린시간
+  final double rating;        // 배변 만족도
+  final String review;        // 배변시 특이사항
+  final String color;         // 배변 색상
 
   CalendarEventModel(
-      {required this.currentTime,
+      {required this.id,
+      required this.currentTime,
       required this.takenTime,
       required this.rating,
       required this.review,
-      required this.color
-      });
+      required this.color});
 
-
-CalendarEventModel.fromMap(Map<String, dynamic> res)
-      : currentTime = res['currentTime'] != null ? DateTime.parse(res['currentTime']) : DateTime.now(),
+  CalendarEventModel.fromMap(Map<String, dynamic> res)
+      : id = res['id'],
+        currentTime = res['currentTime'] != null
+            ? DateTime.parse(res['currentTime'])
+            : DateTime.now(),
         takenTime = res['takenTime'],
         rating = res['rating'],
         review = res['review'],
-        color = res['color']
-        ;
-
+        color = res['color'];
 }

@@ -26,7 +26,7 @@ class TimerController extends GetxController {
   String resultShape = "바나나 모양";
   String resultColor = "황금색";
   String resultSmell = "심각";
-  double rating = 0.0;
+  double rating = 3.0;
 
   RxList<bool> selectedShape = [true, false, false].obs;
   RxList<bool> selectedColors = [true, false, false, false, false].obs;
