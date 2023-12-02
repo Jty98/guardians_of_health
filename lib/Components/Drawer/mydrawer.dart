@@ -1,3 +1,7 @@
+/*
+  기능: 다양한 기능을 가지고있는 Drawer
+*/
+
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {

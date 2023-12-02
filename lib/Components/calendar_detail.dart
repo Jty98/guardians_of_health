@@ -1,3 +1,7 @@
+/*
+  기능: table_calendar의 맨 아래의 디테일한 이벤트를 띄워주는 위젯
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

@@ -1,8 +1,9 @@
+/*
+  기능: 사용자의 정보를 보여주고 관리할 모델
+*/
+
+/// 사용자 정보를 정의한 모델
 class UserInfo{
-  // 사용자의 신체 정보
-  // 나이, 질병기록, 성별, 키, 몸무게
-  // 필요한 속성 - 나이 : int type, 성별 : boolean type,
-  // 키 : int type, 몸무게 : int type, 질병 기록 : String (text) type
 
   // property
   final int? id;                    // 기록의 순서 인덱스. 자동생성, auto increment primarykey

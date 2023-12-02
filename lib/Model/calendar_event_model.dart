@@ -1,9 +1,15 @@
+/*
+  기능: table_calendar의 event들을 해당하는 날짜와 그에따른 정보들로 저장하기위한 모델
+  ex). 2023.11.11 : {takenTime=6분, rating=4.5, review=굿, color=빨강}
+*/
+
+/// 캘린더의 이벤트를 보여주기위한 모델
 class CalendarEventModel {
-  final DateTime currentTime;
-  final String takenTime;
-  final double rating;
-  final String review;
-  final String color;
+  final DateTime currentTime;   // 저장할때의 시간
+  final String takenTime;       // 배변 중 걸린시간
+  final double rating;          // 배변 만족도
+  final String review;          // 배변시 특이사항
+  final String color;           // 배변 색상
 
   CalendarEventModel(
       {required this.currentTime,
@@ -13,7 +19,7 @@ class CalendarEventModel {
       required this.color
       });
 
-  // fromMap 메서드 추가
+
 CalendarEventModel.fromMap(Map<String, dynamic> res)
       : currentTime = res['currentTime'] != null ? DateTime.parse(res['currentTime']) : DateTime.now(),
         takenTime = res['takenTime'],
@@ -22,12 +28,4 @@ CalendarEventModel.fromMap(Map<String, dynamic> res)
         color = res['color']
         ;
 
-//   static CalendarEventModel fromMap(Map<String, Object?> map) {
-//     return CalendarEventModel(
-//       actionDate: map['currentTime'] as DateTime, // currentTime을 actionDate에 매핑
-//       takenTime: map['takenTime'] as String,
-//       rating: (map['rating'] as num).toDouble(), // rating을 double로 변환
-//       review: map['review'] as String,
-//     );
-// }
 }

@@ -1,3 +1,7 @@
+/*
+  기능: 배변 타이머가 끝나고 기록을 저장할때 뜨는 바텀시트 위젯
+*/
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,29 +13,26 @@ import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 
-// class InsertButtomsheet extends StatelessWidget {
-// const InsertButtomsheet({super.key});
-
+/// 배변 정보 저장할때 입력하는 바텀시트
 void insertBottomSheet(BuildContext context) {
   TimerController timerController = Get.find();
 
   // 모양
   List<String> imagePaths = [
-  "assets/images/banana.png",
-  "assets/images/grape.png",
-  "assets/images/water.png",
-];
+    "assets/images/banana.png",
+    "assets/images/grape.png",
+    "assets/images/water.png",
+  ];
 
-List<SizedBox> shapeContainer = imagePaths.map((path) {
-  return SizedBox(
-    width: 40,
-    height: 40,
-    child: Image.asset(path),
-  );
-}).toList();
+  // 모양을 담은 Sizedbox 크기
+  List<SizedBox> shapeContainer = imagePaths.map((path) {
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: Image.asset(path),
+    );
+  }).toList();
 
-
-  
   // 색상
   List<Color> containerColors = [
     Colors.amber[700]!,
@@ -41,6 +42,7 @@ List<SizedBox> shapeContainer = imagePaths.map((path) {
     Colors.green,
   ];
 
+  // 컬러들을 담고있는 버튼
   List<Widget> coloredContainers = List.generate(
     containerColors.length,
     (index) => Container(
@@ -53,28 +55,28 @@ List<SizedBox> shapeContainer = imagePaths.map((path) {
     ),
   );
 
-  // 냄새
+  // 냄새 리스트
   List<String> labels = ["상", "중", "하"];
 
-List<SizedBox> smellsSizedbox = labels.map((label) {
-  return SizedBox(
-    width: 40,
-    height: 40,
-    child: Text(
-      label,
-      style: TextStyle(fontSize: 25),
-      textAlign: TextAlign.center,
-    ),
-  );
-}).toList();
-
-
+  // 냄새 리스트 버튼
+  List<SizedBox> smellsSizedbox = labels.map((label) {
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 25),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }).toList();
 
   Get.bottomSheet(
     isScrollControlled: true, // 바텀시트 높이 조절할려면 이 옵션이 필수
     backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
     GestureDetector(
       onTap: () {
+        // ios플랫폼 기종이라면 GestureDetector로감싼부분 밖을 클릭하면 키보드 내려가는 기능
         if (Platform.isIOS) {
           SystemChannels.textInput.invokeMethod('TextInput.hide');
         }
@@ -233,6 +235,7 @@ List<SizedBox> smellsSizedbox = labels.map((label) {
   );
 }
 
+// SQLite의 record 테이블에 배변 기록을 insert하는 함수
 _insertAction(context) async {
   DatabaseHandler handler = DatabaseHandler();
   TimerController timerController = Get.find();
@@ -257,6 +260,7 @@ _insertAction(context) async {
   _showDialog();
 }
 
+// 입력결과 다이어로그
 _showDialog() {
   Get.defaultDialog(
       title: "입력 결과",
@@ -272,7 +276,7 @@ _showDialog() {
       ]);
 }
 
-// ratingbar
+// ratingbar 위젯
 Widget starRatingbar(controller) {
   return RatingBar.builder(
     initialRating: controller.rating,

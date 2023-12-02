@@ -1,3 +1,7 @@
+/*
+  기능: SQLite의 CRUD를 해주는 Handler
+*/
+
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';

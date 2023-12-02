@@ -1,9 +1,9 @@
-import 'dart:typed_data';
+/*
+  기능: record 테이블을 보여주기위한 모델
+*/
 
+/// 사용자의 배변 기록을 저장하는 테이블의 속성들을 정의하는 클래스
 class RecordModel{
-  // 사용자의 배변 기록을 저장하는 테이블의 속성들을 정의하는 클래스
-  // 필요한 속성 - 배변 이미지 : Uint8List type, 만족도(rating) : double type,
-  // 배변에 대한 기록 : String(text) type, 배변 시간: Timestamp(now) type
 
   // property
   final int? id;                    // 기록의 순서 인덱스. 자동생성, auto increment primarykey
@@ -13,7 +13,7 @@ class RecordModel{
   final String smell;               // 배변 냄새 단계
   final String review;              // 배변 상태 기록
   final String takenTime;           // 배변에 걸린 시간
-  final String? currentTime;         // 현재 시간
+  final String? currentTime;        // 저장한 시간
 
   RecordModel(
     {

@@ -1,3 +1,7 @@
+/*
+  기능: 타이머 기능과 배변기록 저장할 때의 상태관리를 위한 GetXController
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -46,7 +50,6 @@ class TimerController extends GetxController {
       default:
         resultShape = "바나나 모양";
     }
-    print(index);
   }
 
   /// 색상 선택 버튼 index
@@ -73,8 +76,6 @@ class TimerController extends GetxController {
       default:
         resultColor = "황금색";
     }
-
-    print(index);
   }
 
   /// 냄새 선택 버튼 index
@@ -95,10 +96,9 @@ class TimerController extends GetxController {
       default:
         resultSmell = "심각";
     }
-    print(index);
   }
 
-  /// 바텀시트 초기화
+  /// 기록 저장 바텀시트 초기화
   resetBottomSheetValues() {
     rating = 0.0;
     resultTextController.text = "";
@@ -115,25 +115,8 @@ class TimerController extends GetxController {
     opacityUpdate4.value = 0.0;
   }
 
-  /// 버튼에 애니메이션 효과 부여
-  startAnimation() async {
-    if (!animationStarted) {
-      animationStarted = true;
-      resultTextController = TextEditingController();
-
-      while (buttonStatus.value == 0) {
-        print("buttonStatus: $buttonStatus");
-        await Future.delayed(const Duration(seconds: 2));
-        if (buttonStatus.value == 0) {
-          animationStatus.toggle();
-        }
-      }
-    }
-  }
-
   /// 타이머 시작을 누르면 1초 간격으로 증가되게끔 하는 함수
   showTimer(bool status) {
-    print("status: $status");
     if (!status) {
       timer.cancel();
     } else {
@@ -160,7 +143,7 @@ class TimerController extends GetxController {
     super.onClose();
   }
 
-  /// 타이머 돌아간 시간을 보기 좋게 변환
+  /// 타이머 돌아간 시간을 보기 좋게 변환하는 함수
   String formattedTime() {
     //String result = "";
     int hours = secondsUpdate.value ~/ 3600;
@@ -171,9 +154,7 @@ class TimerController extends GetxController {
     String minutesStr = minutes.toString().padLeft(2, '0');
     String secondsStr = seconds.toString().padLeft(2, '0');
 
-    // print('$hoursStr:$minutesStr:$secondsStr');
     return '$hoursStr:$minutesStr:$secondsStr';
-    // return result;
   }
 
   /// 결과 시간을 변환해주는 함수

@@ -1,3 +1,7 @@
+/*
+  기능: 첫 페이지로 타이머를 시작할 수 있는 뷰
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';

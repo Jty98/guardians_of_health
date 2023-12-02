@@ -1,6 +1,7 @@
+/*
+  기능: table_calendar의 중간 날짜와 카운트를 보여주는 배너 위젯
+*/
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 
 class TodayBanner extends StatelessWidget {
   final DateTime selectedDate;

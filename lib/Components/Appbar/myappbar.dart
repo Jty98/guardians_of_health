@@ -1,3 +1,7 @@
+/*
+  기능: 앱바
+*/
+
 import 'package:flutter/material.dart';
 
 // AppBar를 위젯으로 쓰기 위해서는 사이즈 문제 때문에 implements PreferredSizeWidget를 해줘야함

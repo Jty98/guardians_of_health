@@ -1,3 +1,7 @@
+/*
+  기능: 타이머가 끝났을 때의 화면, 기록을 보여주고 저장하는 뷰
+*/
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';

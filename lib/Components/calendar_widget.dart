@@ -1,7 +1,12 @@
+/*
+  기능: table_calendar 기능
+*/
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/calendar_detail.dart';
 import 'package:guardians_of_health_project/Components/calendar_todaybanner.dart';
+import 'package:guardians_of_health_project/Components/marker_style.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
@@ -9,7 +14,9 @@ import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+// ignore: must_be_immutable
 class CalendarWidget extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   CalendarWidget({Key? key});
 
   final calendarController = Get.find<CalendarController>();
@@ -24,13 +31,11 @@ class CalendarWidget extends StatelessWidget {
   List<dynamic>? recordList =
       []; // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
   int dateCount = 0; // 그날 이벤트의 갯수
-
   @override
   Widget build(BuildContext context) {
     // 날짜 포멧
     formattedDate = DateFormat('yyyy-MM-dd')
         .format(calendarController.selectedDay.value!.toLocal());
-
     return FutureBuilder<List<RecordModel>>(
       future: handler.queryRecord(),
       builder: (context, snapshot) {
@@ -67,10 +72,15 @@ class CalendarWidget extends StatelessWidget {
                 ];
               }
             }
+
             return Center(
               child: Obx(
                 () {
-                  return Column(
+                  return
+                      //  calendarController.holidayDateList.isEmpty
+                      //     ? const Center(child: CircularProgressIndicator())
+                      //     :
+                      Column(
                     children: [
                       TableCalendar(
                         rowHeight: 45,
@@ -89,12 +99,32 @@ class CalendarWidget extends StatelessWidget {
                           return calendarController.getEventsForDay(
                               day, recordList);
                         },
+                        calendarBuilders: CalendarBuilders(
+                          markerBuilder: (context, date, events) {
+                            MarkerStyle markerStyle = MarkerStyle();
+                            return events.isNotEmpty
+                                ? markerStyle.buildEventsMarkerNum(events)
+                                : Container();
+                          },
+                        ),
+                        holidayPredicate: (date) =>
+                            calendarController.holidayPredicate(date),
+
                         // 토요일, 일요일 글씨색
                         calendarStyle: const CalendarStyle(
                           markerSize: 8.0,
+
                           weekendTextStyle: TextStyle(color: Colors.red),
+                          holidayTextStyle: TextStyle(color: Colors.red),
                           // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
                         ),
+                        // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
+                        onPageChanged: (focusedDay) {
+                          calendarController.selectedDay.value = focusedDay;
+                          // API로 휴일정보 받아와서 RxList에 휴일 이름과 날짜 넣어주는 함수
+                          calendarController.getHolidayData(focusedDay.year,
+                              formmatedDateType(focusedDay.month.toString()));
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -142,7 +172,9 @@ class CalendarWidget extends StatelessWidget {
     calendarController.changeSelectedDay(selectedDay);
   }
 
-
+  /// 1 ~ 9월에 0 붙여서 api형식 맞추는 함수
+  String formmatedDateType(String month) {
+    String formattedMonth = month.padLeft(2, '0');
+    return formattedMonth;
+  }
 } // End
-
-// http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=2019&solMonth=03&ServiceKey=서비스키
