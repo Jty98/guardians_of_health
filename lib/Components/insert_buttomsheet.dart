@@ -89,33 +89,36 @@ void insertBottomSheet(BuildContext context) {
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: IconButton(
-                        onPressed: () {
-                          timerController.resetBottomSheetValues();
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          size: 15,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "쾌변기록",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-                const Text(
-                  "쾌변기록",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: IconButton(
+                          onPressed: () {
+                            timerController.resetBottomSheetValues();
+                            Get.back();
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                      // const SizedBox(
+                      //   width: 10,
+                      // ),
+                    ],
                   ),
                 ),
                 const SizedBox(

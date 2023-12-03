@@ -31,119 +31,140 @@ class CalendarDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: listLength,
-      itemBuilder: (context, index) {
-        String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
-        List<CalendarEventModel> eventsForSelectedDate =
-            events[formattedDate] ?? [];
-
-        int id = eventsForSelectedDate[index].id;
-        String ddongTime = DateFormat('HH시 mm분')
-            .format(eventsForSelectedDate[index].currentTime);
-        String takenTime = eventsForSelectedDate[index].takenTime;
-        String review = eventsForSelectedDate[index].review;
-        double rating = eventsForSelectedDate[index].rating;
-
-        TextEditingController reviewController =
-            TextEditingController(text: review);
-
-        return Slidable(
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                icon: Icons.delete,
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red,
-                label: "기록삭제",
-                onPressed: (context) {
-                  _showDeleteActionSheet(context, handler, id);
-                },
-              ),
-            ],
-          ),
-          child: Card(
-            color: Theme.of(context).colorScheme.secondary,
+    return listLength == 0
+        ? const Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        ddongTime,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ),
-                      Text(
-                        "소요시간: ${formattedTakenTime(index, takenTime)}",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
+                Text(
+                  "🥲",
+                  style: TextStyle(fontSize: 60),
                 ),
                 Text(
-                  "만족도",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
+                  "아직 소식이 없다니 유감입니다..",
+                  style: TextStyle(fontSize: 30),
+                )
+              ],
+            ),
+          )
+        : ListView.builder(
+            itemCount: listLength,
+            itemBuilder: (context, index) {
+              String formattedDate =
+                  DateFormat('yyyy-MM-dd').format(selectedDate);
+              List<CalendarEventModel> eventsForSelectedDate =
+                  events[formattedDate] ?? [];
+
+              int id = eventsForSelectedDate[index].id;
+              String ddongTime = DateFormat('HH시 mm분')
+                  .format(eventsForSelectedDate[index].currentTime);
+              String takenTime = eventsForSelectedDate[index].takenTime;
+              String review = eventsForSelectedDate[index].review;
+              double rating = eventsForSelectedDate[index].rating;
+
+              TextEditingController reviewController =
+                  TextEditingController(text: review);
+
+              return Slidable(
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      icon: Icons.delete,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
+                      label: "기록삭제",
+                      onPressed: (context) {
+                        _showDeleteActionSheet(context, handler, id);
+                      },
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: starRatingbar(rating),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
+                child: Card(
+                  color: Theme.of(context).colorScheme.secondary,
+                  child: Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              ddongTime,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                            Text(
+                              "소요시간: ${formattedTakenTime(index, takenTime)}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Text(
-                        "특이사항 내용",
+                        "만족도",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSecondary,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: starRatingbar(rating),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "특이사항 내용",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(6, 0, 6, 10),
+                        child: TextField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          controller: reviewController,
+                          readOnly: true,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: "내용이 없습니다.",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(6, 0, 6, 10),
-                  child: TextField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                    controller: reviewController,
-                    readOnly: true,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: "내용이 없습니다.",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 
   /// 삭제할 것인가 묻는 액션시트
