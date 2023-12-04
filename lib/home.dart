@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
-import 'package:guardians_of_health_project/Components/Drawer/mydrawer.dart';
+import 'package:guardians_of_health_project/Components/Drawer/setting_view.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
-      drawer: const MyDrawer(),
+      // drawer: const MyDrawer(),
       body: PersistentTabView(
         context,
         controller: homecontroller.tabController,
@@ -89,6 +89,15 @@ class Home extends StatelessWidget {
         activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.settings),
+        title: "설정",
+        textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onTertiary),
+        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
     ];
   }
 
@@ -98,6 +107,7 @@ class Home extends StatelessWidget {
       MainPageView(),
       CalendarView(),
       MainPageView(), // 지도 페이지 추가시 바꾸기
+      SettingView()
     ];
   }
 } // End
