@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
-import 'package:guardians_of_health_project/Components/Drawer/setting_view.dart';
+import 'package:guardians_of_health_project/View/setting_view.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
