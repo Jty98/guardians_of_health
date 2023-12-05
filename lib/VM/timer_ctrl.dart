@@ -15,6 +15,7 @@ class TimerController extends GetxController {
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
   RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
   bool animationStarted = false; // 타이머를 시작시키면 바뀌는 변수
+  // bool timerStatus = false;
 
   late Timer timer;
   // 투명도 변수들
@@ -146,6 +147,7 @@ class TimerController extends GetxController {
     timer.cancel();
     super.onClose();
   }
+
 
   /// 타이머 돌아간 시간을 보기 좋게 변환하는 함수
   String formattedTime() {

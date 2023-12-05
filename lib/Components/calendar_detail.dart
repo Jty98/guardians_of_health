@@ -74,6 +74,7 @@ class _CalendarDetailState extends State<CalendarDetail> {
               double rating = eventsForSelectedDate[index].rating;
               String shape = eventsForSelectedDate[index].shape;
               String smell = eventsForSelectedDate[index].smell;
+              String color = eventsForSelectedDate[index].color;
 
               TextEditingController reviewController =
                   TextEditingController(text: review);
@@ -188,8 +189,21 @@ class _CalendarDetailState extends State<CalendarDetail> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
+                                color: returnShapeTextColor(shape),
+                              ),
+                            ),
+                            Text(
+                              "변색상",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onSecondary,
                               ),
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              color: returnDdongColor(color),
                             ),
                             Text(
                               "냄새단계",
@@ -204,7 +218,7 @@ class _CalendarDetailState extends State<CalendarDetail> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color: returnSmellTextColor(smell),
                               ),
                             ),
                           ],
@@ -339,3 +353,51 @@ class _CalendarDetailState extends State<CalendarDetail> {
                     : Colors.red;
   }
 }
+
+  /// 냄새에 따라서 달라지는 글자색 return 함수
+  Color? returnSmellTextColor(String smell){
+    switch(smell){
+      case "심각": 
+      // return Colors.red[300];
+      return Colors.orange;
+      case "보통":
+      return Colors.blue;
+      case "안남":
+      return Colors.green;
+      default:
+      return Colors.green;
+    }
+    
+  }
+
+  /// 모양에 따라서 달라지는 글자색 return 함수
+  Color? returnShapeTextColor(String shape){
+    switch(shape){
+      case "바나나 모양": 
+      return Colors.amber;
+      case "포도알 모양":
+      return Colors.purple[200];
+      case "설사":
+      return Colors.orange;
+      default:
+      return Colors.green;
+    }
+  }
+
+  /// 변 색상에 따라서 달라지는 글자색 return 함수
+  Color? returnDdongColor(String color){
+    switch(color){
+      case "황금색": 
+      return Colors.amber[700]!;
+      case "진갈색":
+      return Colors.brown[700]!;
+      case "검정색":
+      return Colors.black;
+      case "빨간색":
+      return Colors.red;
+      case "녹색":
+      return Colors.green;
+      default:
+      return Colors.amber[700]!;
+    }
+  }

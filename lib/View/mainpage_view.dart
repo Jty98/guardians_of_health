@@ -37,6 +37,7 @@ class _MainPageViewState extends State<MainPageView> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Center(
         child: GestureDetector(
