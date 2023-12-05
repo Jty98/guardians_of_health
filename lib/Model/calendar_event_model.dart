@@ -10,6 +10,8 @@ class CalendarEventModel {
   final String takenTime;     // 배변 중 걸린시간
   final double rating;        // 배변 만족도
   final String review;        // 배변시 특이사항
+  final String shape;         // 배변 모양
+  final String smell;         // 배변 모양
   final String color;         // 배변 색상
 
   CalendarEventModel(
@@ -18,6 +20,8 @@ class CalendarEventModel {
       required this.takenTime,
       required this.rating,
       required this.review,
+      required this.shape,
+      required this.smell,
       required this.color});
 
   CalendarEventModel.fromMap(Map<String, dynamic> res)
@@ -28,5 +32,7 @@ class CalendarEventModel {
         takenTime = res['takenTime'],
         rating = res['rating'],
         review = res['review'],
+        shape = res['shape'],
+        smell = res['smell'],
         color = res['color'];
 }

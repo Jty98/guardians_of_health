@@ -15,22 +15,29 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 // ignore: must_be_immutable
-class CalendarWidget extends StatelessWidget {
+class CalendarWidget extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
-  CalendarWidget({Key? key});
+  const CalendarWidget({Key? key});
 
+  @override
+  State<CalendarWidget> createState() => CalendarWidgetState();
+}
+
+class CalendarWidgetState extends State<CalendarWidget> {
   final calendarController = Get.find<CalendarController>();
 
   DatabaseHandler handler = DatabaseHandler();
 
   // CalendarEventModel모델을 쓴 events 맵리스트
   Map<String, List<CalendarEventModel>> events = {};
+
   // 날짜를 yyyy-MM-dd 형식으로 변환해서 저장할 변수
   String formattedDate = "";
 
-  List<dynamic>? recordList =
-      []; // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
-  int dateCount = 0; // 그날 이벤트의 갯수
+  List<dynamic>? recordList = [];
+  // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
+  int dateCount = 0;
+  // 그날 이벤트의 갯수
   @override
   Widget build(BuildContext context) {
     // 날짜 포멧
@@ -58,6 +65,8 @@ class CalendarWidget extends StatelessWidget {
                   'takenTime': recordList![i].takenTime,
                   'rating': recordList![i].rating,
                   'review': recordList![i].review,
+                  'shape': recordList![i].shape,
+                  'smell': recordList![i].smell,
                   'color': recordList![i].color,
                 }));
               } else {
@@ -69,6 +78,8 @@ class CalendarWidget extends StatelessWidget {
                     'takenTime': recordList![i].takenTime,
                     'rating': recordList![i].rating,
                     'review': recordList![i].review,
+                    'shape': recordList![i].shape,
+                    'smell': recordList![i].smell,
                     'color': recordList![i].color,
                   })
                 ];
@@ -167,7 +178,6 @@ class CalendarWidget extends StatelessWidget {
       },
     );
   }
-  // --- Functions ---
 
   /// 선택된 날짜를 알게해주는 함수
   void _daySelected(DateTime selectedDay, DateTime focusedDay) {

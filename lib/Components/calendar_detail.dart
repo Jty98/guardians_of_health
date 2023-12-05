@@ -7,31 +7,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/calendar_widget.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:intl/intl.dart';
 
 /// 캘린더 아래에 디테일 정보 위젯
 /// @Params : `int` listLength : 클릭된 날짜의 이벤트 갯수
 /// @Params : `DateTime` selectedDate : 클릭된 날짜
 /// @Params : `Map<String, List<CalendarEventModel>>` events : 정보가 담겨있는 모델
-class CalendarDetail extends StatelessWidget {
+class CalendarDetail extends StatefulWidget {
   final int listLength;
   final DateTime selectedDate;
   final Map<String, List<CalendarEventModel>> events;
 
-  CalendarDetail({
+  const CalendarDetail({
     Key? key,
     required this.listLength,
     required this.selectedDate,
     required this.events,
   }) : super(key: key);
 
+  @override
+  State<CalendarDetail> createState() => _CalendarDetailState();
+}
+
+class _CalendarDetailState extends State<CalendarDetail> {
   final DatabaseHandler handler = DatabaseHandler();
+
+  final calendarController = Get.find<CalendarController>();
 
   @override
   Widget build(BuildContext context) {
-    return listLength == 0
+    CalendarWidgetState? parent =
+        context.findAncestorStateOfType<CalendarWidgetState>();
+    return widget.listLength == 0
         ? const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,12 +59,12 @@ class CalendarDetail extends StatelessWidget {
             ),
           )
         : ListView.builder(
-            itemCount: listLength,
+            itemCount: widget.listLength,
             itemBuilder: (context, index) {
               String formattedDate =
-                  DateFormat('yyyy-MM-dd').format(selectedDate);
+                  DateFormat('yyyy-MM-dd').format(widget.selectedDate);
               List<CalendarEventModel> eventsForSelectedDate =
-                  events[formattedDate] ?? [];
+                  widget.events[formattedDate] ?? [];
 
               int id = eventsForSelectedDate[index].id;
               String ddongTime = DateFormat('HH시 mm분')
@@ -61,6 +72,8 @@ class CalendarDetail extends StatelessWidget {
               String takenTime = eventsForSelectedDate[index].takenTime;
               String review = eventsForSelectedDate[index].review;
               double rating = eventsForSelectedDate[index].rating;
+              String shape = eventsForSelectedDate[index].shape;
+              String smell = eventsForSelectedDate[index].smell;
 
               TextEditingController reviewController =
                   TextEditingController(text: review);
@@ -75,7 +88,43 @@ class CalendarDetail extends StatelessWidget {
                       backgroundColor: Colors.red,
                       label: "기록삭제",
                       onPressed: (context) {
-                        _showDeleteActionSheet(context, handler, id);
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CupertinoActionSheet(
+                                title: const Text(
+                                  "기록을 삭제하시겠습니까?",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black),
+                                ),
+                                actions: [
+                                  CupertinoActionSheetAction(
+                                    onPressed: () {
+                                      // 삭제시 화면 새로고침 안되는거 생각해보기
+                                      handler.deleteRecord(id);
+                                      parent!.setState(() {});
+                                      Get.back(); // Get.back()를 setState 이후에 호출
+                                    },
+                                    child: const Text(
+                                      "삭제",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.blue),
+                                    ),
+                                  ),
+                                ],
+                                cancelButton: CupertinoActionSheetAction(
+                                  onPressed: () {
+                                    //
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    "취소",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.red),
+                                  ),
+                                ),
+                              );
+                            });
                       },
                     ),
                   ],
@@ -124,6 +173,46 @@ class CalendarDetail extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "모양",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                            Text(
+                              shape,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                            Text(
+                              "냄새단계",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                            Text(
+                              smell,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           children: [
                             Text(
                               "특이사항 내용",
@@ -163,54 +252,7 @@ class CalendarDetail extends StatelessWidget {
                   ),
                 ),
               );
-            },
-          );
-  }
-
-  /// 삭제할 것인가 묻는 액션시트
-  void _showDeleteActionSheet(BuildContext context, handler, id) {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return _deleteActionSheet(context, handler, id);
-      },
-    );
-  }
-
-  /// 액션시트 구조
-  CupertinoActionSheet _deleteActionSheet(context, handler, id) {
-    return CupertinoActionSheet(
-      title: const Text(
-        "기록을 삭제하시겠습니까?",
-        style: TextStyle(fontSize: 16, color: Colors.black),
-      ),
-      actions: [
-        CupertinoActionSheetAction(
-          onPressed: () async {
-            // 삭제시 화면 새로고침 안되는거 생각해보기
-            handler.deleteRecord(id);
-            await handler.queryRecord();
-            Get.back();
-            // Get.to(() => const CalendarView());
-            // Get.back();
-          },
-          child: const Text(
-            "삭제",
-            style: TextStyle(fontSize: 16, color: Colors.blue),
-          ),
-        ),
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        onPressed: () {
-          //
-          Get.back();
-        },
-        child: const Text(
-          "취소",
-          style: TextStyle(fontSize: 16, color: Colors.red),
-        ),
-      ),
-    );
+            });
   }
 
   /// Duration으로 바꿔서 시간, 분, 초로 return 해주는 함수

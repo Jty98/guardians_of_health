@@ -6,8 +6,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Model/database_handler.dart';
 
 class TimerController extends GetxController {
+  DatabaseHandler handler = DatabaseHandler();
+
   RxInt buttonStatus = 0.obs; // 버튼 상태 (flase는 누르지 않음 / true는 누름)
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
   RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
@@ -100,7 +103,7 @@ class TimerController extends GetxController {
 
   /// 기록 저장 바텀시트 초기화
   resetBottomSheetValues() {
-    rating = 0.0;
+    rating = 3.0;
     resultTextController.text = "";
     selectedShapeFunc(0);
     selectedColorsFunc(0);
@@ -129,6 +132,7 @@ class TimerController extends GetxController {
   void updateTimer(Timer timer) {
     secondsUpdate.value++;
   }
+
 
   @override
   void dispose() {

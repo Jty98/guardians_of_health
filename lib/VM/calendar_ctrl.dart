@@ -2,9 +2,12 @@
   기능: table_calendar의 상태관리를 하기위한 GetXController
 */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart';
 
@@ -15,13 +18,16 @@ class CalendarController extends GetxController {
   Rx<DateTime?> selectedDay = DateTime.now().obs;
   RxList<String> holidayDateList = <String>[].obs;
   RxList<String> holidayDateNameList = <String>[].obs;
+  Map<String, List<CalendarEventModel>> events = <String, List<CalendarEventModel>>{}.obs;
+  List<RecordModel>? recordList = <RecordModel>[]; // getEventsForDay() 함수에 넣어줄 인자 리스트
+
 
   
   @override
   void onInit() {
     changeSelectedDay(selectedDay.value!);
     super.onInit();
-    getHolidayData(selectedDay.value!.year, selectedDay.value!.month.toString());
+    // getHolidayData(selectedDay.value!.year, selectedDay.value!.month.toString());
   }
 
   /// 달력에서 날짜 클릭시 그 날짜라고 알려주는 함수
@@ -31,6 +37,7 @@ class CalendarController extends GetxController {
   }
 
   /// 이벤트를 가져오는 함수 인자: (이벤트가 있는day,  쿼리문 결과가 저장된 recordList)
+  // List<DateTime> getEventsForDay(DateTime day, List<dynamic>? recordList) {
   List<DateTime> getEventsForDay(DateTime day, List<dynamic>? recordList) {
     // 날짜를 'yyyy-MM-dd' 형식의 문자열로 변환
     String formattedDate = DateFormat('yyyy-MM-dd').format(day.toLocal());
@@ -51,6 +58,16 @@ class CalendarController extends GetxController {
     return eventsForDay;
   }
 
+  // ㅇㅇㅇ
+    void updateEvents(Map<String, List<CalendarEventModel>> newEvents, BuildContext context) async {
+      // CalendarWidget calendarWidget = CalendarWidget();
+    // calendarWidget.events = newEvents;
+    await handler.queryRecord();
+      // calendarWidget.build(context);
+    print("good");
+    update(); // GetX에게 상태 업데이트 알림
+  }
+
 /// API로 휴일정보 받아와서 RxList에 휴일 이름과 날짜 넣어주는 함수
 Future<void> getHolidayData(int year, String month) async {
   String apiEndPoint =
@@ -60,31 +77,7 @@ Future<void> getHolidayData(int year, String month) async {
   String requestUrl =
       "$apiEndPoint/$holidayOperation?solYear=$year&solMonth=$month&ServiceKey=$apiKey";
   
-  // try {
-  //   var response = await GetConnect().get(requestUrl);
-  //   var document = XmlDocument.parse(response.body);
-
-  //   final dateNameElements = document.findAllElements('dateName');
-  //   final holidayDateElements = document.findAllElements('locdate');
-
-  //   holidayDateNameList.clear();
-  //   holidayDateList.clear();
-
-  //   for (var dateNameElement in dateNameElements) {
-  //     final dateName = dateNameElement.innerText;
-  //     holidayDateNameList.add(dateName);
-  //   }
-  //   for (var holidayDateElement in holidayDateElements) {
-  //     final holidayDate = holidayDateElement.innerText;
-  //     holidayDateList.add(holidayDate);
-  //   }
-  //   print(holidayDateNameList);
-  //   print(holidayDateList);
-
-  // } catch (e) {
-  //   print(e);
-  // }
-   try {
+  try {
       var response = await GetConnect().get(requestUrl);
       var document = XmlDocument.parse(response.body);
 
