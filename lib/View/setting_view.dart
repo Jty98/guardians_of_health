@@ -1,14 +1,21 @@
 /*
-  기능: 다양한 기능을 가지고있는 Drawer
+  기능: 다양한 기능을 가지고있는 Drawer -> 사용자 설정 등
 */
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
+import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
+import 'package:guardians_of_health_project/my_theme.dart';
 
-    late int _radioValue = 0;
-class SettingView extends StatelessWidget {
+  
+class SettingView extends StatefulWidget {
   const SettingView({super.key});
+
+  @override
+  State<SettingView> createState() => _SettingViewState();
+}
+
+class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +90,11 @@ class SettingView extends StatelessWidget {
                   ),                
                 ),
                 onTap: (){
-                  // bottom Sheet 뜨고 색상 선택 가능
-                  _showModalBottomSheet(context);
+                  Get.bottomSheet(
+                    backgroundColor: Colors.white,
+                    const SelectScreenMode()    // 테마 선택 bottom sheet 불러오기
+                    // SelectScreenMode(onChangeTheme: _changeThemeMode(_themeMode))    // 테마 선택 bottom sheet 불러오기
+                  );
                 },
               ),
             ),
@@ -92,85 +102,7 @@ class SettingView extends StatelessWidget {
         ),
       );
   }
-
-  // ------------ Functions -------------
-  _showModalBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      // isScrollControlled: true,
-      backgroundColor: Colors.white,      // 라이트/다크모드에 따라 바뀌게 하기
-      Column(
-        children: [
-          Text(
-            "색상",
-            style: TextStyle(
-              fontSize: 35,
-              // color:       // 테마 색상 선택에 따라 변경되도록
-              fontWeight: FontWeight.bold,
-              
-            ),
-          ),
-          const SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: (){
-                    // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
-                  },
-                  child: Column(     // 라이트모드 선택지 
-                    children: [
-                      Image.asset(
-                        "assets/images/lightmode.png",
-                        width: 100,
-                      ),
-                      const Text(
-                        "\n라이트 모드"
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                Column(     // 다크 모드 선택지
-                  children: [
-                    Image.asset(
-                      "assets/images/darkmode.png",
-                      width: 100,
-                    ),
-                    const Text(
-                      "\n다크 모드"
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Button
-              // Radio(
-              //   value: 0, 
-              //   groupValue: _radioValue, 
-              //   onChanged: (value) => _radioChange(value),
-              // )
-            ],
-
-          )
-        ],
-      )
-    );
-
-  }
-
-  // ---------- functions ----------
-    _radioChange(int? value) {        // ? : 선택 될 수도 있고 안 될수도 있으니까
-    _radioValue = value!;           // 하나만 선택할 수 있도록
-    // setState(() {
-      
-    // });
-  }
 } //  END
+
+
+  

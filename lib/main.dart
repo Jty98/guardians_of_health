@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
+import 'package:guardians_of_health_project/my_theme.dart';
 
 void main() async {
   // main 함수 비동기 처리 위해서 꼭 적어야 함. (landscpae 막기 하기위함)
@@ -23,12 +24,20 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   MyApp({super.key});
-  static const seedColor = Color.fromARGB(255, 228, 244, 233);
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system;      // system : 사용자가 정해둔 대로 보여준다. 
+
+  changeThemeMode(ThemeMode themeMode){     // _ : private 함수
+    _themeMode = themeMode;       // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌. 
+    setState(() {
+      
+    });
+  }
+
   // 신선한 녹색
   // CalendarController calendarController = Get.put(CalendarController());
 
@@ -68,55 +77,14 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       // === Theme 세팅 시작 ===
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: MyApp.seedColor,
-        fontFamily: "omyu-pretty",
-        // primaryColor: seedColor, // 앱바 및 기본 색상
-        scaffoldBackgroundColor: MyApp.seedColor, // Scaffold의 배경 색상
-        appBarTheme: const AppBarTheme(
-          backgroundColor: MyApp.seedColor, // 앱바 배경 색상
-          titleTextStyle: TextStyle(
-            color: Colors.black, // 앱바 글자색
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        // ElevatedButton 세팅
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(MyApp.seedColor), // 일반 버튼 배경 색상
-            foregroundColor:
-                MaterialStateProperty.all(Colors.black), // 일반 버튼 글자색
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
-                side: const BorderSide(color: Colors.black), // 테두리 선 색상 및 너비 설정
-              ),
-            ),
-          ),
-        ),
-        // outlineButton 세팅
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(MyApp.seedColor), // 아웃라인 버튼 배경 색상
-            foregroundColor:
-                MaterialStateProperty.all(Colors.black), // 아웃라인 버튼 글자색
-          ),
-        ),
-        // textButton 세팅
-        textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-            foregroundColor:
-                MaterialStateProperty.all(Colors.black), // 텍스트 버튼 글자색
-          ),
-        ),
-      ), 
+      // themeMode: _themeMode,
+      themeMode: _themeMode,
+      darkTheme: MyTheme.darkTheme,
+      theme: MyTheme.lightTheme,      
       // === Theme 세팅 끝 ===
       home: const Home(),
       debugShowCheckedModeBanner: false,
+      
     );
   }
 }

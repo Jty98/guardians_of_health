@@ -2,10 +2,13 @@
   기능: 앱의 공통적으로 띄워주는 위젯들(Appbar, Drawer, Tabbar)들을 분리해놓은 위젯
 */
 
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
+import 'package:guardians_of_health_project/View/near_toilet_view.dart';
 import 'package:guardians_of_health_project/View/setting_view.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/calendar_view.dart';
@@ -103,11 +106,11 @@ class Home extends StatelessWidget {
 
   // 탭바 누르면 이동할 페이지
   List<Widget> _buildScreens() {
-    return const [
-      MainPageView(),
-      CalendarView(),
-      MainPageView(), // 지도 페이지 추가시 바꾸기
-      SettingView()
+    return  [
+      const MainPageView(),
+      const CalendarView(),
+      const NearToiletView(), // 지도 페이지 추가시 바꾸기
+      const SettingView() 
     ];
   }
 } // End
