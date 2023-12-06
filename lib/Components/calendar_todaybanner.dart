@@ -10,7 +10,6 @@ class TodayBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: Padding(
@@ -22,8 +21,8 @@ class TodayBanner extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text('$count회',
-            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),            
-            )
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16, fontWeight: FontWeight.bold),            
+                ),
           ],
         ),
       ),

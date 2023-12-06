@@ -53,7 +53,7 @@ class DatabaseHandler {
 
     // SQLite 쿼리 실행
     final List<Map<String, Object?>> queryResult = await db.rawQuery(
-      'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) IN (${List.filled(dates.length, '?').join(', ')}) ORDER BY currentTime DESC',
+      'SELECT * FROM record WHERE strftime(\'%Y-%m-%d\', currentTime) IN (${List.filled(dates.length, '?').join(', ')})',
       dates
           .map((date) =>
               DateFormat('yyyy-MM-dd').format(DateTime.parse(date.toString())))
@@ -67,6 +67,11 @@ class DatabaseHandler {
   // record 삭제
   Future deleteRecord(int id) async {
     final Database db = await initializeDB();
-    await db.rawDelete("DELETE FROM record WHERE id = ?", [id]);
+    await db.rawDelete(
+      "DELETE FROM record WHERE id = ?",
+      [
+        id
+      ]
+    );
   }
 }

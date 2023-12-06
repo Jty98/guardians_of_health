@@ -26,9 +26,10 @@ class CalendarEventModel {
 
   CalendarEventModel.fromMap(Map<String, dynamic> res)
       : id = res['id'],
-        currentTime = res['currentTime'] != null
-            ? DateTime.parse(res['currentTime'])
-            : DateTime.now(),
+        // currentTime = res['currentTime'] != null
+        //     ? DateTime.parse(res['currentTime'])
+        //     : DateTime.now(),
+        currentTime = DateTime.parse(res['currentTime']),
         takenTime = res['takenTime'],
         rating = res['rating'],
         review = res['review'],

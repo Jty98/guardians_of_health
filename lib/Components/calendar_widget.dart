@@ -29,14 +29,12 @@ class CalendarWidgetState extends State<CalendarWidget> {
   DatabaseHandler handler = DatabaseHandler();
 
   // CalendarEventModel모델을 쓴 events 맵리스트
-  Map<String, List<CalendarEventModel>> events = {};
-
-  // 날짜를 yyyy-MM-dd 형식으로 변환해서 저장할 변수
   String formattedDate = "";
 
+  Map<String, List<CalendarEventModel>> events = {};
   List<dynamic>? recordList = [];
-  // calendarController.getEventsForDay() 함수에 넣어줄 인자 리스트
   int dateCount = 0;
+
   // 그날 이벤트의 갯수
   @override
   Widget build(BuildContext context) {
@@ -48,6 +46,8 @@ class CalendarWidgetState extends State<CalendarWidget> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
+            events = {};
+            recordList = [];
             recordList = snapshot.data ?? [];
 
             for (int i = 0; i < snapshot.data!.length; i++) {
@@ -89,11 +89,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
             return Center(
               child: Obx(
                 () {
-                  return
-                      //  calendarController.holidayDateList.isEmpty
-                      //     ? const Center(child: CircularProgressIndicator())
-                      //     :
-                      Column(
+                  return Column(
                     children: [
                       TableCalendar(
                         rowHeight: 45,
@@ -153,13 +149,15 @@ class CalendarWidgetState extends State<CalendarWidget> {
                       SizedBox(
                         height: 320,
                         child: CalendarDetail(
-                            listLength: calendarController
-                                .getEventsForDay(
-                                    calendarController.selectedDay.value!,
-                                    recordList)
-                                .length,
-                            selectedDate: calendarController.selectedDay.value!,
-                            events: events),
+                          listLength: calendarController
+                              .getEventsForDay(
+                                  calendarController.selectedDay.value!,
+                                  recordList)
+                              .length,
+                          selectedDate: calendarController.selectedDay.value!,
+                          events: events,
+                          recordList: recordList,
+                        ),
                       ),
                     ],
                   );
@@ -189,4 +187,6 @@ class CalendarWidgetState extends State<CalendarWidget> {
     String formattedMonth = month.padLeft(2, '0');
     return formattedMonth;
   }
-} // End
+}
+
+// End

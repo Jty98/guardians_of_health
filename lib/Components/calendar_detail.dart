@@ -1,8 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 /*
   기능: table_calendar의 맨 아래의 디테일한 이벤트를 띄워주는 위젯
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -17,256 +18,261 @@ import 'package:intl/intl.dart';
 /// @Params : `int` listLength : 클릭된 날짜의 이벤트 갯수
 /// @Params : `DateTime` selectedDate : 클릭된 날짜
 /// @Params : `Map<String, List<CalendarEventModel>>` events : 정보가 담겨있는 모델
-class CalendarDetail extends StatefulWidget {
+class CalendarDetail extends StatelessWidget {
   final int listLength;
   final DateTime selectedDate;
   final Map<String, List<CalendarEventModel>> events;
+  final List<dynamic>? recordList;
 
-  const CalendarDetail({
+  CalendarDetail({
     Key? key,
     required this.listLength,
     required this.selectedDate,
     required this.events,
+    required this.recordList,
   }) : super(key: key);
 
-  @override
-  State<CalendarDetail> createState() => _CalendarDetailState();
-}
-
-class _CalendarDetailState extends State<CalendarDetail> {
   final DatabaseHandler handler = DatabaseHandler();
-
   final calendarController = Get.find<CalendarController>();
+  String deleteTime = "";
+  String formattedDate = "";
 
   @override
   Widget build(BuildContext context) {
     CalendarWidgetState? parent =
         context.findAncestorStateOfType<CalendarWidgetState>();
-    return widget.listLength == 0
-        ? const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "🥲",
-                  style: TextStyle(fontSize: 60),
-                ),
-                Text(
-                  "아직 소식이 없다니 유감입니다..",
-                  style: TextStyle(fontSize: 30),
-                )
-              ],
-            ),
-          )
-        : ListView.builder(
-            itemCount: widget.listLength,
-            itemBuilder: (context, index) {
-              String formattedDate =
-                  DateFormat('yyyy-MM-dd').format(widget.selectedDate);
-              List<CalendarEventModel> eventsForSelectedDate =
-                  widget.events[formattedDate] ?? [];
 
-              int id = eventsForSelectedDate[index].id;
-              String ddongTime = DateFormat('HH시 mm분')
-                  .format(eventsForSelectedDate[index].currentTime);
-              String takenTime = eventsForSelectedDate[index].takenTime;
-              String review = eventsForSelectedDate[index].review;
-              double rating = eventsForSelectedDate[index].rating;
-              String shape = eventsForSelectedDate[index].shape;
-              String smell = eventsForSelectedDate[index].smell;
-              String color = eventsForSelectedDate[index].color;
-
-              TextEditingController reviewController =
-                  TextEditingController(text: review);
-
-              return Slidable(
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      icon: Icons.delete,
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.red,
-                      label: "기록삭제",
-                      onPressed: (context) {
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CupertinoActionSheet(
-                                title: const Text(
-                                  "기록을 삭제하시겠습니까?",
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                ),
-                                actions: [
-                                  CupertinoActionSheetAction(
-                                    onPressed: () {
-                                      // 삭제시 화면 새로고침 안되는거 생각해보기
-                                      handler.deleteRecord(id);
-                                      parent!.setState(() {});
-                                      Get.back(); // Get.back()를 setState 이후에 호출
-                                    },
-                                    child: const Text(
-                                      "삭제",
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.blue),
-                                    ),
-                                  ),
-                                ],
-                                cancelButton: CupertinoActionSheetAction(
-                                  onPressed: () {
-                                    //
-                                    Get.back();
-                                  },
-                                  child: const Text(
-                                    "취소",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.red),
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                    ),
-                  ],
-                ),
-                child: Card(
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              ddongTime,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            Text(
-                              "소요시간: ${formattedTakenTime(index, takenTime)}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "만족도",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: starRatingbar(rating),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              "모양",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            Text(
-                              shape,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: returnShapeTextColor(shape),
-                              ),
-                            ),
-                            Text(
-                              "변색상",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            Container(
-                              width: 20,
-                              height: 20,
-                              color: returnDdongColor(color),
-                            ),
-                            Text(
-                              "냄새단계",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            Text(
-                              smell,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: returnSmellTextColor(smell),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "특이사항 내용",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(6, 0, 6, 10),
-                        child: TextField(
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                          controller: reviewController,
-                          readOnly: true,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            hintText: "내용이 없습니다.",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+    return Obx(() {
+      return calendarController
+              .getEventsForDay(
+                  calendarController.selectedDay.value!, recordList)
+              .isEmpty
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "🥲",
+                    style: TextStyle(fontSize: 60),
                   ),
-                ),
-              );
-            });
+                  Text(
+                    "아직 소식이 없다니 유감입니다..",
+                    style: TextStyle(fontSize: 30),
+                  )
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: calendarController
+                  .getEventsForDay(
+                      calendarController.selectedDay.value!, recordList)
+                  .length,
+              itemBuilder: (context, index) {
+                formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                List<CalendarEventModel> eventsForSelectedDate =
+                    events[formattedDate] ?? [];
+
+                if (index < eventsForSelectedDate.length) {
+                  CalendarEventModel? event;
+                  event = eventsForSelectedDate[index];
+
+                  int id = eventsForSelectedDate[index].id;
+                  String ddongTime =
+                      DateFormat('HH시 mm분').format(event.currentTime);
+                  String takenTime = eventsForSelectedDate[index].takenTime;
+                  String review = eventsForSelectedDate[index].review;
+                  double rating = eventsForSelectedDate[index].rating;
+                  String shape = eventsForSelectedDate[index].shape;
+                  String smell = eventsForSelectedDate[index].smell;
+                  String color = eventsForSelectedDate[index].color;
+
+                  deleteTime = ddongTime;
+
+                  TextEditingController reviewController =
+                      TextEditingController(text: review);
+
+                  return Slidable(
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          icon: Icons.delete,
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red,
+                          label: "기록삭제",
+                          onPressed: (context) {
+                            calendarController.deleteRecord(id);
+                            // ignore: invalid_use_of_protected_member
+                            parent?.setState(() {});
+                            deleteSnackbar(context);
+                          },
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ddongTime,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                                Text(
+                                  "소요시간: ${formattedTakenTime(index, takenTime)}",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            "만족도",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: starRatingbar(rating),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "모양",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                                Text(
+                                  // shape,
+                                  event.shape,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: returnShapeTextColor(shape),
+                                  ),
+                                ),
+                                Text(
+                                  "변색상",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: returnDdongColor(color),
+                                ),
+                                Text(
+                                  "냄새단계",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                                Text(
+                                  // smell,
+                                  event.smell,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: returnSmellTextColor(smell),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "특이사항 내용",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(6, 0, 6, 10),
+                            child: TextField(
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              controller: reviewController,
+                              readOnly: true,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                hintText: "내용이 없습니다.",
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return null;
+              });
+    });
+  }
+
+  /// 삭제시 나오는 스낵바
+  deleteSnackbar(context) {
+    Get.snackbar(
+      "삭제완료",
+      "$formattedDate 일자  $deleteTime 기록이 삭제되었습니다.",
+      duration: const Duration(seconds: 3),
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      colorText: Theme.of(context).colorScheme.onTertiary,
+    );
   }
 
   /// Duration으로 바꿔서 시간, 분, 초로 return 해주는 함수
@@ -304,7 +310,7 @@ class _CalendarDetailState extends State<CalendarDetail> {
       unratedColor: Colors.grey[300],
       rating: resultRating,
       direction: Axis.horizontal,
-      itemCount: 5, // itemCount를 설정하세요.
+      itemCount: 5,
       itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
       itemBuilder: (context, index) {
         switch (index) {
@@ -354,50 +360,49 @@ class _CalendarDetailState extends State<CalendarDetail> {
   }
 }
 
-  /// 냄새에 따라서 달라지는 글자색 return 함수
-  Color? returnSmellTextColor(String smell){
-    switch(smell){
-      case "심각": 
+/// 냄새에 따라서 달라지는 글자색 return 함수
+Color? returnSmellTextColor(String smell) {
+  switch (smell) {
+    case "심각":
       // return Colors.red[300];
       return Colors.orange;
-      case "보통":
+    case "보통":
       return Colors.blue;
-      case "안남":
+    case "안남":
       return Colors.green;
-      default:
+    default:
       return Colors.green;
-    }
-    
   }
+}
 
-  /// 모양에 따라서 달라지는 글자색 return 함수
-  Color? returnShapeTextColor(String shape){
-    switch(shape){
-      case "바나나 모양": 
+/// 모양에 따라서 달라지는 글자색 return 함수
+Color? returnShapeTextColor(String shape) {
+  switch (shape) {
+    case "바나나 모양":
       return Colors.amber;
-      case "포도알 모양":
+    case "포도알 모양":
       return Colors.purple[200];
-      case "설사":
+    case "설사":
       return Colors.orange;
-      default:
+    default:
       return Colors.green;
-    }
   }
+}
 
-  /// 변 색상에 따라서 달라지는 글자색 return 함수
-  Color? returnDdongColor(String color){
-    switch(color){
-      case "황금색": 
+/// 변 색상에 따라서 달라지는 글자색 return 함수
+Color? returnDdongColor(String color) {
+  switch (color) {
+    case "황금색":
       return Colors.amber[700]!;
-      case "진갈색":
+    case "진갈색":
       return Colors.brown[700]!;
-      case "검정색":
+    case "검정색":
       return Colors.black;
-      case "빨간색":
+    case "빨간색":
       return Colors.red;
-      case "녹색":
+    case "녹색":
       return Colors.green;
-      default:
+    default:
       return Colors.amber[700]!;
-    }
   }
+}

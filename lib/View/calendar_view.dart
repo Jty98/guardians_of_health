@@ -7,15 +7,20 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/calendar_widget.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 
-class CalendarView extends StatelessWidget {
+class CalendarView extends StatefulWidget {
   const CalendarView({super.key});
 
+  @override
+  State<CalendarView> createState() => CalendarViewState();
+}
+
+class CalendarViewState extends State<CalendarView> {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     CalendarController calendarController = Get.put(CalendarController());
 
-    return Scaffold(
+    return  Scaffold(
       body: Center(
         child: Column(
           children: [
