@@ -93,13 +93,90 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
             ],
           ),
         ),
+        const SizedBox(height: 50,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ToggleButtons(
-            //   children: children, 
-            //   isSelected: isSelected,
-            // )
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.yellow
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.green
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.purple
+                  ),
+                ),
+              ),
+            ),
           ],
         )
       ],

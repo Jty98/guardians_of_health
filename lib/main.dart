@@ -80,7 +80,7 @@ class MyAppState extends State<MyApp> {
       // themeMode: _themeMode,
       themeMode: _themeMode,
       darkTheme: MyTheme.darkTheme,
-      theme: MyTheme.lightTheme,      
+      theme: MyTheme.lightTheme,     
       // === Theme 세팅 끝 ===
       home: const Home(),
       debugShowCheckedModeBanner: false,
