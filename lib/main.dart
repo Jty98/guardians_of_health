@@ -30,9 +30,17 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;      // system : 사용자가 정해둔 대로 보여준다. 
+  // static var seedColor = Colors.white;
 
   changeThemeMode(ThemeMode themeMode){     // _ : private 함수
     _themeMode = themeMode;       // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌. 
+    setState(() {
+      
+    });
+  }
+
+  changeSeedColor(Color seedColor) {
+    MyTheme.seedColor = seedColor;
     setState(() {
       
     });
@@ -81,6 +89,8 @@ class MyAppState extends State<MyApp> {
       themeMode: _themeMode,
       darkTheme: MyTheme.darkTheme,
       theme: MyTheme.lightTheme,     
+      color: MyTheme.seedColor,
+
       // === Theme 세팅 끝 ===
       home: const Home(),
       debugShowCheckedModeBanner: false,

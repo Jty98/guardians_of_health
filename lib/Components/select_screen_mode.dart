@@ -13,173 +13,208 @@ class SelectScreenMode extends StatefulWidget {
 }
 
 class _SelectScreenModeState extends State<SelectScreenMode> {
-  late bool isLightMode;
+  late bool isDarkMode;
   
   @override
   void initState() {
     super.initState();
-    isLightMode = true;
+    isDarkMode = false;
   }
 
   @override
   Widget build(BuildContext context) {
     MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            "색상",
-            style: TextStyle(
-              fontSize: 35,
-              // color:       // 테마 색상 선택에 따라 변경되도록
-              fontWeight: FontWeight.bold,
-              
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              "색상",
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 50),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
+                    isDarkMode ? myAppState?.changeThemeMode(ThemeMode.dark)
+                                : myAppState?.changeThemeMode(ThemeMode.light);
+                    setState(() {
+                      
+                    });
+                  },
+                  child: Column(     // 라이트모드 선택지 
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          isDarkMode ? "assets/images/darkmode.png"
+                                      : "assets/images/lightmode.png",
+                          width: 100,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            isDarkMode ? "다크 모드    " : "라이트 모드    ",
+                            style: const TextStyle(
+                              fontSize: 20
+                            ),
+                          ),
+                          Switch(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            inactiveTrackColor: Theme.of(context).colorScheme.primaryContainer,
+                            value: isDarkMode, 
+                            onChanged: (value) {
+                              isDarkMode = value;
+                              value ? myAppState!.changeThemeMode(ThemeMode.dark)
+                                : myAppState!.changeThemeMode(ThemeMode.light);
+                              setState(() {
+                                
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 30),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: (){
-                  // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
-                  isLightMode ? myAppState?.changeThemeMode(ThemeMode.light)
-                              : myAppState?.changeThemeMode(ThemeMode.dark);
+                  //myAppState?.changeSeedColor(Colors.red);
+                  MyTheme.seedColor = Colors.red;
                   setState(() {
                     
                   });
+                  print("터치 됐당 ");
+                  print(MyTheme.seedColor.toString());                  
                 },
-                child: Column(     // 라이트모드 선택지 
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.asset(
-                        isLightMode ? "assets/images/lightmode.png"
-                                    : "assets/images/darkmode.png",
-                        width: 100,
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          isLightMode ? "라이트 모드    " : "다크 모드    ",
-                          style: const TextStyle(
-                            fontSize: 20
-                          ),
-                        ),
-                        Switch(
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          inactiveTrackColor: Theme.of(context).colorScheme.primaryContainer,
-                          value: isLightMode, 
-                          onChanged: (value) {
-                            isLightMode = value;
-                            value ? myAppState!.changeThemeMode(ThemeMode.light)
-                              : myAppState!.changeThemeMode(ThemeMode.dark);
-                            setState(() {
-                              
-                            });
-                          },
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  MyTheme.seedColor = Colors.yellow;
+                  setState(() {
+                    
+                  });
+                  print("터치 됐당 ");
+                  print(MyTheme.seedColor.toString());                  
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.yellow
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  MyTheme.seedColor = Colors.green;
+                  setState(() {
+                    
+                  });
+                  print("터치 됐당 ");
+                  print(MyTheme.seedColor.toString());                  
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.green
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  MyTheme.seedColor = Colors.blue;
+                  setState(() {
+                    
+                  });
+                  print("터치 됐당 ");
+                  print(MyTheme.seedColor.toString());                  
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  print("터치 전이당");
+                  MyTheme.seedColor = Colors.purple;
+                  setState(() {
+                    
+                  });
+                  print("터치 됐당 ");
+                  print(MyTheme.seedColor.toString());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.purple
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 50,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: (){
-
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.yellow
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.green
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.purple
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
-      ],
+          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: (){
+              MyTheme.seedColor = Colors.white;
+            }, 
+            child: const Text("기본 스타일로 변경"),
+          )
+        ],
+      ),
     );
   }
 }

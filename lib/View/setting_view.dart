@@ -93,10 +93,12 @@ class _SettingViewState extends State<SettingView> {
                   ),                
                 ),
                 onTap: (){
-                  Get.bottomSheet(
-                    backgroundColor: Colors.white,
-                    const SelectScreenMode()    // 테마 선택 bottom sheet 불러오기
-                    // SelectScreenMode(onChangeTheme: _changeThemeMode(_themeMode))    // 테마 선택 bottom sheet 불러오기
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const SelectScreenMode();
+                    }
                   );
                 },
               ),

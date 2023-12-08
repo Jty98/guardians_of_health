@@ -45,11 +45,17 @@ class _NearToiletViewState extends State<NearToiletView> {
             child: SearchBar(
               controller: searchBarController,
               hintText: '내 근처 화장실 찾기',
+              elevation: const MaterialStatePropertyAll(15),    
+              shape: const MaterialStatePropertyAll(
+                ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))
+                )
+              ),
               shadowColor: const MaterialStatePropertyAll(Colors.blueGrey),     // 시드컬러 따라 바꾸기
               trailing: [
                 IconButton(
                   onPressed: (){
-            
+                    // bottom sheet로 근처 화장실 가까운 거리 순서로 띄워주기 (영업시간 꼭 확인하라는 문구와 함께)
                   }, 
                   icon: const Icon(
                     Icons.search_outlined
