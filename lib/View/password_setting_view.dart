@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/numberpad_dialog.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/my_theme.dart';
 
@@ -36,8 +37,9 @@ class PasswordSettingView extends StatelessWidget {
                       value: settingController.passwordValue.value,
                       onChanged: (value) {
                         settingController.passwordValue.value = value;
-                        if(value = true) {
+                        if(value == true) {
                           // 비밀번호 설정 다이어로그
+                          numberpadDialog(context);
                         }
                       },
                     ),

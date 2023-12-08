@@ -245,9 +245,7 @@ class TimerResultView extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    insertBottomSheet(context);
-                  },
+                  onPressed: () => insertBottomSheet(context),
                   child: const Text("기록 남기러가기"),
                 ),
                 const SizedBox(
