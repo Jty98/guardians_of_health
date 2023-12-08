@@ -3,8 +3,6 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 
 class MarkerStyle{
 
@@ -24,7 +22,7 @@ AnimatedContainer buildCalendarDayMarker({
     child: Center(
       child: Text(
         text,
-        style: TextStyle().copyWith(
+        style: const TextStyle().copyWith(
           color: Colors.white,
           fontSize: 11.0,
           fontWeight: FontWeight.bold,
@@ -39,7 +37,6 @@ Widget buildEventsMarkerNum(List events) {
   return buildCalendarDayMarker(
       text: '${events.length}',
       backColor: events.length <= 1 ?Colors.green : events.length <= 2 ? Colors.blue : Colors.orange,
-
       );
 }
 

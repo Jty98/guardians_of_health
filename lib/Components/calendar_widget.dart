@@ -28,10 +28,11 @@ class CalendarWidgetState extends State<CalendarWidget> {
 
   DatabaseHandler handler = DatabaseHandler();
 
-  // CalendarEventModel모델을 쓴 events 맵리스트
   String formattedDate = "";
 
+  // CalendarEventModel모델을 쓴 events 맵리스트
   Map<String, List<CalendarEventModel>> events = {};
+  // query를 담아줄 리스트
   List<dynamic>? recordList = [];
   int dateCount = 0;
 
@@ -118,13 +119,13 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         ),
                         holidayPredicate: (date) =>
                             calendarController.holidayPredicate(date),
-
+                            
                         // 토요일, 일요일 글씨색
                         calendarStyle: const CalendarStyle(
                           markerSize: 8.0,
-
                           weekendTextStyle: TextStyle(color: Colors.red),
                           holidayTextStyle: TextStyle(color: Colors.red),
+                          holidayDecoration: BoxDecoration()
                           // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
                         ),
                         // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
