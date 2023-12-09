@@ -127,156 +127,159 @@ class TimerResultView extends StatelessWidget {
         }
 
         return Obx(() {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                      child: AnimatedOpacity(
-                        opacity: timerController.opacityUpdateFunction(
-                            600, timerController.opacityUpdate1),
-                        duration: const Duration(milliseconds: 600),
-                        child: SizedBox(
-                          width: 70,
-                          height: 70,
-                          child: Image.asset(
-                            "assets/images/firecracker1.png",
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 350,
-                  height: 350,
-                  child: Stack(
+          return SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 30,),
+                  Row(
                     children: [
-                      AnimatedOpacity(
-                        opacity: timerController.opacityUpdateFunction(
-                            1800, timerController.opacityUpdate3),
-                        duration: const Duration(milliseconds: 1800),
-                        child: Image.asset(
-                          "assets/images/firecracker3.png",
-                        ),
-                      ),
-                      Center(
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                         child: AnimatedOpacity(
-                          duration: const Duration(milliseconds: 2400),
                           opacity: timerController.opacityUpdateFunction(
-                              2400, timerController.opacityUpdate4),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "총 ${timerController.resultFormattedTime()} 걸렸습니다!",
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              dataEmpty == true
-                                  ? const Text(
-                                      "당신의 평균시간과 비교해보면",
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : const Text(
-                                      "아직 기록이 없습니다.",
-                                      style: TextStyle(
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                              Text(
-                                result,
-                                style: const TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 50,
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    "한국인 평균 소요시간 : 약 6분",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [Text("- 대한대장항문협회 -")],
-                              )
-                            ],
+                              600, timerController.opacityUpdate1),
+                          duration: const Duration(milliseconds: 600),
+                          child: SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: Image.asset(
+                              "assets/images/firecracker1.png",
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
-                      child: AnimatedOpacity(
-                        opacity: timerController.opacityUpdateFunction(
-                            1200, timerController.opacityUpdate2),
-                        duration: const Duration(milliseconds: 1200),
-                        child: SizedBox(
-                          width: 70,
-                          height: 70,
+                  SizedBox(
+                    width: 350,
+                    height: 350,
+                    child: Stack(
+                      children: [
+                        AnimatedOpacity(
+                          opacity: timerController.opacityUpdateFunction(
+                              1800, timerController.opacityUpdate3),
+                          duration: const Duration(milliseconds: 1800),
                           child: Image.asset(
-                            "assets/images/firecracker2.png",
+                            "assets/images/firecracker3.png",
                           ),
                         ),
-                      ),
+                        Center(
+                          child: AnimatedOpacity(
+                            duration: const Duration(milliseconds: 2400),
+                            opacity: timerController.opacityUpdateFunction(
+                                2400, timerController.opacityUpdate4),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "총 ${timerController.resultFormattedTime()} 걸렸습니다!",
+                                  style: const TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                dataEmpty == true
+                                    ? const Text(
+                                        "당신의 평균시간과 비교해보면",
+                                        style: TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : const Text(
+                                        "아직 기록이 없습니다.",
+                                        style: TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                Text(
+                                  result,
+                                  style: const TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "한국인 평균 소요시간 : 약 6분",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [Text("- 대한대장항문협회 -")],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () => insertBottomSheet(context),
-                  child: const Text("기록 남기러가기"),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextButton(
-                  onPressed: () {
-                    timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
-                    Get.offAll(
-                      () => const Home(),
-                      transition: Transition.noTransition,
-                    );
-                  },
-                  child: const Column(
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.refresh),
-                      Text(
-                        "다시하기",
-                        style: TextStyle(
-                          fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        child: AnimatedOpacity(
+                          opacity: timerController.opacityUpdateFunction(
+                              1200, timerController.opacityUpdate2),
+                          duration: const Duration(milliseconds: 1200),
+                          child: SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: Image.asset(
+                              "assets/images/firecracker2.png",
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                )
-              ],
+                  ElevatedButton(
+                    onPressed: () => insertBottomSheet(context),
+                    child: const Text("기록 남기러가기"),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
+                      Get.offAll(
+                        () => const Home(),
+                        transition: Transition.noTransition,
+                      );
+                    },
+                    child: const Column(
+                      children: [
+                        Icon(Icons.refresh),
+                        Text(
+                          "다시하기",
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });

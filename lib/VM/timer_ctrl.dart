@@ -207,13 +207,11 @@ class TimerController extends GetxController {
       takenTime: formattedTime(),
       currentTime: DateTime.now().toString(),
     );
-    
     int insertResult = await handler.insertAction(recordInsert);
-    print("insertResult: $insertResult");
-    // result가 0보다 크면 true
 
+    // result가 0보다 크면 true
     insertResult > 0 ? result = true : result = false;
-    print("result: $result");
+
     return result;
   }
 
