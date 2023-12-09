@@ -1,3 +1,7 @@
+/*
+  비밀번호 및 생체인증 기능들의 상태관리를하는 GetX Controller
+*/
+
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/password_model.dart';

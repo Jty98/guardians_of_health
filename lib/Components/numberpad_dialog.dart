@@ -1,3 +1,7 @@
+/*
+  비밀번호를 설정하기위해 스위치를 활성화하면 나오는 숫자패드 다이얼로그
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -8,8 +12,8 @@ import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 void numberpadDialog(BuildContext context) {
   final settingController = Get.find<SettingController>();
-  Timer _timer;
   // 다이얼로그가 닫혔는지 여부를 저장할 변수
+  // ignore: unused_local_variable
   bool dialogClosed = false;
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
@@ -115,7 +119,6 @@ void numberpadDialog(BuildContext context) {
                             settingController.padNum.value =
                                 settingController.padNum.value.substring(0,
                                     settingController.padNum.value.length - 1);
-                            print("padNum: ${settingController.padNum}");
                           }
                         },
                         child: const Icon(
@@ -160,11 +163,9 @@ void numberpadDialog(BuildContext context) {
                                 Get.back();
                                 verifyNumberpadDialog(context);
                               }
-                              print(settingController.padNum);
 
                               // 2초 뒤에 false 넣어줘서 원상복구하기
-                              _timer =
-                                  Timer(const Duration(milliseconds: 200), () {
+                              Timer(const Duration(milliseconds: 200), () {
                                 settingController
                                     .buttonClickStatus[index].value = false;
                               });
@@ -203,7 +204,6 @@ void numberpadDialog(BuildContext context) {
   // 비밀번호 설정이 완료되지 않고 다이어로그를 닫을 시에 스위치 꺼버리기
   dialogFuture.then((value) {
     dialogClosed = true;
-    print("length: ${settingController.tempPadNum.length}");
     settingController.resetNumber();
     if (settingController.tempPadNum.length < 4) {
       settingController.tempPadNum = "";

@@ -1,3 +1,7 @@
+/*
+  비밀번호를 사용할시에 앱 처음에 뜨는 다이얼로그
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -7,7 +11,6 @@ import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 firstNumberpadDialog(BuildContext context) {
   final settingController = Get.find<SettingController>();
-  Timer _timer;
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
   List<dynamic> setKeypadShape() {
@@ -210,8 +213,7 @@ firstNumberpadDialog(BuildContext context) {
                               print(settingController.padNum);
 
                               // 2초 뒤에 false 넣어줘서 원상복구하기
-                              _timer =
-                                  Timer(const Duration(milliseconds: 200), () {
+                              Timer(const Duration(milliseconds: 200), () {
                                 settingController
                                     .buttonClickStatus[index].value = false;
                               });

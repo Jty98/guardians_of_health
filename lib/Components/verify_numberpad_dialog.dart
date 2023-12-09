@@ -1,17 +1,16 @@
+/*
+  비밀번호 설정시 비밀번호확인용 다이얼로그
+*/
+
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 void verifyNumberpadDialog(BuildContext context) {
   final settingController = Get.find<SettingController>();
-  Timer _timer;
-  // 다이얼로그가 닫혔는지 여부를 저장할 변수
-  bool dialogClosed = false;
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
   List<dynamic> setKeypadShape() {
@@ -66,8 +65,7 @@ void verifyNumberpadDialog(BuildContext context) {
   /// 비밀번호 확인하는 함수
   bool saveNumber() {
     bool status = false;
-    if (settingController.tempPadNum ==
-        settingController.verifyPadNum.value) {
+    if (settingController.tempPadNum == settingController.verifyPadNum.value) {
       // SQLite에 비밀번호 저장 및 비밀번호 사용 스위치 status 값 저장
       // 저장 후 저장 성공했다고 띄워주기위해 true
       settingController.savePassword(settingController.verifyPadNum.value, 1);
@@ -170,8 +168,6 @@ void verifyNumberpadDialog(BuildContext context) {
                                     settingController
                                             .verifyPadNum.value.length -
                                         1);
-                            print(
-                                "verifyPadNum: ${settingController.verifyPadNum}");
                           }
                         },
                         child: const Icon(
@@ -208,7 +204,8 @@ void verifyNumberpadDialog(BuildContext context) {
                               settingController.verifyPadNum.value +=
                                   setKeypadShape()[index].toString();
 
-                              if (settingController.verifyPadNum.value.length == 4) {
+                              if (settingController.verifyPadNum.value.length ==
+                                  4) {
                                 // verifyNumber에서 true return해주면 성공했다고 띄워주기
                                 if (saveNumber() == true) {
                                   settingController.saveStatus = true;
@@ -237,8 +234,7 @@ void verifyNumberpadDialog(BuildContext context) {
                               }
 
                               // 2초 뒤에 false 넣어줘서 원상복구하기
-                              _timer =
-                                  Timer(const Duration(milliseconds: 200), () {
+                              Timer(const Duration(milliseconds: 200), () {
                                 settingController
                                     .buttonClickStatus[index].value = false;
                               });
