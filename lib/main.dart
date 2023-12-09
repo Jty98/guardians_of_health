@@ -3,14 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
+import 'package:guardians_of_health_project/Components/first_numberpad_view.dart';
+import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:guardians_of_health_project/my_theme.dart';
 
 void main() async {
   // main 함수 비동기 처리 위해서 꼭 적어야 함. (landscpae 막기 하기위함)
   WidgetsFlutterBinding.ensureInitialized();
+  SettingController settingController = Get.put(SettingController());
+
   await dotenv.load(fileName: ".env"); // 앱 시작시 .env파일 로드
+  await settingController.initPasswordValue(); // 앱 시작시 password 읽어오거나 password status 읽어오기
 
   // landscpae 막기
   SystemChrome.setPreferredOrientations(
@@ -20,9 +24,11 @@ void main() async {
     ],
   );
   runApp(MyApp());
+
 }
 
 class MyApp extends StatefulWidget {
+
   MyApp({super.key});
   @override
   State<MyApp> createState() => MyAppState();
@@ -46,36 +52,21 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  // 신선한 녹색
-  // CalendarController calendarController = Get.put(CalendarController());
 
   @override
   Widget build(BuildContext context) {
-// for (int i = 1; i <= 12; i++) {
-//   // 현재 날짜의 연도를 가져옴
-//   int currentYear = calendarController.selectedDay.value!.year;
+    final settingController = Get.find<SettingController>();
 
-//   // DateTime의 생성자를 사용하여 연도와 월을 설정
-//   DateTime selectedDateTime = DateTime(currentYear, i, 1);
+    if (settingController.passwordValue.value == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
+        firstNumberpadDialog(Get.context!);
+      });
+    }
+    print("passwordValue: ${settingController.passwordValue}");
+    print("passwordValue: ${settingController.savedPassword}");
+    print("passwordValue: ${settingController.savedPwId}");
 
-//   // 첫 번째 날을 선택하고 해당 월의 휴일 정보를 가져옴
-//   calendarController.changeSelectedDay(selectedDateTime);
-//   calendarController.getHolidayData(
-//     selectedDateTime.year,
-//     selectedDateTime.month,
-//   );
-
-//   // 마지막 날을 계산
-//   int lastDayOfMonth = DateTime(currentYear, i + 1, 0).day;
-
-//   // 마지막 날을 선택하고 해당 월의 휴일 정보를 가져옴
-//   calendarController.changeSelectedDay(DateTime(currentYear, i, lastDayOfMonth));
-//   calendarController.getHolidayData(
-//     currentYear,
-//     i,
-//   );
-// }
-//     setState(() {});
     return GetMaterialApp(
       title: 'Flutter Demo',
       // Localization

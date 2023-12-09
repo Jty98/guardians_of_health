@@ -6,6 +6,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/first_numberpad_view.dart';
+import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/timer_view.dart';
 
@@ -18,6 +20,7 @@ class MainPageView extends StatefulWidget {
 
 class _MainPageViewState extends State<MainPageView> {
   TimerController timerController = Get.put(TimerController());
+  final settingController = Get.find<SettingController>();
 
   late bool animationStatus; // 애니메이션 status로 false와 true가 2초마다 반복되면서 애니메이션 작동
   Timer? animationTimer; // 애니메이션이 2초마다 동작하기위한 타이머
@@ -37,15 +40,15 @@ class _MainPageViewState extends State<MainPageView> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Center(
         child: GestureDetector(
           onTap: () {
             // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
             timerController.showTimer(true);
-            Get.to(() => const TimerView(),
-            transition: Transition.noTransition,
+            Get.to(
+              () => const TimerView(),
+              transition: Transition.noTransition,
             );
           },
           child: AnimatedContainer(
@@ -54,7 +57,8 @@ class _MainPageViewState extends State<MainPageView> {
             width: animationStatus ? 320.0 : 370.0,
             height: animationStatus ? 320.0 : 370.0,
             decoration: BoxDecoration(
-              color: animationStatus ? Colors.green[500] : Colors.amber[500],
+              color:
+                  animationStatus ? Colors.green[500] : Colors.amber[500],
               borderRadius: BorderRadius.circular(200.0),
             ),
             child: const Center(

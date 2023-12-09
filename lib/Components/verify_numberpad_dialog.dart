@@ -30,33 +30,52 @@ void verifyNumberpadDialog(BuildContext context) {
   }
 
   /// 비밀번호 확인이 틀렸을 때 띄우는 스낵바
-  showSnackbar() {
-    Get.showSnackbar(const GetSnackBar(
-      title: "실패",
-      message: "비밀번호가 일치하지 않습니다.",
-      duration: Duration(seconds: 2),
-    ));
+  showSnackbar(
+      {required String result,
+      required String resultText,
+      required Color resultbackColor,
+      required Color resultTextColor}) {
+    Get.showSnackbar(
+      GetSnackBar(
+        titleText: Text(
+          result,
+          style: TextStyle(
+              color: resultTextColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        messageText: Text(
+          resultText,
+          style: TextStyle(
+              color: resultTextColor,
+              fontSize: 15,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        duration: const Duration(milliseconds: 800),
+        backgroundColor: resultbackColor,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 50, // 둥글게하기
+        margin: const EdgeInsets.fromLTRB(60, 10, 60, 10), // 마진값으로 사이즈 조절
+      ),
+    );
     settingController.verifyPadNum = "".obs; // 비밀번호 확인 리스트 초기화
   }
 
   /// 비밀번호 확인하는 함수
-  bool verifyNumber() {
-    DatabaseHandler handler = DatabaseHandler();
-    bool verify = false;
-    if (settingController.tempPadNum.value ==
+  bool saveNumber() {
+    bool status = false;
+    if (settingController.tempPadNum ==
         settingController.verifyPadNum.value) {
       // SQLite에 비밀번호 저장 및 비밀번호 사용 스위치 status 값 저장
-      savePassword() {
-        
-      }
-      print("저장");
       // 저장 후 저장 성공했다고 띄워주기위해 true
-      verify = true;
+      settingController.savePassword(settingController.verifyPadNum.value, 1);
+      status = true;
     } else {
-      showSnackbar();
-      verify = false;
+      status = false;
     }
-    return verify;
+    return status;
   }
 
   Future<void> dialogFuture = showDialog(
@@ -181,12 +200,43 @@ void verifyNumberpadDialog(BuildContext context) {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
+                              // index값에 true넣어주기
+                              settingController.buttonClickStatus[index].value =
+                                  true;
+
+                              // 키패드의 index를 padNum에 추가시키기
                               settingController.verifyPadNum.value +=
                                   setKeypadShape()[index].toString();
 
-                              if (settingController.verifyPadNum.value.length ==
-                                  4) {}
+                              if (settingController.verifyPadNum.value.length == 4) {
+                                // verifyNumber에서 true return해주면 성공했다고 띄워주기
+                                if (saveNumber() == true) {
+                                  settingController.saveStatus = true;
+                                  // 바로 삭제할수도 있어서 또 불러와서 id 조회
+                                  settingController.initPasswordValue();
+                                  Get.back();
+                                  showSnackbar(
+                                    result: "저장 성공",
+                                    resultText: "비밀번호가 성공적으로 설정되었습니다.",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    resultTextColor: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiary,
+                                  );
+                                } else {
+                                  showSnackbar(
+                                    result: "저장 실패",
+                                    resultText: "비밀번호가 일치하지 않습니다. 다시 시도해주세요.",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.error,
+                                    resultTextColor:
+                                        Theme.of(context).colorScheme.onError,
+                                  );
+                                }
+                              }
 
+                              // 2초 뒤에 false 넣어줘서 원상복구하기
                               _timer =
                                   Timer(const Duration(milliseconds: 200), () {
                                 settingController
@@ -224,10 +274,16 @@ void verifyNumberpadDialog(BuildContext context) {
   );
   // 다이얼로그가 닫힌 후의 로직
   dialogFuture.then((value) {
-    dialogClosed = true;
-    settingController.resetNumber();
-    if (settingController.verifyPadNum.value.length < 4) {
+    // 다이얼로그가 닫힘을 확인하고 로직 수행
+    if (settingController.saveStatus == true) {
+      // 저장이 성공한 경우
+      settingController.passwordValue.value = true;
+      settingController.tempPadNum = "";
+    } else {
+      // 저장이 실패하거나 다이얼로그가 닫히지 않은 경우
       settingController.passwordValue.value = false;
+      settingController.resetNumber();
+      settingController.tempPadNum = "";
     }
   });
 }

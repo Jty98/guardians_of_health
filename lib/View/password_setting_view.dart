@@ -11,6 +11,8 @@ class PasswordSettingView extends StatelessWidget {
   Widget build(BuildContext context) {
     // final settingController = Get.find<SettingController>();
     final SettingController settingController = Get.put(SettingController());
+    // settingController.initPasswordValue();
+    print("id: ${settingController.savedPwId}");
     return Scaffold(
       appBar: AppBar(
         title: const Text("비밀번호 설정"),
@@ -40,6 +42,10 @@ class PasswordSettingView extends StatelessWidget {
                         if(value == true) {
                           // 비밀번호 설정 다이어로그
                           numberpadDialog(context);
+                        } else {
+                          if(settingController.savedPwId != null){
+                            settingController.deletePassword(settingController.savedPwId!);
+                          }
                         }
                       },
                     ),

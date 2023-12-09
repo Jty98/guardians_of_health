@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/View/password_setting_view.dart';
-import 'package:guardians_of_health_project/my_theme.dart';
 
   
 class SettingView extends StatefulWidget {
@@ -18,7 +17,7 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
-  SettingController settingController = Get.put(SettingController());
+  final settingController = Get.find<SettingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +56,7 @@ class _SettingViewState extends State<SettingView> {
                   ),                
                 ),
                 onTap: (){
+                  settingController.initPasswordValue();
                   Get.to(() => const PasswordSettingView());
                 },
               ),

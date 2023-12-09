@@ -2,15 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/verify_numberpad_dialog.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
-void numberpadDialog(BuildContext context) {
+firstNumberpadDialog(BuildContext context) {
   final settingController = Get.find<SettingController>();
   Timer _timer;
-  // 다이얼로그가 닫혔는지 여부를 저장할 변수
-  bool dialogClosed = false;
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
   List<dynamic> setKeypadShape() {
@@ -27,13 +24,47 @@ void numberpadDialog(BuildContext context) {
     return keypadList;
   }
 
-  Future<void> dialogFuture = showDialog(
-    barrierDismissible: true,
+  /// 비밀번호 확인이 틀렸을 때 띄우는 스낵바
+  showSnackbar(
+      {required String result,
+      required String resultText,
+      required Color resultbackColor,
+      required Color resultTextColor}) {
+    Get.showSnackbar(
+      GetSnackBar(
+        titleText: Text(
+          result,
+          style: TextStyle(
+              color: resultTextColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        messageText: Text(
+          resultText,
+          style: TextStyle(
+              color: resultTextColor,
+              fontSize: 15,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        duration: const Duration(milliseconds: 800),
+        backgroundColor: resultbackColor,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 50, // 둥글게하기
+        margin: const EdgeInsets.fromLTRB(60, 10, 60, 10), // 마진값으로 사이즈 조절
+      ),
+    );
+    settingController.padNum = "".obs; // 비밀번호 확인 리스트 초기화
+  }
+
+  showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) {
       return AlertDialog(
           // backgroundColor: Colors.transparent,
-          title: const Text("비밀번호 설정"),
+          title: const Text("비밀번호로 잠금해제"),
           content: SizedBox(
             width: 500,
             height: 550,
@@ -153,12 +184,28 @@ void numberpadDialog(BuildContext context) {
                                   setKeypadShape()[index].toString();
 
                               if (settingController.padNum.value.length == 4) {
-                                // 누른 키패드값을 tempPadNum에 저장
-                                settingController.tempPadNum =
-                                    settingController.padNum.value;
-
-                                Get.back();
-                                verifyNumberpadDialog(context);
+                                if (settingController.savedPassword ==
+                                    settingController.padNum.value) {
+                                  Get.back();
+                                  showSnackbar(
+                                    result: "환영합니다!",
+                                    resultText: "오늘도 쾌변하세요!",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    resultTextColor: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiary,
+                                  );
+                                } else {
+                                  showSnackbar(
+                                    result: "실패",
+                                    resultText: "비밀번호를 다시 확인해주세요.",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.error,
+                                    resultTextColor:
+                                        Theme.of(context).colorScheme.onError,
+                                  );
+                                }
                               }
                               print(settingController.padNum);
 
@@ -198,16 +245,4 @@ void numberpadDialog(BuildContext context) {
           ));
     },
   );
-
-  // 다이얼로그가 닫힌 후의 로직
-  // 비밀번호 설정이 완료되지 않고 다이어로그를 닫을 시에 스위치 꺼버리기
-  dialogFuture.then((value) {
-    dialogClosed = true;
-    print("length: ${settingController.tempPadNum.length}");
-    settingController.resetNumber();
-    if (settingController.tempPadNum.length < 4) {
-      settingController.tempPadNum = "";
-      settingController.passwordValue.value = false;
-    }
-  });
 }
