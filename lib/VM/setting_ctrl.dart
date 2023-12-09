@@ -1,5 +1,5 @@
 /*
-  비밀번호 및 생체인증 기능들의 상태관리를하는 GetX Controller
+  기능: 비밀번호 및 생체인증 기능들의 상태관리를하는 GetX Controller
 */
 
 import 'package:get/get.dart';

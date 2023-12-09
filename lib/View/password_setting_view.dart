@@ -1,5 +1,5 @@
 /*
-  비밀번호 및 생체인증을 설정하는 뷰
+  기능: 비밀번호 및 생체인증을 설정하는 뷰
 */
 
 import 'package:flutter/material.dart';

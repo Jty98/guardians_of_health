@@ -54,6 +54,8 @@ dependencies:
   xml: ^6.4.2
   # .env 사용하기 위한 패키지
   flutter_dotenv: ^5.1.0
+  # 생체인증 패키지
+  local_auth: ^2.1.7
   
   # sqlite
   sqflite: ^2.3.0

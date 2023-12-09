@@ -23,13 +23,13 @@ void main() async {
       DeviceOrientation.portraitDown,
     ],
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 
 }
 
 class MyApp extends StatefulWidget {
 
-  MyApp({super.key});
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => MyAppState();
 }
@@ -63,9 +63,6 @@ class MyAppState extends State<MyApp> {
         firstNumberpadDialog(Get.context!);
       });
     }
-    print("passwordValue: ${settingController.passwordValue}");
-    print("passwordValue: ${settingController.savedPassword}");
-    print("passwordValue: ${settingController.savedPwId}");
 
     return GetMaterialApp(
       title: 'Flutter Demo',
