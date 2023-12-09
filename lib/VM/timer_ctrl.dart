@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/Model/record_model.dart';
 
 class TimerController extends GetxController {
   DatabaseHandler handler = DatabaseHandler();
@@ -108,7 +109,7 @@ class TimerController extends GetxController {
     resultTextController.text = "";
     selectedShapeFunc(0);
     selectedColorsFunc(0);
-    selectedColorsFunc(0);
+    selectedSmellsFunc(0);
   }
 
   /// 투명도 초기화
@@ -190,4 +191,31 @@ class TimerController extends GetxController {
     });
     return update.value;
   }
+
+
+  /// 기록 insert
+  Future<bool> insertAction() async {
+    bool result = false;
+    DatabaseHandler handler = DatabaseHandler();
+
+    var recordInsert = RecordModel(
+      rating: rating,
+      shape: resultShape,
+      color: resultColor,
+      smell: resultSmell,
+      review: resultTextController.text,
+      takenTime: formattedTime(),
+      currentTime: DateTime.now().toString(),
+    );
+    
+    int insertResult = await handler.insertAction(recordInsert);
+    print("insertResult: $insertResult");
+    // result가 0보다 크면 true
+
+    insertResult > 0 ? result = true : result = false;
+    print("result: $result");
+    return result;
+  }
+
+
 } // End
