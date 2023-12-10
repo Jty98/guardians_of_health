@@ -23,17 +23,17 @@ class HealthInfoPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 60,),
             const Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(20.0),
               child: Text("대한대장항문협회 대장건강 6계명",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 1.4,
+              height: MediaQuery.of(context).size.height / 1.6,
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 6,
@@ -41,16 +41,24 @@ class HealthInfoPage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Card(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
                       child: Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text("${(index+1).toString()}. ",
-                            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 25, 
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSecondaryContainer,
+                              ),
                             ),
                           ),
                           Text(helthInfoList[index],
-                          style: const TextStyle(fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18, 
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,),
                           ),
                         ],
                       ),

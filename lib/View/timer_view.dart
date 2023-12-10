@@ -17,22 +17,6 @@ class TimerView extends StatelessWidget {
   Widget build(BuildContext context) {
     TimerController timerController = Get.find();
 
-    //     // AnimationController 설정
-    // AnimationController animationController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(seconds: 1),
-    // );
-    // // Tween 설정 (시작과 끝 값)
-    // Animation<double> animation = Tween<double>(begin: -30, end: 30).animate(
-    //   CurvedAnimation(
-    //     parent: animationController,
-    //     curve: Curves.easeInOut,
-    //     ),
-    // );
-
-    // // 애니메이션 반복
-    // animationController.repeat(reverse: true);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("골든타임"),
