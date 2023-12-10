@@ -16,7 +16,7 @@ class TimerController extends GetxController {
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
   RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
   bool animationStarted = false; // 타이머를 시작시키면 바뀌는 변수
-  // bool timerStatus = false;
+  RxBool isLoading = true.obs; // 웹뷰의 로딩을 관리할 변수
 
   late Timer timer;
   // 투명도 변수들
@@ -36,6 +36,8 @@ class TimerController extends GetxController {
   RxList<bool> selectedShape = [true, false, false].obs;
   RxList<bool> selectedColors = [true, false, false, false, false].obs;
   RxList<bool> selectedSmells = [true, false, false].obs;
+
+
 
   /// 모양 선택 버튼 index
   selectedShapeFunc(int index) {
@@ -217,3 +219,4 @@ class TimerController extends GetxController {
 
 
 } // End
+

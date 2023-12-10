@@ -1,9 +1,14 @@
+/*
+  기능: 타이머 돌아가는걸 볼 수 있으며 위로 슬라이드하면 웹뷰로 건강정보를 보여줌
+*/
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/health_info.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TimerView extends StatelessWidget {
   const TimerView({Key? key});
@@ -19,7 +24,8 @@ class TimerView extends StatelessWidget {
           onPressed: () {
             timerController.showTimer(false);
             timerController.secondsUpdate.value = 0;
-            Get.offAll(() => const Home(),
+            Get.offAll(
+              () => const Home(),
               transition: Transition.noTransition,
             );
           },
@@ -28,9 +34,10 @@ class TimerView extends StatelessWidget {
       ),
       body: PageView(
         scrollDirection: Axis.vertical,
+        // physics: const NeverScrollableScrollPhysics(), // 페이지뷰에서 스크롤 제거
         children: [
           buildTimerPage(timerController),
-          buildSecondPage(),
+          const HealthInfoPage(),
         ],
       ),
     );
@@ -86,19 +93,5 @@ class TimerView extends StatelessWidget {
     );
   }
 
-  Widget buildSecondPage() {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Text(
-          'Second Page',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
+
 }
