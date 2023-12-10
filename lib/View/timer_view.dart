@@ -8,7 +8,6 @@ import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/health_info.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class TimerView extends StatelessWidget {
   const TimerView({Key? key});
