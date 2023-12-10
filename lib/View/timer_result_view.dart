@@ -130,9 +130,10 @@ class TimerResultView extends StatelessWidget {
           return SingleChildScrollView(
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30,),
+                  const SizedBox(height: 70,),
                   Row(
                     children: [
                       Padding(

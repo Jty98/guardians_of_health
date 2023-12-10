@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/numberpad_dialog.dart';
+import 'package:guardians_of_health_project/Components/Numberpad/numberpad_dialog.dart';
 import 'package:guardians_of_health_project/Model/local_auth.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 

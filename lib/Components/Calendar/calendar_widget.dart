@@ -4,9 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/calendar_detail.dart';
-import 'package:guardians_of_health_project/Components/calendar_todaybanner.dart';
-import 'package:guardians_of_health_project/Components/marker_style.dart';
+import 'package:guardians_of_health_project/Components/Calendar/calendar_detail.dart';
+import 'package:guardians_of_health_project/Components/Calendar/calendar_todaybanner.dart';
+import 'package:guardians_of_health_project/Components/Calendar/marker_style.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';

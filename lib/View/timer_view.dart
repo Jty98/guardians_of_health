@@ -1,15 +1,12 @@
-/*
-  기능: 타이머가 돌아가고있는 뷰
-*/
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
+import 'package:guardians_of_health_project/View/health_info.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 
 class TimerView extends StatelessWidget {
-  const TimerView({super.key});
+  const TimerView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +20,25 @@ class TimerView extends StatelessWidget {
             timerController.showTimer(false);
             timerController.secondsUpdate.value = 0;
             Get.offAll(() => const Home(),
-            transition: Transition.noTransition,
+              transition: Transition.noTransition,
             );
           },
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
-      body: GestureDetector(
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        children: [
+          buildTimerPage(timerController),
+          buildSecondPage(),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTimerPage(TimerController timerController) {
+    return Center(
+      child: GestureDetector(
         onTap: () {
           timerController.showTimer(false);
           Get.to(
@@ -37,46 +46,59 @@ class TimerView extends StatelessWidget {
             transition: Transition.noTransition,
           );
         },
-        child: Center(
-          child: Container(
-            width: 350.0,
-            height: 350.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(200.0),
-              color: Colors.green,
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Obx(() {
-                    return Text(
-                      timerController.formattedTime(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
-                    "볼일이 끝나면 여기를 눌러주세요!",
-                    style: TextStyle(
+        child: Container(
+          width: 350.0,
+          height: 350.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(200.0),
+            color: Colors.green,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return Text(
+                    timerController.formattedTime(),
+                    style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                     ),
+                  );
+                }),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Text(
+                  "볼일이 끝나면 여기를 눌러주세요!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
-    // );
   }
-} // End
+
+  Widget buildSecondPage() {
+    return Container(
+      color: Colors.blue,
+      child: Center(
+        child: Text(
+          'Second Page',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}

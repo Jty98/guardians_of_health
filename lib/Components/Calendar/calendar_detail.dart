@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/calendar_widget.dart';
+import 'package:guardians_of_health_project/Components/Calendar/calendar_widget.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';

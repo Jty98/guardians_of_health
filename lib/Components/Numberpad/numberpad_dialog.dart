@@ -6,7 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/verify_numberpad_dialog.dart';
+import 'package:guardians_of_health_project/Components/Numberpad/verify_numberpad_dialog.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그

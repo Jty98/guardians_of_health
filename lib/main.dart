@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Components/first_numberpad_view.dart';
+import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad_view.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:guardians_of_health_project/my_theme.dart';
