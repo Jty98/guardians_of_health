@@ -21,6 +21,10 @@ class TimerResultView extends StatelessWidget {
     String result = ""; // 결과를 저장할 전역 변수
     bool dataEmpty = false; // 데이터 기록이 있나 없나를 비교할 bool값
     timerController.resetOpacityValues(); // 빌드할 때 초기화
+    String fastImagePath = "assets/images/rabit_ddabong.jpeg";
+    String slowImagePath = "assets/images/tutle_ddabong.jpeg";
+    String defulatImagePath = "assets/images/firecracker1.png";
+    String imagePath = ""; // 결과 이미지를 띄울 경로
 
     return Scaffold(
       appBar: AppBar(
@@ -110,20 +114,25 @@ class TimerResultView extends StatelessWidget {
             if (resultTime < 0) {
               dataEmpty = true;
               result = '약 $timeDifference 빨리 끝났습니다.';
+              imagePath = fastImagePath;
             } else if (resultTime > 0) {
               dataEmpty = true;
               result = '약 $timeDifference 오래걸렸습니다.';
+              imagePath = slowImagePath;
             } else {
               dataEmpty = true;
               result = '평균적인 시간에 끝났습니다.';
+              imagePath = defulatImagePath;
             }
             if (durations.isEmpty) {
               dataEmpty = false;
               result = "기록을 남겨서 매번 비교해보세요!";
+              imagePath = defulatImagePath;
             }
           }
         } else {
           result = "기록을 남겨서 매번 비교해보세요!";
+          imagePath = defulatImagePath;
         }
 
         return Obx(() {
@@ -133,7 +142,9 @@ class TimerResultView extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 70,),
+                  const SizedBox(
+                    height: 70,
+                  ),
                   Row(
                     children: [
                       Padding(
@@ -154,16 +165,21 @@ class TimerResultView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    width: 350,
-                    height: 350,
+                    width: 400,
+                    height: 400,
                     child: Stack(
                       children: [
                         AnimatedOpacity(
                           opacity: timerController.opacityUpdateFunction(
                               1800, timerController.opacityUpdate3),
                           duration: const Duration(milliseconds: 1800),
-                          child: Image.asset(
-                            "assets/images/firecracker3.png",
+                          child: SizedBox(
+                            width: 400,
+                            height: 400,
+                            child: CircleAvatar(
+                              radius: 30, // 반지름 설정
+                              backgroundImage: AssetImage(imagePath),
+                            ),
                           ),
                         ),
                         Center(
@@ -223,7 +239,7 @@ class TimerResultView extends StatelessWidget {
                                 ),
                                 const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [Text("- 대한대장항문협회 -")],
+                                  children: [Text("- 대한대장항문협회 -", style: TextStyle(fontWeight: FontWeight.bold),)],
                                 )
                               ],
                             ),

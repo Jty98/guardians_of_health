@@ -10,11 +10,28 @@ import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 
 class TimerView extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const TimerView({Key? key});
 
   @override
   Widget build(BuildContext context) {
     TimerController timerController = Get.find();
+
+    //     // AnimationController 설정
+    // AnimationController animationController = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(seconds: 1),
+    // );
+    // // Tween 설정 (시작과 끝 값)
+    // Animation<double> animation = Tween<double>(begin: -30, end: 30).animate(
+    //   CurvedAnimation(
+    //     parent: animationController,
+    //     curve: Curves.easeInOut,
+    //     ),
+    // );
+
+    // // 애니메이션 반복
+    // animationController.repeat(reverse: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +50,6 @@ class TimerView extends StatelessWidget {
       ),
       body: PageView(
         scrollDirection: Axis.vertical,
-        // physics: const NeverScrollableScrollPhysics(), // 페이지뷰에서 스크롤 제거
         children: [
           buildTimerPage(timerController),
           const HealthInfoPage(),
@@ -52,45 +68,75 @@ class TimerView extends StatelessWidget {
             transition: Transition.noTransition,
           );
         },
-        child: Container(
-          width: 350.0,
-          height: 350.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(200.0),
-            color: Colors.green,
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(() {
-                  return Text(
-                    timerController.formattedTime(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 350.0,
+              height: 350.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200.0),
+                color: Colors.green,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() {
+                      return Text(
+                        timerController.formattedTime(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }),
+                    const SizedBox(
+                      height: 30,
                     ),
-                  );
-                }),
-                const SizedBox(
-                  height: 30,
+                    const Text(
+                      "볼일이 끝나면 여기를 눌러주세요!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                const Text(
-                  "볼일이 끝나면 여기를 눌러주세요!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            const SizedBox(
+              height: 40,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "화면을 위로 올리면 장 건강정보가 나와요!",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            ),
+            GetBuilder<TimerController>(
+              builder: (controller) {
+                return AnimatedBuilder(
+                  animation: controller.animation,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, controller.animation.value),
+                      child: Icon(
+                        Icons.keyboard_double_arrow_up_outlined,
+                        size: 50,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
   }
-
-
 }

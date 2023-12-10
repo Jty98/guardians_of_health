@@ -9,8 +9,33 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 
-class TimerController extends GetxController {
+class TimerController extends GetxController with GetSingleTickerProviderStateMixin {
   DatabaseHandler handler = DatabaseHandler();
+
+  late AnimationController animationController;
+  late Animation<double> animation;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    // AnimationController 설정
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    // Tween 설정 (시작과 끝 값)
+    animation = Tween<double>(begin: -20, end: 20).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    // 애니메이션 반복
+    animationController.repeat(reverse: true);
+  }
 
   RxInt buttonStatus = 0.obs; // 버튼 상태 (flase는 누르지 않음 / true는 누름)
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
@@ -148,6 +173,7 @@ class TimerController extends GetxController {
   @override
   void onClose() {
     timer.cancel();
+    animationController.dispose();
     super.onClose();
   }
 
