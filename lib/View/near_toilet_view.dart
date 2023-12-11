@@ -18,13 +18,14 @@ class NearToiletView extends StatefulWidget {
 class _NearToiletViewState extends State<NearToiletView> {
   // property
   late Position currentPosition;
-  late double latData;
-  late double longData;
 
   late MapController mapController;
   late TextEditingController searchBarController;
   late bool canRun;
   late List location;
+
+  late double mylat = 0.0;
+  late double mylng = 0.0;
 
 
   @override
@@ -56,30 +57,31 @@ class _NearToiletViewState extends State<NearToiletView> {
                   : const Center(
                     child: CircularProgressIndicator(),
                   ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SearchBar(
-                    controller: searchBarController,
-                    hintText: '내 근처 공중화장실 찾기',
-                    elevation: const MaterialStatePropertyAll(15),    
-                    shape: const MaterialStatePropertyAll(
-                      ContinuousRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                      )
-                    ),
-                    shadowColor: const MaterialStatePropertyAll(Colors.blueGrey),     // 시드컬러 따라 바꾸기
-                    trailing: [
-                      IconButton(
-                        onPressed: (){
-                          // bottom sheet로 근처 화장실 가까운 거리 순서로 띄워주기 (영업시간 꼭 확인하라는 문구와 함께)
-                        }, 
-                        icon: const Icon(
-                          Icons.search_outlined
-                        ),
-                      ),
-                    ]
-                  ),
-                ),  
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: SearchBar(
+                //     controller: searchBarController,
+                //     hintText: '내 근처 공중화장실 찾기',
+                //     elevation: const MaterialStatePropertyAll(15),    
+                //     shape: const MaterialStatePropertyAll(
+                //       ContinuousRectangleBorder(
+                //         borderRadius: BorderRadius.all(Radius.circular(20))
+                //       )
+                //     ),
+                //     shadowColor: const MaterialStatePropertyAll(Colors.blueGrey),     // 시드컬러 따라 바꾸기
+                //     trailing: [
+                //       IconButton(
+                //         onPressed: (){
+                //           // bottom sheet로 근처 화장실 가까운 거리 순서로 띄워주기 (영업시간 꼭 확인하라는 문구와 함께)
+                //           // 검색한 주소 근처 화장실 보여주기
+                //         }, 
+                //         icon: const Icon(
+                //           Icons.search_outlined
+                //         ),
+                //       ),
+                //     ]
+                //   ),
+                // ),  
                 Positioned(
                   bottom: 100,
                   right: 20,
@@ -108,8 +110,11 @@ class _NearToiletViewState extends State<NearToiletView> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        initialCenter: latlng.LatLng(latData, longData),
-        initialZoom: 17.0
+        initialCenter: latlng.LatLng(mylat, mylng),
+        initialZoom: 17.0,
+        maxZoom: 20,
+        minZoom: 14,
+
       ), 
       children: [
         TileLayer(
@@ -129,33 +134,63 @@ class _NearToiletViewState extends State<NearToiletView> {
                       showModalBottomSheet(
                         context: context, 
                         builder: (context) {
-                          return Container(
-                            height: 200,
+                          return SizedBox(
+                            height: 300,
                             width: 500,
-                            child: Column(
-                              children: [
-                                Text(
-                                  toilets.name,
-                                  style: const TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    toilets.name,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  toilets.address,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Divider(height: 1.0, color: Colors.grey),
                                   ),
-                                ),
-                                Text(
-                                  "개방시간 : ${toilets.openingHours}",
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
+                                  Row(
+                                    children: [
+                                      const Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "\n주소 : ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "\n개방시간 : ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold
+                                            ),                                            
+                                          ),
+                                          Text(
+                                            "\n거리 : ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold
+                                            ),                                            
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("\n${toilets.address}"),
+                                          Text("\n${toilets.openingHours}"),
+                                          Text("\n${calcDistance(toilets.x, toilets.y)}"),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         }
@@ -172,7 +207,7 @@ class _NearToiletViewState extends State<NearToiletView> {
                         ),
                         const Icon(
                           Icons.location_pin,
-                          size: 50,
+                          size: 30,
                           color: Colors.blue,
                         ),
                       ],
@@ -190,7 +225,7 @@ class _NearToiletViewState extends State<NearToiletView> {
             Marker(   
               width: 120,
               height: 120,
-              point: latlng.LatLng(latData, longData), 
+              point: latlng.LatLng(mylat, mylng), 
               child: const Column(
                 children: [
                   Text(
@@ -202,7 +237,7 @@ class _NearToiletViewState extends State<NearToiletView> {
                   ),
                   Icon(
                     Icons.location_pin,
-                    size: 50,
+                    size: 40,
                     color: Colors.red,
                   ),
                 ],
@@ -240,10 +275,10 @@ class _NearToiletViewState extends State<NearToiletView> {
       forceAndroidLocationManager: true).then((position) {
         currentPosition = position;
         canRun = true;
-        latData = currentPosition.latitude;
-        longData = currentPosition.longitude;
+        mylat = currentPosition.latitude;
+        mylng = currentPosition.longitude;
         setState(() {});
-        print("현재위치 위도 : 경도 = " + latData.toString() + " : " + longData.toString());
+        // print("현재위치 위도 : 경도 = " + latData.toString() + " : " + longData.toString());
       }).catchError((e){
         print(e);
       });
@@ -279,7 +314,7 @@ class _NearToiletViewState extends State<NearToiletView> {
                 onPressed: (){
                   Get.back();
                 }, 
-                child: Text("확인"),
+                child: const Text("확인"),
               ),
             )
           ],
@@ -294,6 +329,35 @@ class _NearToiletViewState extends State<NearToiletView> {
     List<dynamic> listFromJson = json.decode(routeFromJsonFile);
     return listFromJson.map((json) => ToiletsModel.fromMap(json)).toList();
   }
+
+  // 지하철 역사 화장실 정보
+  getSubwayToiletJsonData() async {
+    var url = Uri.parse(
+      "https://openapi.kric.go.kr/openapi/convenientInfo/stationToilet?요청변수=값"
+    );
+  }
+
+  // 거리 계산
+  calcDistance(double toiletX, double toiletY){
+    // 두 지점 사이 거리 변수
+    String betweenDistance = '';
+
+    // 두 위치 사이 거리 계산
+    double distanceInMeters = Geolocator.distanceBetween(
+      mylat, 
+      mylng, 
+      toiletX, 
+      toiletY,
+    );
+
+    // meter 거리가  1km 미만 -> m / 1km 이상 -> km 변환
+    distanceInMeters < 1000 ? betweenDistance = "${distanceInMeters.round().toString()} m" : betweenDistance = "${(distanceInMeters.round()/1000).toString()} km";  
+    
+    print("Distance : $betweenDistance");
+
+    return betweenDistance;
+  }
+  
 
 
 }   // END

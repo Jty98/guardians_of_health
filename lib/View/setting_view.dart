@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
+import 'package:guardians_of_health_project/View/my_record_view.dart';
 import 'package:guardians_of_health_project/View/password_setting_view.dart';
 import 'package:guardians_of_health_project/main.dart';
 
@@ -26,6 +27,7 @@ class _SettingViewState extends State<SettingView> {
 
     return Scaffold(
         body: ListView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -41,7 +43,7 @@ class _SettingViewState extends State<SettingView> {
                   ),
                 ),
                 onTap: (){
-              
+                  Get.to(const MyRecordView());
                 },
               ),
             ),
