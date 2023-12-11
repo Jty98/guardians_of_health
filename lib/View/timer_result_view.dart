@@ -176,10 +176,7 @@ class TimerResultView extends StatelessWidget {
                           child: SizedBox(
                             width: 400,
                             height: 400,
-                            child: CircleAvatar(
-                              radius: 30, // 반지름 설정
-                              backgroundImage: AssetImage(imagePath),
-                            ),
+                            child: Image.asset(imagePath),
                           ),
                         ),
                         Center(
@@ -239,7 +236,13 @@ class TimerResultView extends StatelessWidget {
                                 ),
                                 const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [Text("- 대한대장항문협회 -", style: TextStyle(fontWeight: FontWeight.bold),)],
+                                  children: [
+                                    Text(
+                                      "- 대한대장항문협회 -",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 )
                               ],
                             ),

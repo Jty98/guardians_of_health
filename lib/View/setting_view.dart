@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/View/password_setting_view.dart';
+import 'package:guardians_of_health_project/main.dart';
 
   
 class SettingView extends StatefulWidget {
