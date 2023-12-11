@@ -92,66 +92,10 @@ void verifyNumberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            color: Colors.blueGrey,
-                            child: Center(
-                                child: Text(
-                              settingController.verifyPadNum.value.isEmpty
-                                  ? ""
-                                  : "*",
-                              style: const TextStyle(fontSize: 40),
-                            )),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            color: Colors.blueGrey,
-                            child: Center(
-                                child: Text(
-                              settingController.verifyPadNum.value.length < 2
-                                  ? ""
-                                  : "*",
-                              style: const TextStyle(fontSize: 40),
-                            )),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            color: Colors.blueGrey,
-                            child: Center(
-                                child: Text(
-                              settingController.verifyPadNum.value.length < 3
-                                  ? ""
-                                  : "*",
-                              style: const TextStyle(fontSize: 40),
-                            )),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            color: Colors.blueGrey,
-                            child: Center(
-                                child: Text(
-                              settingController.verifyPadNum.value.length < 4
-                                  ? ""
-                                  : "*",
-                              style: const TextStyle(fontSize: 40),
-                            )),
-                          ),
-                        ),
+                        showNumber(settingController, 1),
+                        showNumber(settingController, 2),
+                        showNumber(settingController, 3),
+                        showNumber(settingController, 4),
                       ],
                     ),
                   ),
@@ -283,3 +227,21 @@ void verifyNumberpadDialog(BuildContext context) {
     }
   });
 }
+
+  /// nuberPad 위에 버튼 누를 때 나오는 * 부분
+  Widget showNumber(SettingController settingController, int valueLength) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+      child: Container(
+        width: 60,
+        height: 60,
+        color: Colors.blueGrey,
+        child: Center(
+            child: Text(
+          settingController.padNum.value.length < valueLength ? "" : "*",
+          style: const TextStyle(fontSize: 40),
+        )),
+      ),
+    );
+  }
+

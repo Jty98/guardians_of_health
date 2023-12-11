@@ -20,7 +20,7 @@ class CalendarViewState extends State<CalendarView> {
     // ignore: unused_local_variable
     CalendarController calendarController = Get.put(CalendarController());
 
-    return  Scaffold(
+    return const Scaffold(
       body: Center(
         child: Column(
           children: [

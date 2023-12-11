@@ -48,7 +48,7 @@ class HealthInfoPage extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Text("${(index+1).toString()}. ",
                             style: TextStyle(
-                              fontSize: 25, 
+                              fontSize: 20, 
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSecondaryContainer,
                               ),
@@ -56,7 +56,7 @@ class HealthInfoPage extends StatelessWidget {
                           ),
                           Text(helthInfoList[index],
                           style: TextStyle(
-                            fontSize: 18, 
+                            fontSize: 16, 
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,),
                           ),

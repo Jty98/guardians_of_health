@@ -83,7 +83,7 @@ class TimerView extends StatelessWidget {
                       "볼일이 끝나면 여기를 눌러주세요!",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,7 +98,7 @@ class TimerView extends StatelessWidget {
               padding: EdgeInsets.all(15.0),
               child: Text(
                 "화면을 위로 올리면 장 건강정보가 나와요!",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             GetBuilder<TimerController>(

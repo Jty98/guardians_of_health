@@ -65,7 +65,7 @@ class _MainPageViewState extends State<MainPageView> {
                 "볼일을 시작하면 여기를 눌러주세요!",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
