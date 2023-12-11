@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/toilets_model.dart';
 import 'package:latlong2/latlong.dart' as latlng; 
 import 'package:flutter_map/flutter_map.dart';
@@ -24,7 +25,6 @@ class _NearToiletViewState extends State<NearToiletView> {
   late TextEditingController searchBarController;
   late bool canRun;
   late List location;
-  late List data;       // 전국 화장실 지도 받아올 데이터
 
 
   @override
@@ -34,7 +34,6 @@ class _NearToiletViewState extends State<NearToiletView> {
     searchBarController = TextEditingController();
     canRun = false;
     checkLocationPermission();      // 위치 권한 사용 동의 여부
-    data = [];
     getToiletsJsonData();
   }
 
@@ -123,13 +122,61 @@ class _NearToiletViewState extends State<NearToiletView> {
               height: 120,
               point: latlng.LatLng(toilets.x, toilets.y), 
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(toilets.name),
-                  Text(toilets.address),
-                  const Icon(
-                    Icons.location_pin,
-                    size: 50,
-                    color: Colors.blue,
+                  GestureDetector(
+                    onTap: (){
+                      showModalBottomSheet(
+                        context: context, 
+                        builder: (context) {
+                          return Container(
+                            height: 200,
+                            width: 500,
+                            child: Column(
+                              children: [
+                                Text(
+                                  toilets.name,
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                Text(
+                                  toilets.address,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                Text(
+                                  "개방시간 : ${toilets.openingHours}",
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        Text(
+                          toilets.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const Icon(
+                          Icons.location_pin,
+                          size: 50,
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -144,10 +191,21 @@ class _NearToiletViewState extends State<NearToiletView> {
               width: 120,
               height: 120,
               point: latlng.LatLng(latData, longData), 
-              child: const Icon(
-                Icons.location_pin,
-                size: 50,
-                color: Colors.red,
+              child: const Column(
+                children: [
+                  Text(
+                    "내 위치",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),
+                  ),
+                  Icon(
+                    Icons.location_pin,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                ],
               ),
             ),
           ],
@@ -171,6 +229,7 @@ class _NearToiletViewState extends State<NearToiletView> {
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
       getCurrentLocation();           // 허용하면 현재 위치 가져오는 함수 실행 
+      showNoticeModal();
     }
   }
 
@@ -188,6 +247,45 @@ class _NearToiletViewState extends State<NearToiletView> {
       }).catchError((e){
         print(e);
       });
+  }
+
+  // 지도 탭 처음 들어왔을 때 보여줄 경고창
+  showNoticeModal() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          title: const Center(child: Text("※ 알림 ※")),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: const Column(
+              children: [
+                Text(
+                  "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 주응학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
+                ),
+                Text(
+                  "지도에 표시되지 않은 화장실이 존재할 수 있음에 양해 부탁드립니다.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Center(
+              child: TextButton(
+                onPressed: (){
+                  Get.back();
+                }, 
+                child: Text("확인"),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 
   ////// 전국 화장실 (toilets.json) 데이터 불러오기
