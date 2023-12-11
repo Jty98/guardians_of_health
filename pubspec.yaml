@@ -56,9 +56,6 @@ dependencies:
   # database path
   path: ^1.8.3
 
-  # 갤러리 및 카메라에 접근
-  image_picker: ^1.0.4
-
 
   # Location 설정
   flutter_localizations:
