@@ -67,7 +67,7 @@ firstNumberpadDialog(BuildContext context) {
     builder: (context) {
       return AlertDialog(
           // backgroundColor: Colors.transparent,
-          title: const Text("비밀번호로 잠금해제"),
+          title: const Center(child: Text("비밀번호로 잠금해제")),
           content: SizedBox(
             width: 500,
             height: 550,
@@ -110,7 +110,7 @@ firstNumberpadDialog(BuildContext context) {
                   ),
                   SizedBox(
                       width: 300,
-                      height: 400,
+                      height: 420,
                       child: GridView.builder(
                         itemCount: setKeypadShape().length,
                         gridDelegate:
@@ -171,14 +171,15 @@ firstNumberpadDialog(BuildContext context) {
                                   color: settingController
                                           .buttonClickStatus[index].value
                                       ? Colors.grey
-                                      : Colors.amber,
-                                  borderRadius: BorderRadius.circular(10),
+                                      : Theme.of(context).colorScheme.tertiary,
+                                  borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Center(
                                   child: Text(
                                     "${setKeypadShape()[index]}",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 40,
+                                      color: Theme.of(context).colorScheme.onTertiary,
                                     ),
                                   ),
                                 ),
@@ -200,13 +201,13 @@ firstNumberpadDialog(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
       child: Container(
-        width: 60,
-        height: 60,
+        width: 65,
+        height: 65,
         color: Colors.blueGrey,
         child: Center(
             child: Text(
           settingController.padNum.value.length < valueLength ? "" : "*",
-          style: const TextStyle(fontSize: 40),
+          style: const TextStyle(fontSize: 45),
         )),
       ),
     );

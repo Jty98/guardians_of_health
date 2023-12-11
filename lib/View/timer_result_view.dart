@@ -139,8 +139,6 @@ class TimerResultView extends StatelessWidget {
           return SingleChildScrollView(
             child: Center(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
                     height: 70,
@@ -165,8 +163,8 @@ class TimerResultView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    width: 400,
-                    height: 400,
+                    width: 300,
+                    height: 300,
                     child: Stack(
                       children: [
                         AnimatedOpacity(
@@ -174,8 +172,8 @@ class TimerResultView extends StatelessWidget {
                               1800, timerController.opacityUpdate3),
                           duration: const Duration(milliseconds: 1800),
                           child: SizedBox(
-                            width: 400,
-                            height: 400,
+                            width: 300,
+                            height: 300,
                             child: Image.asset(imagePath),
                           ),
                         ),
@@ -201,21 +199,21 @@ class TimerResultView extends StatelessWidget {
                                     ? const Text(
                                         "당신의 평균시간과 비교해보면",
                                         style: TextStyle(
-                                          fontSize: 26,
+                                          fontSize: 22,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
                                     : const Text(
                                         "아직 기록이 없습니다.",
                                         style: TextStyle(
-                                          fontSize: 26,
+                                          fontSize: 22,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                 Text(
                                   result,
                                   style: const TextStyle(
-                                    fontSize: 26,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
