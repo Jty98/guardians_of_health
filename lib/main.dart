@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad_view.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
-import 'package:guardians_of_health_project/my_theme.dart';
 
 void main() async {
   // main 함수 비동기 처리 위해서 꼭 적어야 함. (landscpae 막기 하기위함)
   WidgetsFlutterBinding.ensureInitialized();
   SettingController settingController = Get.put(SettingController());
 
-  await dotenv.load(fileName: ".env"); // 앱 시작시 .env파일 로드
   await settingController.initPasswordValue(); // 앱 시작시 password 읽어오거나 password status 읽어오기
 
   // landscpae 막기
