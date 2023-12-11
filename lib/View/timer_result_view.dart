@@ -21,8 +21,8 @@ class TimerResultView extends StatelessWidget {
     String result = ""; // 결과를 저장할 전역 변수
     bool dataEmpty = false; // 데이터 기록이 있나 없나를 비교할 bool값
     timerController.resetOpacityValues(); // 빌드할 때 초기화
-    String fastImagePath = "assets/images/rabit_ddabong.jpeg";
-    String slowImagePath = "assets/images/tutle_ddabong.jpeg";
+    String fastImagePath = "assets/images/rabit_ddabong.png";
+    String slowImagePath = "assets/images/tutle_ddabong.png";
     String defulatImagePath = "assets/images/firecracker1.png";
     String imagePath = ""; // 결과 이미지를 띄울 경로
 
