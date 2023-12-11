@@ -48,10 +48,6 @@ dependencies:
   intl: ^0.18.1
   # 리스트 슬라이더 패키지
   flutter_slidable: ^3.0.1
-  # http (getx의 GetConnect()로 대체)
-  # http: ^1.1.2
-  # XML타입의 API를 받아오기위한 패키지
-  xml: ^6.4.2
   # .env 사용하기 위한 패키지
   flutter_dotenv: ^5.1.0
   # 생체인증 패키지

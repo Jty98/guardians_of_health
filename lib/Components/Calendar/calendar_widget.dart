@@ -117,8 +117,6 @@ class CalendarWidgetState extends State<CalendarWidget> {
                                 : Container();
                           },
                         ),
-                        holidayPredicate: (date) =>
-                            calendarController.holidayPredicate(date),
                             
                         // 토요일, 일요일 글씨색
                         calendarStyle: const CalendarStyle(
@@ -129,12 +127,6 @@ class CalendarWidgetState extends State<CalendarWidget> {
                           // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
                         ),
                         // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
-                        onPageChanged: (focusedDay) {
-                          calendarController.selectedDay.value = focusedDay;
-                          // API로 휴일정보 받아와서 RxList에 휴일 이름과 날짜 넣어주는 함수
-                          calendarController.getHolidayData(focusedDay.year,
-                              formmatedDateType(focusedDay.month.toString()));
-                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -183,11 +175,6 @@ class CalendarWidgetState extends State<CalendarWidget> {
     calendarController.changeSelectedDay(selectedDay);
   }
 
-  /// 1 ~ 9월에 0 붙여서 api형식 맞추는 함수
-  String formmatedDateType(String month) {
-    String formattedMonth = month.padLeft(2, '0');
-    return formattedMonth;
-  }
 }
 
 // End
