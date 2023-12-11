@@ -107,6 +107,9 @@ flutter:
     - assets/images/
     # 프로젝트root에 .env 파일 등록
     - .env
+    # 프로젝트 json 파일 사용
+    - assets/json/
+    
 
   fonts:
     - family: NotoSansKR-Bold

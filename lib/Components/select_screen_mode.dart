@@ -5,8 +5,9 @@ import 'package:guardians_of_health_project/main.dart';
 import 'package:guardians_of_health_project/my_theme.dart';
 
 class SelectScreenMode extends StatefulWidget {
-  const SelectScreenMode({super.key});   
-  // final Function(ThemeMode) onChangeTheme;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
+  final Function(ThemeMode) onChangeTheme;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
+  final Function(Color) onChangeThemeColor;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
+  const SelectScreenMode({super.key, required this.onChangeTheme, required this.onChangeThemeColor});   
 
   @override
   State<SelectScreenMode> createState() => _SelectScreenModeState();
@@ -23,7 +24,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
 
   @override
   Widget build(BuildContext context) {
-    MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
+    // MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.6,
@@ -48,8 +49,8 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                 GestureDetector(
                   onTap: (){
                     // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
-                    isDarkMode ? myAppState?.changeThemeMode(ThemeMode.dark)
-                                : myAppState?.changeThemeMode(ThemeMode.light);
+                    isDarkMode ? widget.onChangeTheme(ThemeMode.dark)
+                                : widget.onChangeTheme(ThemeMode.light);
                     setState(() {
                       
                     });
@@ -78,8 +79,8 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                             value: isDarkMode, 
                             onChanged: (value) {
                               isDarkMode = value;
-                              value ? myAppState!.changeThemeMode(ThemeMode.dark)
-                                : myAppState!.changeThemeMode(ThemeMode.light);
+                              value ? widget.onChangeTheme(ThemeMode.dark)
+                                : widget.onChangeTheme(ThemeMode.light);
                               setState(() {
                                 
                               });
@@ -99,13 +100,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
             children: [
               GestureDetector(
                 onTap: (){
-                  //myAppState?.changeSeedColor(Colors.red);
-                  MyTheme.seedColor = Colors.red;
+                  widget.onChangeThemeColor(Colors.red);
                   setState(() {
                     
                   });
                   print("터치 됐당 ");
-                  print(MyTheme.seedColor.toString());                  
+                  // print(MyAppState().seedColor.toString());                  
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -121,12 +121,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
               GestureDetector(
                 onTap: (){
-                  MyTheme.seedColor = Colors.yellow;
+                  widget.onChangeThemeColor(Colors.yellow);
                   setState(() {
                     
                   });
                   print("터치 됐당 ");
-                  print(MyTheme.seedColor.toString());                  
+                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -142,12 +142,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
               GestureDetector(
                 onTap: (){
-                  MyTheme.seedColor = Colors.green;
+                  widget.onChangeThemeColor(Colors.green);
                   setState(() {
                     
                   });
                   print("터치 됐당 ");
-                  print(MyTheme.seedColor.toString());                  
+                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -163,12 +163,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
               GestureDetector(
                 onTap: (){
-                  MyTheme.seedColor = Colors.blue;
+                  widget.onChangeThemeColor(Colors.blue);
                   setState(() {
                     
                   });
                   print("터치 됐당 ");
-                  print(MyTheme.seedColor.toString());                  
+                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -185,12 +185,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               GestureDetector(
                 onTap: (){
                   print("터치 전이당");
-                  MyTheme.seedColor = Colors.purple;
+                  widget.onChangeThemeColor(Colors.purple);
                   setState(() {
                     
                   });
                   print("터치 됐당 ");
-                  print(MyTheme.seedColor.toString());
+                  // print(MyTheme.seedColor.toString());
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -209,7 +209,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: (){
-              MyTheme.seedColor = Colors.white;
+              // MyTheme.seedColor = Colors.white;
             }, 
             child: const Text("기본 스타일로 변경"),
           )

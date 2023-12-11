@@ -36,20 +36,20 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;      // system : 사용자가 정해둔 대로 보여준다. 
-  // static var seedColor = Colors.white;
+  static var seedColor = Colors.white;
 
   changeThemeMode(ThemeMode themeMode){     // _ : private 함수
     _themeMode = themeMode;       // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌. 
-    setState(() {
+    // setState(() {
       
-    });
+    // });
   }
 
-  changeSeedColor(Color seedColor) {
-    MyTheme.seedColor = seedColor;
-    setState(() {
+  changeSeedColor(Color getSeedColor) {
+    seedColor = getSeedColor;
+    // setState(() {
       
-    });
+    // });
   }
 
 
@@ -75,9 +75,9 @@ class MyAppState extends State<MyApp> {
       // === Theme 세팅 시작 ===
       // themeMode: _themeMode,
       themeMode: _themeMode,
-      darkTheme: MyTheme.darkTheme,
-      theme: MyTheme.lightTheme,     
-      color: MyTheme.seedColor,
+      darkTheme: modeDarkTheme(),
+      theme: modeLightTheme(),     
+      // color: _seedColor,
 
       // === Theme 세팅 끝 ===
       home: const Home(),
@@ -85,4 +85,43 @@ class MyAppState extends State<MyApp> {
       
     );
   }
-}
+
+  modeDarkTheme() {
+    ThemeData(
+      brightness: Brightness.dark,
+      useMaterial3: true,
+      colorSchemeSeed: seedColor,
+      fontFamily: "omyu-pretty",
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
+            ),
+          ),
+        ),
+      ),
+    ); 
+  }
+
+  modeLightTheme() {
+    ThemeData(
+      brightness: Brightness.light,
+      useMaterial3: true,
+      colorSchemeSeed: seedColor,
+      fontFamily: "omyu-pretty",
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
+            ),
+          ),
+        ),
+      ),
+    ); 
+  }
+
+
+
+}   // END

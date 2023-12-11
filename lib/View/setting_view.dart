@@ -21,6 +21,8 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
+    MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
+
     return Scaffold(
         body: ListView(
           children: [
@@ -97,7 +99,7 @@ class _SettingViewState extends State<SettingView> {
                     isScrollControlled: true,
                     context: context,
                     builder: (BuildContext context) {
-                      return const SelectScreenMode();
+                      return SelectScreenMode(onChangeTheme: myAppState!.changeThemeMode(ThemeMode.light), onChangeThemeColor: myAppState!.changeSeedColor(Colors.white));
                     }
                   );
                 },
