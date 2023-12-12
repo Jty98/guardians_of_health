@@ -50,6 +50,8 @@ dependencies:
   flutter_slidable: ^3.0.1
   # 생체인증 패키지
   local_auth: ^2.1.7
+  # 반응형 레이아웃 패키지
+  flutter_screenutil: ^5.9.0
   
   # sqlite
   sqflite: ^2.3.0

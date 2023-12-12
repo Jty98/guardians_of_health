@@ -4,13 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-class HealthInfoPage extends StatelessWidget {
-  const HealthInfoPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Property
-    List<String> helthInfoList = [
+const List<String> helthInfoList = [
       "야채, 수분, 식이섬유는 많이! 육류와 기름진건 적게!",
       "술, 담배 NO!, 유산균 YES!",
       "화장실에서 휴대폰, 신문, 독서는 피하기!",
@@ -18,6 +12,14 @@ class HealthInfoPage extends StatelessWidget {
       "항문 출혈, 통증, 종괴, 분비물이 있으면\n   대장항문외과 전문의에게 진료받기!",
       "1주일 5회 30분씩 중~고강도의 운동 실천하기!",
     ];
+
+class HealthInfoPage extends StatelessWidget {
+  const HealthInfoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Property
+    
 
     return Scaffold(
       body: Center(

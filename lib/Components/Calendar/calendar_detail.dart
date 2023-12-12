@@ -102,7 +102,6 @@ class CalendarDetail extends StatelessWidget {
                           label: "기록삭제",
                           onPressed: (context) {
                             calendarController.deleteRecord(id);
-                            // ignore: invalid_use_of_protected_member
                             parent?.setState(() {});
                             deleteSnackbar(context);
                           },
