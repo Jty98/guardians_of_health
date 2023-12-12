@@ -82,10 +82,15 @@ void verifyNumberpadDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-          title: const Center(child: Text("비밀번호 확인")),
+          title: const Center(
+            child: Text(
+              "비밀번호 확인",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           content: SizedBox(
-            width: MediaQuery.of(context).size.width.w * 0.85,
-            height: MediaQuery.of(context).size.height.h * 0.85,
+            width: 450.w,
+            height: 620.h,
             child: Center(
               child: Column(
                 children: [
@@ -125,89 +130,89 @@ void verifyNumberpadDialog(BuildContext context) {
                   SizedBox(
                     height: 10.h,
                   ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width.w * 0.62,
-                      height: MediaQuery.of(context).size.height.h * 0.62,
-                      child: GridView.builder(
-                        itemCount: setKeypadShape().length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                        ),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // index값에 true넣어주기
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: setKeypadShape().length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                      ),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            // index값에 true넣어주기
+                            settingController.buttonClickStatus[index].value =
+                                true;
+
+                            // 키패드의 index를 padNum에 추가시키기
+                            settingController.verifyPadNum.value +=
+                                setKeypadShape()[index].toString();
+
+                            if (settingController.verifyPadNum.value.length ==
+                                4) {
+                              // verifyNumber에서 true return해주면 성공했다고 띄워주기
+                              if (saveNumber() == true) {
+                                settingController.saveStatus = true;
+                                // 바로 삭제할수도 있어서 또 불러와서 id 조회
+                                settingController.initPasswordValue();
+                                Get.back();
+                                showSnackbar(
+                                  result: "저장 성공",
+                                  resultText: "비밀번호가 성공적으로 설정되었습니다.",
+                                  resultbackColor:
+                                      Theme.of(context).colorScheme.tertiary,
+                                  resultTextColor:
+                                      Theme.of(context).colorScheme.onTertiary,
+                                );
+                              } else {
+                                showSnackbar(
+                                  result: "저장 실패",
+                                  resultText: "비밀번호가 일치하지 않습니다.",
+                                  resultbackColor:
+                                      Theme.of(context).colorScheme.error,
+                                  resultTextColor:
+                                      Theme.of(context).colorScheme.onError,
+                                );
+                              }
+                            }
+
+                            // 2초 뒤에 false 넣어줘서 원상복구하기
+                            Timer(const Duration(milliseconds: 200), () {
                               settingController.buttonClickStatus[index].value =
-                                  true;
-
-                              // 키패드의 index를 padNum에 추가시키기
-                              settingController.verifyPadNum.value +=
-                                  setKeypadShape()[index].toString();
-
-                              if (settingController.verifyPadNum.value.length ==
-                                  4) {
-                                // verifyNumber에서 true return해주면 성공했다고 띄워주기
-                                if (saveNumber() == true) {
-                                  settingController.saveStatus = true;
-                                  // 바로 삭제할수도 있어서 또 불러와서 id 조회
-                                  settingController.initPasswordValue();
-                                  Get.back();
-                                  showSnackbar(
-                                    result: "저장 성공",
-                                    resultText: "비밀번호가 성공적으로 설정되었습니다.",
-                                    resultbackColor:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    resultTextColor: Theme.of(context)
+                                  false;
+                            });
+                          },
+                          child: Obx(
+                            () => AnimatedContainer(
+                              duration: const Duration(milliseconds: 500),
+                              decoration: BoxDecoration(
+                                color: settingController
+                                        .buttonClickStatus[index].value
+                                    ? Colors.grey
+                                    : Theme.of(context).colorScheme.tertiary,
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "${setKeypadShape()[index]}",
+                                  style: TextStyle(
+                                    fontSize: 40.sp,
+                                    color: Theme.of(context)
                                         .colorScheme
                                         .onTertiary,
-                                  );
-                                } else {
-                                  showSnackbar(
-                                    result: "저장 실패",
-                                    resultText: "비밀번호가 일치하지 않습니다.",
-                                    resultbackColor:
-                                        Theme.of(context).colorScheme.error,
-                                    resultTextColor:
-                                        Theme.of(context).colorScheme.onError,
-                                  );
-                                }
-                              }
-
-                              // 2초 뒤에 false 넣어줘서 원상복구하기
-                              Timer(const Duration(milliseconds: 200), () {
-                                settingController
-                                    .buttonClickStatus[index].value = false;
-                              });
-                            },
-                            child: Obx(
-                              () => AnimatedContainer(
-                                duration: const Duration(milliseconds: 500),
-                                decoration: BoxDecoration(
-                                  color: settingController
-                                          .buttonClickStatus[index].value
-                                      ? Colors.grey
-                                      : Theme.of(context).colorScheme.tertiary,
-                                  borderRadius: BorderRadius.circular(100.r),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "${setKeypadShape()[index]}",
-                                    style: TextStyle(
-                                      fontSize: 40.sp,
-                                      color: Theme.of(context).colorScheme.onTertiary,
-                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      )),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -230,20 +235,21 @@ void verifyNumberpadDialog(BuildContext context) {
   });
 }
 
-  /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-  Widget showNumber(SettingController settingController, int valueLength, BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
-      child: Container(
-        width: 50.w,
-        height: 50.h,
-        color: Colors.blueGrey,
-        child: Center(
-            child: Text(
-          settingController.verifyPadNum.value.length < valueLength ? "" : "*",
-          style: TextStyle(fontSize: 35.sp),
-          textAlign: TextAlign.center,
-        )),
-      ),
-    );
-  }
+/// nuberPad 위에 버튼 누를 때 나오는 * 부분
+Widget showNumber(SettingController settingController, int valueLength,
+    BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+    child: Container(
+      width: 60.w,
+      height: 60.h,
+      color: Colors.blueGrey,
+      child: Center(
+          child: Text(
+        settingController.verifyPadNum.value.length < valueLength ? "" : "*",
+        style: TextStyle(fontSize: 35.sp),
+        textAlign: TextAlign.center,
+      )),
+    ),
+  );
+}

@@ -2,6 +2,7 @@
   기능: 타이머가 끝났을 때의 화면, 기록을 보여주고 저장하는 뷰
 */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -272,7 +273,17 @@ class TimerResultView extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () => insertBottomSheet(context),
-                    child: const Text("기록 남기러가기"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    child: Text(
+                      "기록 남기러가기",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onTertiary,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 30.h,
@@ -287,12 +298,16 @@ class TimerResultView extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        const Icon(Icons.refresh),
+                        Icon(
+                          Icons.refresh,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
                         Text(
                           "다시하기",
                           style: TextStyle(
-                            fontSize: 14.sp,
-                          ),
+                              fontSize: 14.sp,
+                              color: Theme.of(context).colorScheme.tertiary,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

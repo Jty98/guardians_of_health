@@ -175,7 +175,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(393, 852), // IPhone 14 & 15 Pro 기기 해상도
+      designSize: const Size(430, 932), // IPhone 14 & 15 ProMax 기기 해상도
       builder: (context, child) {
         final settingController = Get.find<SettingController>();
 

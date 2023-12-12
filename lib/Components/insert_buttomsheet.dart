@@ -89,7 +89,7 @@ void insertBottomSheet(BuildContext context) {
                 () {
                   return Container(
                     padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
-                    height: MediaQuery.of(context).size.height / 1.3.h + bottomInset,
+                    height: MediaQuery.of(context).size.height.h * 0.8 + bottomInset,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: bottomInset),
@@ -141,7 +141,7 @@ void insertBottomSheet(BuildContext context) {
                               child: starRatingbar(timerController),
                             ),
                             SizedBox(
-                              height: 10.sp,
+                              height: 10.h,
                             ),
                             Text(
                               "변 모양",

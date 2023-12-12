@@ -94,7 +94,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                   return Column(
                     children: [
                       TableCalendar(
-                        rowHeight: 43.h,
+                        rowHeight: 42.h,
                         focusedDay: calendarController.selectedDay.value!,
                         firstDay: DateTime.utc(2000, 1, 1),
                         lastDay: DateTime.utc(2050, 12, 31),
@@ -142,6 +142,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                       ),
                       SizedBox(
                         height: 320.h,
+                        // height: MediaQuery.of(context).size.height.h * 0.3,
                         child: CalendarDetail(
                           listLength: calendarController
                               .getEventsForDay(
