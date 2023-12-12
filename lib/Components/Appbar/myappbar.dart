@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // AppBar를 위젯으로 쓰기 위해서는 사이즈 문제 때문에 implements PreferredSizeWidget를 해줘야함
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,5 +21,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // preferredSize 지정
-  Size get preferredSize => const Size.fromHeight(56);
+  Size get preferredSize => Size.fromHeight(56.h);
 }

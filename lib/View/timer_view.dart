@@ -57,7 +57,7 @@ class TimerView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 300.0.w,
+              width: 350.0.w,
               height: 350.0.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(200.0.r),

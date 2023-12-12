@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 
@@ -40,7 +41,7 @@ void verifyNumberpadDialog(BuildContext context) {
           result,
           style: TextStyle(
               color: resultTextColor,
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
@@ -48,15 +49,15 @@ void verifyNumberpadDialog(BuildContext context) {
           resultText,
           style: TextStyle(
               color: resultTextColor,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         duration: const Duration(milliseconds: 800),
         backgroundColor: resultbackColor,
         snackPosition: SnackPosition.TOP,
-        borderRadius: 50, // 둥글게하기
-        margin: const EdgeInsets.fromLTRB(60, 10, 60, 10), // 마진값으로 사이즈 조절
+        borderRadius: 50.r, // 둥글게하기
+        margin: EdgeInsets.fromLTRB(60.w, 10.h, 60.w, 10.h), // 마진값으로 사이즈 조절
       ),
     );
     settingController.verifyPadNum = "".obs; // 비밀번호 확인 리스트 초기화
@@ -83,8 +84,8 @@ void verifyNumberpadDialog(BuildContext context) {
       return AlertDialog(
           title: const Center(child: Text("비밀번호 확인")),
           content: SizedBox(
-            width: 500,
-            height: 550,
+            width: MediaQuery.of(context).size.width.w * 0.85,
+            height: MediaQuery.of(context).size.height.h * 0.85,
             child: Center(
               child: Column(
                 children: [
@@ -92,10 +93,10 @@ void verifyNumberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        showNumber(settingController, 1),
-                        showNumber(settingController, 2),
-                        showNumber(settingController, 3),
-                        showNumber(settingController, 4),
+                        showNumber(settingController, 1, context),
+                        showNumber(settingController, 2, context),
+                        showNumber(settingController, 3, context),
+                        showNumber(settingController, 4, context),
                       ],
                     ),
                   ),
@@ -121,12 +122,12 @@ void verifyNumberpadDialog(BuildContext context) {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   SizedBox(
-                      width: 300,
-                      height: 420,
+                      width: MediaQuery.of(context).size.width.w * 0.62,
+                      height: MediaQuery.of(context).size.height.h * 0.62,
                       child: GridView.builder(
                         itemCount: setKeypadShape().length,
                         gridDelegate:
@@ -168,7 +169,7 @@ void verifyNumberpadDialog(BuildContext context) {
                                 } else {
                                   showSnackbar(
                                     result: "저장 실패",
-                                    resultText: "비밀번호가 일치하지 않습니다. 다시 시도해주세요.",
+                                    resultText: "비밀번호가 일치하지 않습니다.",
                                     resultbackColor:
                                         Theme.of(context).colorScheme.error,
                                     resultTextColor:
@@ -191,13 +192,13 @@ void verifyNumberpadDialog(BuildContext context) {
                                           .buttonClickStatus[index].value
                                       ? Colors.grey
                                       : Theme.of(context).colorScheme.tertiary,
-                                  borderRadius: BorderRadius.circular(100),
+                                  borderRadius: BorderRadius.circular(100.r),
                                 ),
                                 child: Center(
                                   child: Text(
                                     "${setKeypadShape()[index]}",
                                     style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 40.sp,
                                       color: Theme.of(context).colorScheme.onTertiary,
                                     ),
                                   ),
@@ -230,19 +231,19 @@ void verifyNumberpadDialog(BuildContext context) {
 }
 
   /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-  Widget showNumber(SettingController settingController, int valueLength) {
+  Widget showNumber(SettingController settingController, int valueLength, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+      padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
       child: Container(
-        width: 65,
-        height: 65,
+        width: 50.w,
+        height: 50.h,
         color: Colors.blueGrey,
         child: Center(
             child: Text(
           settingController.verifyPadNum.value.length < valueLength ? "" : "*",
-          style: const TextStyle(fontSize: 45),
+          style: TextStyle(fontSize: 35.sp),
+          textAlign: TextAlign.center,
         )),
       ),
     );
   }
-

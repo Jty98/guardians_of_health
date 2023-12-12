@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MarkerStyle{
 
@@ -17,14 +18,14 @@ AnimatedContainer buildCalendarDayMarker({
       shape: BoxShape.rectangle,
       color: backColor,
     ),
-    width: 50,
-    height: 13,
+    width: 48.w,
+    height: 12.h,
     child: Center(
       child: Text(
         text,
         style: const TextStyle().copyWith(
           color: Colors.white,
-          fontSize: 11.0,
+          fontSize: 10.0.sp,
           fontWeight: FontWeight.bold,
         ),
       ),

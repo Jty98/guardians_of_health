@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Calendar/calendar_widget.dart';
@@ -47,17 +48,17 @@ class CalendarDetail extends StatelessWidget {
               .getEventsForDay(
                   calendarController.selectedDay.value!, recordList)
               .isEmpty
-          ? const Center(
+          ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "🥲",
-                    style: TextStyle(fontSize: 60),
+                    style: TextStyle(fontSize: 60.sp),
                   ),
                   Text(
                     "아직 소식이 없다니 유감입니다..",
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: 30.sp),
                   )
                 ],
               ),
@@ -102,6 +103,7 @@ class CalendarDetail extends StatelessWidget {
                           label: "기록삭제",
                           onPressed: (context) {
                             calendarController.deleteRecord(id);
+                            // ignore: invalid_use_of_protected_member
                             parent?.setState(() {});
                             deleteSnackbar(context);
                           },
@@ -113,14 +115,14 @@ class CalendarDetail extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   ddongTime,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
@@ -130,7 +132,7 @@ class CalendarDetail extends StatelessWidget {
                                 Text(
                                   "소요시간: ${formattedTakenTime(index, takenTime)}",
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 18.sp,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSecondary,
@@ -142,24 +144,24 @@ class CalendarDetail extends StatelessWidget {
                           Text(
                             "만족도",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSecondary,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                             child: starRatingbar(rating),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   "모양",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
@@ -170,7 +172,7 @@ class CalendarDetail extends StatelessWidget {
                                   // shape,
                                   event.shape,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                     color: returnShapeTextColor(shape),
                                   ),
@@ -178,7 +180,7 @@ class CalendarDetail extends StatelessWidget {
                                 Text(
                                   "변색상",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
@@ -186,14 +188,14 @@ class CalendarDetail extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: 20,
-                                  height: 20,
+                                  width: 20.w,
+                                  height: 20.h,
                                   color: returnDdongColor(color),
                                 ),
                                 Text(
                                   "냄새단계",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
@@ -204,7 +206,7 @@ class CalendarDetail extends StatelessWidget {
                                   // smell,
                                   event.smell,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                     color: returnSmellTextColor(smell),
                                   ),
@@ -213,13 +215,13 @@ class CalendarDetail extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                             child: Row(
                               children: [
                                 Text(
                                   "특이사항 내용",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
@@ -230,7 +232,7 @@ class CalendarDetail extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(6, 0, 6, 10),
+                            padding: EdgeInsets.fromLTRB(6.w, 0.h, 6.w, 10.h),
                             child: TextField(
                               style: TextStyle(
                                 color:
@@ -247,8 +249,8 @@ class CalendarDetail extends StatelessWidget {
                                         .colorScheme
                                         .onSecondary,
                                   ),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20.r)),
                                 ),
                               ),
                             ),
@@ -310,7 +312,7 @@ class CalendarDetail extends StatelessWidget {
       rating: resultRating,
       direction: Axis.horizontal,
       itemCount: 5,
-      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      itemPadding: EdgeInsets.symmetric(horizontal: 4.0.h),
       itemBuilder: (context, index) {
         switch (index) {
           case 0:

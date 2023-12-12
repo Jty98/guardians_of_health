@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const List<String> helthInfoList = [
       "야채, 수분, 식이섬유는 많이! 육류와 기름진건 적게!",
@@ -26,11 +27,11 @@ class HealthInfoPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 60,),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
+            SizedBox(height: 60.h,),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
               child: Text("대한대장항문협회 대장건강 6계명",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -41,16 +42,16 @@ class HealthInfoPage extends StatelessWidget {
                 itemCount: 6,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                     child: Card(
                       color: Theme.of(context).colorScheme.secondaryContainer,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                             child: Text("${(index+1).toString()}. ",
                             style: TextStyle(
-                              fontSize: 20, 
+                              fontSize: 20.sp, 
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSecondaryContainer,
                               ),
@@ -58,7 +59,7 @@ class HealthInfoPage extends StatelessWidget {
                           ),
                           Text(helthInfoList[index],
                           style: TextStyle(
-                            fontSize: 16, 
+                            fontSize: 16.sp, 
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,),
                           ),

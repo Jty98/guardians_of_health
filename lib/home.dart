@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
         hideNavigationBarWhenKeyboardShows:
             true, // resizeToAvoidBottomInset를 돕는애
         decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(100.0),
+          borderRadius: BorderRadius.circular(100.0.r),
           // colorBehindNavBar: Colors.red,
         ),
         // // popAllScreensOnTapOfSelectedTab: true,
@@ -55,7 +55,8 @@ class Home extends StatelessWidget {
         //   // curve: Curves.ease,
         //   duration: Duration(milliseconds: 100),
         // ),
-        navBarHeight: 80.h,
+        // navBarHeight: 80.h,
+        navBarHeight: MediaQuery.of(context).size.height.h * 0.14,
         navBarStyle: NavBarStyle.style11,
       ),
     );

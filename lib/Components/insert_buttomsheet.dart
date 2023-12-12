@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
@@ -25,8 +26,8 @@ void insertBottomSheet(BuildContext context) {
   // 모양을 담은 Sizedbox 크기
   List<SizedBox> shapeContainer = imagePaths.map((path) {
     return SizedBox(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       child: Image.asset(path),
     );
   }).toList();
@@ -44,11 +45,11 @@ void insertBottomSheet(BuildContext context) {
   List<Widget> coloredContainers = List.generate(
     containerColors.length,
     (index) => Container(
-      width: 35,
-      height: 35,
+      width: 35.w,
+      height: 35.w,
       decoration: BoxDecoration(
         color: containerColors[index],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
     ),
   );
@@ -59,11 +60,11 @@ void insertBottomSheet(BuildContext context) {
   // 냄새 리스트 버튼
   List<SizedBox> smellsSizedbox = labels.map((label) {
     return SizedBox(
-      width: 40,
-      height: 40,
+      width: 40.w,
+      height: 40.h,
       child: Text(
         label,
-        style: const TextStyle(fontSize: 25),
+        style: TextStyle(fontSize: 25.sp),
         textAlign: TextAlign.center,
       ),
     );
@@ -87,8 +88,8 @@ void insertBottomSheet(BuildContext context) {
               child: Obx(
                 () {
                   return Container(
-                    padding: const EdgeInsets.all(5.0),
-                    height: MediaQuery.of(context).size.height / 1.3 + bottomInset,
+                    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
+                    height: MediaQuery.of(context).size.height / 1.3.h + bottomInset,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: bottomInset),
@@ -96,25 +97,23 @@ void insertBottomSheet(BuildContext context) {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                                     child: Text(
                                       "쾌변기록",
                                       style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 25.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                    padding: EdgeInsets.fromLTRB(5.w, 0.h, 5.w, 5.h),
                                     child: SizedBox(
-                                      // height: 20,
-                                      // width: 20,
                                       child: IconButton(
                                         onPressed: () {
                                           timerController.resetBottomSheetValues();
@@ -130,96 +129,96 @@ void insertBottomSheet(BuildContext context) {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.h,
                             ),
-                            const Text(
+                            Text(
                               "만족도",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                               child: starRatingbar(timerController),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.sp,
                             ),
-                            const Text(
+                            Text(
                               "변 모양",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                             ToggleButtons(
                               onPressed: (int index) {
                                 timerController.selectedShapeFunc(index);
                               },
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                              borderRadius: BorderRadius.all(Radius.circular(8.r)),
                               selectedBorderColor: Colors.grey,
                               selectedColor: Colors.white,
                               fillColor: Colors.blueGrey,
                               color: Colors.black,
-                              constraints: const BoxConstraints(
-                                minHeight: 45.0,
-                                minWidth: 45.0,
+                              constraints: BoxConstraints(
+                                minHeight: 45.0.h,
+                                minWidth: 45.0.w,
                               ),
                               isSelected: timerController.selectedShape,
                               children: shapeContainer,
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.h,
                             ),
-                            const Text(
+                            Text(
                               "색상",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                             ToggleButtons(
                               onPressed: (int index) {
                                 timerController.selectedColorsFunc(index);
                               },
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                              borderRadius: BorderRadius.all(Radius.circular(8.r)),
                               selectedBorderColor: Colors.grey,
                               selectedColor: Colors.white,
                               fillColor: Colors.blueGrey,
                               color: Colors.black,
-                              constraints: const BoxConstraints(
-                                minHeight: 45.0,
-                                minWidth: 45.0,
+                              constraints: BoxConstraints(
+                                minHeight: 45.0.h,
+                                minWidth: 45.0.w,
                               ),
                               isSelected: timerController.selectedColors,
                               children: coloredContainers,
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.h,
                             ),
-                            const Text(
+                            Text(
                               "냄새",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                             ToggleButtons(
                               onPressed: (int index) {
                                 timerController.selectedSmellsFunc(index);
                               },
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                              borderRadius: BorderRadius.all(Radius.circular(8.r)),
                               selectedBorderColor: Colors.grey,
                               selectedColor: Colors.white,
                               fillColor: Colors.blueGrey,
                               color: Colors.black,
-                              constraints: const BoxConstraints(
-                                minHeight: 45.0,
-                                minWidth: 45.0,
+                              constraints: BoxConstraints(
+                                minHeight: 45.0.h,
+                                minWidth: 45.0.w,
                               ),
                               isSelected: timerController.selectedSmells,
                               children: smellsSizedbox,
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.h,
                             ),
-                            const Text(
+                            Text(
                               "일지",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18.sp),
                             ),
                             SizedBox(
-                              height: 150,
-                              width: 300,
+                              height: 150.h,
+                              width: 300.w,
                               child: TextField(
                                 controller: timerController.resultTextController,
                                 maxLines: 3,
@@ -263,11 +262,11 @@ _showDialog(BuildContext context) {
     middleText: "결과가 저장 되었습니다.",
     titleStyle: TextStyle(
         color: Theme.of(context).colorScheme.onTertiary,
-        fontSize: 20,
+        fontSize: 20.sp,
         fontWeight: FontWeight.bold),
     middleTextStyle: TextStyle(
         color: Theme.of(context).colorScheme.onTertiary,
-        fontSize: 20,
+        fontSize: 20.sp,
         fontWeight: FontWeight.bold),
     actions: [
       TextButton(
@@ -280,7 +279,7 @@ _showDialog(BuildContext context) {
           "돌아가기",
           style: TextStyle(
               color: Theme.of(context).colorScheme.onTertiary,
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold),
         ),
       ),

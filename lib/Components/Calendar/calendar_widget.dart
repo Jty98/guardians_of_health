@@ -94,7 +94,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                   return Column(
                     children: [
                       TableCalendar(
-                        rowHeight: 45.h,
+                        rowHeight: 43.h,
                         focusedDay: calendarController.selectedDay.value!,
                         firstDay: DateTime.utc(2000, 1, 1),
                         lastDay: DateTime.utc(2050, 12, 31),
@@ -129,8 +129,8 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         ),
                         // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 10.h,
                       ),
                       TodayBanner(
                         selectedDate: calendarController.selectedDay.value!,
@@ -159,12 +159,12 @@ class CalendarWidgetState extends State<CalendarWidget> {
               ),
             );
           }
-          return const SizedBox(
-            height: 300,
+          return SizedBox(
+            height: 300.h,
           );
         } else {
-          return const SizedBox(
-            height: 300,
+          return SizedBox(
+            height: 300.h,
           );
         }
       },

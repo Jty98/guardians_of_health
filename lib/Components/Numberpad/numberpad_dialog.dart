@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/verify_numberpad_dialog.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
@@ -37,10 +38,11 @@ void numberpadDialog(BuildContext context) {
     builder: (context) {
       return AlertDialog(
           // backgroundColor: Colors.transparent,
+          scrollable: false,
           title: const Center(child: Text("비밀번호 설정")),
           content: SizedBox(
-            width: 500,
-            height: 550,
+            width: MediaQuery.of(context).size.width.w * 0.85,
+            height: MediaQuery.of(context).size.height.h * 0.85,
             child: Center(
               child: Column(
                 children: [
@@ -48,10 +50,10 @@ void numberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        showNumber(settingController, 1),
-                        showNumber(settingController, 2),
-                        showNumber(settingController, 3),
-                        showNumber(settingController, 4),
+                        showNumber(settingController, 1, context),
+                        showNumber(settingController, 2, context),
+                        showNumber(settingController, 3, context),
+                        showNumber(settingController, 4, context),
                       ],
                     ),
                   ),
@@ -74,12 +76,12 @@ void numberpadDialog(BuildContext context) {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   SizedBox(
-                      width: 300,
-                      height: 420,
+                      width: MediaQuery.of(context).size.width.w * 0.62,
+                      height: MediaQuery.of(context).size.height.h * 0.62,
                       child: GridView.builder(
                         itemCount: setKeypadShape().length,
                         gridDelegate:
@@ -124,13 +126,13 @@ void numberpadDialog(BuildContext context) {
                                           .buttonClickStatus[index].value
                                       ? Colors.grey
                                       : Theme.of(context).colorScheme.tertiary,
-                                  borderRadius: BorderRadius.circular(100),
+                                  borderRadius: BorderRadius.circular(100.r),
                                 ),
                                 child: Center(
                                   child: Text(
                                     "${setKeypadShape()[index]}",
                                     style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 40.sp,
                                       color: Theme.of(context).colorScheme.onTertiary,
                                     ),
                                   ),
@@ -160,17 +162,18 @@ void numberpadDialog(BuildContext context) {
 }
 
 /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-Widget showNumber(SettingController settingController, int valueLength) {
+Widget showNumber(SettingController settingController, int valueLength, BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+    padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
     child: Container(
-      width: 65,
-      height: 65,
+      width: 50.w,
+      height: 50.h,
       color: Colors.blueGrey,
       child: Center(
           child: Text(
         settingController.padNum.value.length < valueLength ? "" : "*",
-        style: const TextStyle(fontSize: 45),
+        style: TextStyle(fontSize: 35.sp),
+        textAlign: TextAlign.center,
       )),
     ),
   );
