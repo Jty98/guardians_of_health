@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/health_info.dart';
@@ -56,10 +57,10 @@ class TimerView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 350.0,
-              height: 350.0,
+              width: 300.0.w,
+              height: 350.0.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(200.0),
+                borderRadius: BorderRadius.circular(200.0.r),
                 color: Colors.green,
               ),
               child: Center(
@@ -69,21 +70,21 @@ class TimerView extends StatelessWidget {
                     Obx(() {
                       return Text(
                         timerController.formattedTime(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
-                          fontSize: 40,
+                          fontSize: 40.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       );
                     }),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
-                    const Text(
+                    Text(
                       "볼일이 끝나면 여기를 눌러주세요!",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -91,14 +92,14 @@ class TimerView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 40.h,
             ),
-            const Padding(
-              padding: EdgeInsets.all(15.0),
+            Padding(
+              padding: EdgeInsets.all(15.0.w),
               child: Text(
                 "화면을 위로 올리면 장 건강정보가 나와요!",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
             GetBuilder<TimerController>(

@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
@@ -53,19 +54,19 @@ class _MainPageViewState extends State<MainPageView> {
           child: AnimatedContainer(
             duration: const Duration(seconds: 2),
             curve: Curves.easeInOut,
-            width: animationStatus ? 320.0 : 370.0,
-            height: animationStatus ? 320.0 : 370.0,
+            width: animationStatus ? 320.0.w : 370.0.w,
+            height: animationStatus ? 320.0.h : 370.0.h,
             decoration: BoxDecoration(
               color:
                   animationStatus ? Colors.green[500] : Colors.amber[500],
-              borderRadius: BorderRadius.circular(200.0),
+              borderRadius: BorderRadius.circular(200.0.r),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 "볼일을 시작하면 여기를 눌러주세요!",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

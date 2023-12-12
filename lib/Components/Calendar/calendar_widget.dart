@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Calendar/calendar_detail.dart';
 import 'package:guardians_of_health_project/Components/Calendar/calendar_todaybanner.dart';
@@ -93,7 +94,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                   return Column(
                     children: [
                       TableCalendar(
-                        rowHeight: 45,
+                        rowHeight: 45.h,
                         focusedDay: calendarController.selectedDay.value!,
                         firstDay: DateTime.utc(2000, 1, 1),
                         lastDay: DateTime.utc(2050, 12, 31),
@@ -140,7 +141,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                             .length,
                       ),
                       SizedBox(
-                        height: 320,
+                        height: 320.h,
                         child: CalendarDetail(
                           listLength: calendarController
                               .getEventsForDay(

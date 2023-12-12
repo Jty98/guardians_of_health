@@ -6,6 +6,7 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
 import 'package:guardians_of_health_project/View/near_toilet_view.dart';
@@ -54,7 +55,7 @@ class Home extends StatelessWidget {
         //   // curve: Curves.ease,
         //   duration: Duration(milliseconds: 100),
         // ),
-        navBarHeight: 80,
+        navBarHeight: 80.h,
         navBarStyle: NavBarStyle.style11,
       ),
     );

@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
@@ -140,20 +141,20 @@ class TimerResultView extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 70,
+                  SizedBox(
+                    height: 70.h,
                   ),
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(40.w, 0, 0, 0),
                         child: AnimatedOpacity(
                           opacity: timerController.opacityUpdateFunction(
                               600, timerController.opacityUpdate1),
                           duration: const Duration(milliseconds: 600),
                           child: SizedBox(
-                            width: 70,
-                            height: 70,
+                            width: 70.w,
+                            height: 70.h,
                             child: Image.asset(
                               "assets/images/firecracker1.png",
                             ),
@@ -163,8 +164,8 @@ class TimerResultView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    width: 300,
-                    height: 300,
+                    width: 300.w,
+                    height: 300.h,
                     child: Stack(
                       children: [
                         AnimatedOpacity(
@@ -172,8 +173,8 @@ class TimerResultView extends StatelessWidget {
                               1800, timerController.opacityUpdate3),
                           duration: const Duration(milliseconds: 1800),
                           child: SizedBox(
-                            width: 300,
-                            height: 300,
+                            width: 300.w,
+                            height: 300.h,
                             child: Image.asset(imagePath),
                           ),
                         ),
@@ -187,46 +188,46 @@ class TimerResultView extends StatelessWidget {
                               children: [
                                 Text(
                                   "총 ${timerController.resultFormattedTime()} 걸렸습니다!",
-                                  style: const TextStyle(
-                                    fontSize: 32,
+                                  style: TextStyle(
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                SizedBox(
+                                  height: 10.h,
                                 ),
                                 dataEmpty == true
-                                    ? const Text(
+                                    ? Text(
                                         "당신의 평균시간과 비교해보면",
                                         style: TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 22.sp,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
-                                    : const Text(
+                                    : Text(
                                         "아직 기록이 없습니다.",
                                         style: TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 22.sp,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                 Text(
                                   result,
-                                  style: const TextStyle(
-                                    fontSize: 22,
+                                  style: TextStyle(
+                                    fontSize: 22.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 50,
+                                SizedBox(
+                                  height: 50.h,
                                 ),
-                                const Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
                                       "한국인 평균 소요시간 : 약 6분",
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -253,14 +254,14 @@ class TimerResultView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
+                        padding: EdgeInsets.fromLTRB(0, 0, 40.w, 0),
                         child: AnimatedOpacity(
                           opacity: timerController.opacityUpdateFunction(
                               1200, timerController.opacityUpdate2),
                           duration: const Duration(milliseconds: 1200),
                           child: SizedBox(
-                            width: 70,
-                            height: 70,
+                            width: 70.w,
+                            height: 70.h,
                             child: Image.asset(
                               "assets/images/firecracker2.png",
                             ),
@@ -273,8 +274,8 @@ class TimerResultView extends StatelessWidget {
                     onPressed: () => insertBottomSheet(context),
                     child: const Text("기록 남기러가기"),
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: 30.h,
                   ),
                   TextButton(
                     onPressed: () {
@@ -284,13 +285,13 @@ class TimerResultView extends StatelessWidget {
                         transition: Transition.noTransition,
                       );
                     },
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.refresh),
+                        const Icon(Icons.refresh),
                         Text(
                           "다시하기",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ],
