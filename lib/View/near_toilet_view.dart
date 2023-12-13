@@ -269,8 +269,8 @@ class _NearToiletViewState extends State<NearToiletView> {
           title: const Center(child: Text("※ 알림 ※")),
           content: SingleChildScrollView(
             child: SizedBox(
-              height: 240.h,
-              width: 450.w,
+              height: 250.h,
+              width: 500.w,
               child: Column(
                 children: [
                   Text(

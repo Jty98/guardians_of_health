@@ -38,13 +38,13 @@ class _SettingViewState extends State<SettingView> {
                   size: 35,
                 ),
                 title: Text(
-                  "  내 쾌변 기록",
+                  "  내 기록",
                   style: TextStyle(
                     fontSize: 25.sp
                   ),
                 ),
                 onTap: (){
-                  Get.to(const MyRecordView());
+                  Get.to(() => const MyRecordView());
                 },
               ),
             ),
