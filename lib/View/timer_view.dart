@@ -10,7 +10,7 @@ import 'package:guardians_of_health_project/View/health_info.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 
-class TimerView extends StatelessWidget {
+class TimerView extends StatelessWidget implements PreferredSizeWidget {
   // ignore: use_key_in_widget_constructors
   const TimerView({Key? key});
 
@@ -30,7 +30,7 @@ class TimerView extends StatelessWidget {
               transition: Transition.noTransition,
             );
           },
-          icon: const Icon(Icons.arrow_back_ios_new),
+          icon: Icon(Icons.arrow_back_ios_new, size: 30.h,),
         ),
       ),
       body: PageView(
@@ -43,6 +43,9 @@ class TimerView extends StatelessWidget {
     );
   }
 
+  @override
+  // preferredSize 지정
+  Size get preferredSize => Size.fromHeight(56.h);
   Widget buildTimerPage(TimerController timerController) {
     return Center(
       child: GestureDetector(

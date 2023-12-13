@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/View/my_record_view.dart';
-import 'package:guardians_of_health_project/View/password_setting_view.dart';
+import 'package:guardians_of_health_project/View/security_setting_view.dart';
 import 'package:guardians_of_health_project/main.dart';
 
   
@@ -56,14 +56,13 @@ class _SettingViewState extends State<SettingView> {
                   size: 35,
                 ),
                 title: Text(
-                  "  비밀번호 설정",
+                  "  잠금 설정",
                   style: TextStyle(
                     fontSize: 25.sp
                   ),                
                 ),
                 onTap: (){
-                  settingController.initPasswordValue();
-                  Get.to(() => const PasswordSettingView());
+                  Get.to(() => const SecuritySettingView());
                 },
               ),
             ),

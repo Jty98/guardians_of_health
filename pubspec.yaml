@@ -52,6 +52,8 @@ dependencies:
   local_auth: ^2.1.7
   # 반응형 레이아웃 패키지
   flutter_screenutil: ^5.9.0
+  # shared_preferences
+  shared_preferences: ^2.2.2
   
   # sqlite
   sqflite: ^2.3.0

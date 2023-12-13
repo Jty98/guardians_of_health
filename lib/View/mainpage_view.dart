@@ -20,7 +20,7 @@ class MainPageView extends StatefulWidget {
 
 class _MainPageViewState extends State<MainPageView> {
   TimerController timerController = Get.put(TimerController());
-  final settingController = Get.find<SettingController>();
+  // final settingController = Get.find<SettingController>();
 
   late bool animationStatus; // 애니메이션 status로 false와 true가 2초마다 반복되면서 애니메이션 작동
   Timer? animationTimer; // 애니메이션이 2초마다 동작하기위한 타이머

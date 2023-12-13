@@ -2,7 +2,6 @@
   기능: SQLite의 CRUD를 해주는 Handler
 */
 
-import 'package:guardians_of_health_project/Model/password_model.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -15,55 +14,8 @@ class DatabaseHandler {
     return openDatabase(join(path, 'record.db'), onCreate: (db, version) async {
       await db.execute(
           "create table record (id integer primary key autoincrement, rating real, shape text, color text, smell text, review text, takenTime text, currentTime text)");
-      await db.execute(
-          "create table password (id integer primary key autoincrement, pw text, pwStatus integer)");
     }, version: 1);
   }
-
-  /// password 테이블 query로 비밀번호, 비밀번호 status확인하는 쿼리
-  Future<List<PasswordModel>> queryPassword() async {
-    final Database db = await initializeDB();
-    final List<Map<String, Object?>> queryResult =
-    await db.rawQuery(
-      'SELECT * FROM password');
-    // 쿼리 결과를 PasswordModel 변환
-    return queryResult.map((e) => PasswordModel.fromMap(e)).toList();
-  }
-
-  /// password 저장
-Future<bool> insertPassword(PasswordModel password) async {
-  final Database db = await initializeDB();
-
-  try {
-    int id = await db.rawInsert(
-      "INSERT INTO password(pw, pwStatus) VALUES(?,?)",
-      [
-        password.pw,
-        password.pwStatus,
-      ],
-    );
-
-    // 삽입 성공 시 id는 0보다 큼
-    bool isInsertSuccessful = id > 0;
-    return isInsertSuccessful;
-  } catch (e) {
-    print("insert 에러: $e");
-    return false;
-  }
-}
-
-  /// password 삭제
-    Future deletePassword(int id) async {
-    final Database db = await initializeDB();
-    await db.rawDelete(
-      "DELETE FROM password WHERE id = ?",
-      [
-        id
-      ]
-    );
-  }
-
-
 
   /// record insert
   Future<int> insertAction(RecordModel record) async {

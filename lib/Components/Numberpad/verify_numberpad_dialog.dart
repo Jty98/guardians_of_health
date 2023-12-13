@@ -69,7 +69,9 @@ void verifyNumberpadDialog(BuildContext context) {
     if (settingController.tempPadNum == settingController.verifyPadNum.value) {
       // SQLite에 비밀번호 저장 및 비밀번호 사용 스위치 status 값 저장
       // 저장 후 저장 성공했다고 띄워주기위해 true
-      settingController.savePassword(settingController.verifyPadNum.value, 1);
+      settingController.savedPassword = settingController.verifyPadNum.value;
+      settingController.savePwSharePreferencese();
+      print("savedPassword: ${settingController.savedPassword}");
       status = true;
     } else {
       status = false;
@@ -120,9 +122,10 @@ void verifyNumberpadDialog(BuildContext context) {
                                         1);
                           }
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.backspace_outlined,
-                          size: 30,
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 30.h,
                         ),
                       ),
                     ],
@@ -158,7 +161,7 @@ void verifyNumberpadDialog(BuildContext context) {
                               if (saveNumber() == true) {
                                 settingController.saveStatus = true;
                                 // 바로 삭제할수도 있어서 또 불러와서 id 조회
-                                settingController.initPasswordValue();
+                                // settingController.initPasswordValue();
                                 Get.back();
                                 showSnackbar(
                                   result: "저장 성공",

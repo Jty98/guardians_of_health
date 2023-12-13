@@ -103,9 +103,10 @@ firstNumberpadDialog(BuildContext context) {
                             print("padNum: ${settingController.padNum}");
                           }
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.backspace_outlined,
-                          size: 30,
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 30.h,
                         ),
                       ),
                     ],
@@ -138,6 +139,7 @@ firstNumberpadDialog(BuildContext context) {
                             if (settingController.padNum.value.length == 4) {
                               if (settingController.savedPassword ==
                                   settingController.padNum.value) {
+                                   settingController.resetNumber(); // 초기화 시켜버리기
                                 Get.back();
                                 showSnackbar(
                                   result: "환영합니다!",
@@ -158,6 +160,10 @@ firstNumberpadDialog(BuildContext context) {
                                 );
                               }
                             }
+                            // if (settingController.isAuthenticating.value ==
+                            //     false) {
+                            //   Get.back();
+                            // }
 
                             // 2초 뒤에 false 넣어줘서 원상복구하기
                             Timer(const Duration(milliseconds: 200), () {
