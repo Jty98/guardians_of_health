@@ -7,11 +7,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
+import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 void verifyNumberpadDialog(BuildContext context) {
-  final settingController = Get.find<SettingController>();
+  final securityController = Get.find<SecurityController>();
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
   List<dynamic> setKeypadShape() {
@@ -60,18 +60,18 @@ void verifyNumberpadDialog(BuildContext context) {
         margin: EdgeInsets.fromLTRB(60.w, 10.h, 60.w, 10.h), // 마진값으로 사이즈 조절
       ),
     );
-    settingController.verifyPadNum = "".obs; // 비밀번호 확인 리스트 초기화
+    securityController.verifyPadNum = "".obs; // 비밀번호 확인 리스트 초기화
   }
 
   /// 비밀번호 확인하는 함수
   bool saveNumber() {
     bool status = false;
-    if (settingController.tempPadNum == settingController.verifyPadNum.value) {
+    if (securityController.tempPadNum == securityController.verifyPadNum.value) {
       // SQLite에 비밀번호 저장 및 비밀번호 사용 스위치 status 값 저장
       // 저장 후 저장 성공했다고 띄워주기위해 true
-      settingController.savedPassword = settingController.verifyPadNum.value;
-      settingController.savePwSharePreferencese();
-      print("savedPassword: ${settingController.savedPassword}");
+      securityController.savedPassword = securityController.verifyPadNum.value;
+      securityController.savePwSharePreferencese();
+      print("savedPassword: ${securityController.savedPassword}");
       status = true;
     } else {
       status = false;
@@ -100,10 +100,10 @@ void verifyNumberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        showNumber(settingController, 1, context),
-                        showNumber(settingController, 2, context),
-                        showNumber(settingController, 3, context),
-                        showNumber(settingController, 4, context),
+                        showNumber(securityController, 1, context),
+                        showNumber(securityController, 2, context),
+                        showNumber(securityController, 3, context),
+                        showNumber(securityController, 4, context),
                       ],
                     ),
                   ),
@@ -113,11 +113,11 @@ void verifyNumberpadDialog(BuildContext context) {
                       TextButton(
                         onPressed: () {
                           // 문자열의 뒤에서 한 글자 제거
-                          if (settingController.verifyPadNum.value.isNotEmpty) {
-                            settingController.verifyPadNum.value =
-                                settingController.verifyPadNum.value.substring(
+                          if (securityController.verifyPadNum.value.isNotEmpty) {
+                            securityController.verifyPadNum.value =
+                                securityController.verifyPadNum.value.substring(
                                     0,
-                                    settingController
+                                    securityController
                                             .verifyPadNum.value.length -
                                         1);
                           }
@@ -148,20 +148,20 @@ void verifyNumberpadDialog(BuildContext context) {
                         return GestureDetector(
                           onTap: () {
                             // index값에 true넣어주기
-                            settingController.buttonClickStatus[index].value =
+                            securityController.buttonClickStatus[index].value =
                                 true;
 
                             // 키패드의 index를 padNum에 추가시키기
-                            settingController.verifyPadNum.value +=
+                            securityController.verifyPadNum.value +=
                                 setKeypadShape()[index].toString();
 
-                            if (settingController.verifyPadNum.value.length ==
+                            if (securityController.verifyPadNum.value.length ==
                                 4) {
                               // verifyNumber에서 true return해주면 성공했다고 띄워주기
                               if (saveNumber() == true) {
-                                settingController.saveStatus = true;
+                                securityController.saveStatus = true;
                                 // 바로 삭제할수도 있어서 또 불러와서 id 조회
-                                // settingController.initPasswordValue();
+                                // securityController.initPasswordValue();
                                 Get.back();
                                 showSnackbar(
                                   result: "저장 성공",
@@ -185,7 +185,7 @@ void verifyNumberpadDialog(BuildContext context) {
 
                             // 2초 뒤에 false 넣어줘서 원상복구하기
                             Timer(const Duration(milliseconds: 200), () {
-                              settingController.buttonClickStatus[index].value =
+                              securityController.buttonClickStatus[index].value =
                                   false;
                             });
                           },
@@ -193,7 +193,7 @@ void verifyNumberpadDialog(BuildContext context) {
                             () => AnimatedContainer(
                               duration: const Duration(milliseconds: 500),
                               decoration: BoxDecoration(
-                                color: settingController
+                                color: securityController
                                         .buttonClickStatus[index].value
                                     ? Colors.grey
                                     : Theme.of(context).colorScheme.tertiary,
@@ -225,21 +225,21 @@ void verifyNumberpadDialog(BuildContext context) {
   // 다이얼로그가 닫힌 후의 로직
   dialogFuture.then((value) {
     // 다이얼로그가 닫힘을 확인하고 로직 수행
-    if (settingController.saveStatus == true) {
+    if (securityController.saveStatus == true) {
       // 저장이 성공한 경우
-      settingController.passwordValue.value = true;
-      settingController.tempPadNum = "";
+      securityController.passwordValue.value = true;
+      securityController.tempPadNum = "";
     } else {
       // 저장이 실패하거나 다이얼로그가 닫히지 않은 경우
-      settingController.passwordValue.value = false;
-      settingController.resetNumber();
-      settingController.tempPadNum = "";
+      securityController.passwordValue.value = false;
+      securityController.resetNumber();
+      securityController.tempPadNum = "";
     }
   });
 }
 
 /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-Widget showNumber(SettingController settingController, int valueLength,
+Widget showNumber(SecurityController securityController, int valueLength,
     BuildContext context) {
   return Padding(
     padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -249,7 +249,7 @@ Widget showNumber(SettingController settingController, int valueLength,
       color: Colors.blueGrey,
       child: Center(
           child: Text(
-        settingController.verifyPadNum.value.length < valueLength ? "" : "*",
+        securityController.verifyPadNum.value.length < valueLength ? "" : "*",
         style: TextStyle(fontSize: 35.sp),
         textAlign: TextAlign.center,
       )),

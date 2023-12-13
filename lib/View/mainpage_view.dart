@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/timer_view.dart';
 
@@ -20,7 +19,7 @@ class MainPageView extends StatefulWidget {
 
 class _MainPageViewState extends State<MainPageView> {
   TimerController timerController = Get.put(TimerController());
-  // final settingController = Get.find<SettingController>();
+  // final securityController = Get.find<securityController>();
 
   late bool animationStatus; // 애니메이션 status로 false와 true가 2초마다 반복되면서 애니메이션 작동
   Timer? animationTimer; // 애니메이션이 2초마다 동작하기위한 타이머

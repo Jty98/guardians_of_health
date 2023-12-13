@@ -3,24 +3,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad_view.dart';
-import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
+import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final SettingController settingController = Get.put(SettingController());
+  final SecurityController securityController = Get.put(SecurityController());
 
-  settingController.biometricsValue.value = await getisPrivatedState();
+  // 생체인증 status shared로 불러오기
+  securityController.biometricsValue.value = await getisPrivatedState();
+  // password status와 password shared로 불러와서 배열에 저장
   final initPw = await getisPasswordState();
-  settingController.passwordValue.value =
+  securityController.passwordValue.value =
       initPw[0]; // 0번째에 있는 passwordStatus 가져와서 넣어주기
-  settingController.savedPassword = initPw[1]; // 1번째에 있는 password 값 넣어주기
+  securityController.savedPassword = initPw[1]; // 1번째에 있는 password 값 넣어주기
 
   // 생체인식 스위치 켜져있으면 생체인증
-  if (settingController.biometricsValue.value == true) {
-    settingController.authenticate();
+  if (securityController.biometricsValue.value == true) {
+    securityController.authenticate();
   }
 
   SystemChrome.setPreferredOrientations([
@@ -56,9 +58,9 @@ class MyAppState extends State<MyApp> {
       // 기기별 Layout 조절
       designSize: const Size(430, 932), // IPhone 14 & 15 ProMax 기기 해상도
       builder: (context, child) {
-        final settingController = Get.find<SettingController>();
+        final securityController = Get.find<SecurityController>();
 
-        if (settingController.passwordValue.value == true) {
+        if (securityController.passwordValue.value == true) {
           // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
           WidgetsBinding.instance.addPostFrameCallback((_) {
             firstNumberpadDialog(Get.context!);
@@ -86,8 +88,8 @@ class MyAppState extends State<MyApp> {
           },
           // isAuthenticating이 진행중이면 true
           home: Obx(() {
-            if (settingController.biometricsValue.value == true) {
-              return settingController.isAuthenticating.value
+            if (securityController.biometricsValue.value == true) {
+              return securityController.isAuthenticating.value
                   ? Container(color: Colors.black)
                   : const Home();
             } else {

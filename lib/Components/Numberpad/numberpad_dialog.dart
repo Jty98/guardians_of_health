@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/verify_numberpad_dialog.dart';
-import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
+import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 void numberpadDialog(BuildContext context) {
-  final settingController = Get.find<SettingController>();
+  final securityController = Get.find<SecurityController>();
   // 다이얼로그가 닫혔는지 여부를 저장할 변수
   // ignore: unused_local_variable
   bool dialogClosed = false;
@@ -50,10 +50,10 @@ void numberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        showNumber(settingController, 1, context),
-                        showNumber(settingController, 2, context),
-                        showNumber(settingController, 3, context),
-                        showNumber(settingController, 4, context),
+                        showNumber(securityController, 1, context),
+                        showNumber(securityController, 2, context),
+                        showNumber(securityController, 3, context),
+                        showNumber(securityController, 4, context),
                       ],
                     ),
                   ),
@@ -63,10 +63,10 @@ void numberpadDialog(BuildContext context) {
                       TextButton(
                         onPressed: () {
                           // 문자열의 뒤에서 한 글자 제거
-                          if (settingController.padNum.value.isNotEmpty) {
-                            settingController.padNum.value =
-                                settingController.padNum.value.substring(0,
-                                    settingController.padNum.value.length - 1);
+                          if (securityController.padNum.value.isNotEmpty) {
+                            securityController.padNum.value =
+                                securityController.padNum.value.substring(0,
+                                    securityController.padNum.value.length - 1);
                           }
                         },
                         child: Icon(
@@ -95,17 +95,17 @@ void numberpadDialog(BuildContext context) {
                         return GestureDetector(
                           onTap: () {
                             // index값에 true넣어주기
-                            settingController.buttonClickStatus[index].value =
+                            securityController.buttonClickStatus[index].value =
                                 true;
 
                             // 키패드의 index를 padNum에 추가시키기
-                            settingController.padNum.value +=
+                            securityController.padNum.value +=
                                 setKeypadShape()[index].toString();
 
-                            if (settingController.padNum.value.length == 4) {
+                            if (securityController.padNum.value.length == 4) {
                               // 누른 키패드값을 tempPadNum에 저장
-                              settingController.tempPadNum =
-                                  settingController.padNum.value;
+                              securityController.tempPadNum =
+                                  securityController.padNum.value;
 
                               Get.back();
                               verifyNumberpadDialog(context);
@@ -113,7 +113,7 @@ void numberpadDialog(BuildContext context) {
 
                             // 2초 뒤에 false 넣어줘서 원상복구하기
                             Timer(const Duration(milliseconds: 200), () {
-                              settingController.buttonClickStatus[index].value =
+                              securityController.buttonClickStatus[index].value =
                                   false;
                             });
                           },
@@ -121,7 +121,7 @@ void numberpadDialog(BuildContext context) {
                             () => AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
-                                color: settingController
+                                color: securityController
                                         .buttonClickStatus[index].value
                                     ? Colors.grey
                                     : Theme.of(context).colorScheme.tertiary,
@@ -155,16 +155,16 @@ void numberpadDialog(BuildContext context) {
   // 비밀번호 설정이 완료되지 않고 다이어로그를 닫을 시에 스위치 꺼버리기
   dialogFuture.then((value) {
     dialogClosed = true;
-    settingController.resetNumber();
-    if (settingController.tempPadNum.length < 4) {
-      settingController.tempPadNum = "";
-      settingController.passwordValue.value = false;
+    securityController.resetNumber();
+    if (securityController.tempPadNum.length < 4) {
+      securityController.tempPadNum = "";
+      securityController.passwordValue.value = false;
     }
   });
 }
 
 /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-Widget showNumber(SettingController settingController, int valueLength,
+Widget showNumber(SecurityController securityController, int valueLength,
     BuildContext context) {
   return Padding(
     padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -174,7 +174,7 @@ Widget showNumber(SettingController settingController, int valueLength,
       color: Colors.blueGrey,
       child: Center(
           child: Text(
-        settingController.padNum.value.length < valueLength ? "" : "*",
+        securityController.padNum.value.length < valueLength ? "" : "*",
         style: TextStyle(fontSize: 35.sp),
         textAlign: TextAlign.center,
       )),

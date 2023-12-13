@@ -7,11 +7,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
+import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
 firstNumberpadDialog(BuildContext context) {
-  final settingController = Get.find<SettingController>();
+  final securityController = Get.find<SecurityController>();
 
   /// keypad 안에 들어갈 버튼 리스트 설정하는 함수
   List<dynamic> setKeypadShape() {
@@ -59,7 +59,7 @@ firstNumberpadDialog(BuildContext context) {
         margin: EdgeInsets.fromLTRB(60.w, 10.h, 60.w, 10.h), // 마진값으로 사이즈 조절
       ),
     );
-    settingController.padNum = "".obs; // 비밀번호 확인 리스트 초기화
+    securityController.padNum = "".obs; // 비밀번호 확인 리스트 초기화
   }
 
   showDialog(
@@ -83,10 +83,10 @@ firstNumberpadDialog(BuildContext context) {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        showNumber(settingController, 1, context),
-                        showNumber(settingController, 2, context),
-                        showNumber(settingController, 3, context),
-                        showNumber(settingController, 4, context),
+                        showNumber(securityController, 1, context),
+                        showNumber(securityController, 2, context),
+                        showNumber(securityController, 3, context),
+                        showNumber(securityController, 4, context),
                       ],
                     ),
                   ),
@@ -96,11 +96,11 @@ firstNumberpadDialog(BuildContext context) {
                       TextButton(
                         onPressed: () {
                           // 문자열의 뒤에서 한 글자 제거
-                          if (settingController.padNum.value.isNotEmpty) {
-                            settingController.padNum.value =
-                                settingController.padNum.value.substring(0,
-                                    settingController.padNum.value.length - 1);
-                            print("padNum: ${settingController.padNum}");
+                          if (securityController.padNum.value.isNotEmpty) {
+                            securityController.padNum.value =
+                                securityController.padNum.value.substring(0,
+                                    securityController.padNum.value.length - 1);
+                            print("padNum: ${securityController.padNum}");
                           }
                         },
                         child: Icon(
@@ -129,17 +129,17 @@ firstNumberpadDialog(BuildContext context) {
                         return GestureDetector(
                           onTap: () {
                             // index값에 true넣어주기
-                            settingController.buttonClickStatus[index].value =
+                            securityController.buttonClickStatus[index].value =
                                 true;
 
                             // 키패드의 index를 padNum에 추가시키기
-                            settingController.padNum.value +=
+                            securityController.padNum.value +=
                                 setKeypadShape()[index].toString();
 
-                            if (settingController.padNum.value.length == 4) {
-                              if (settingController.savedPassword ==
-                                  settingController.padNum.value) {
-                                   settingController.resetNumber(); // 초기화 시켜버리기
+                            if (securityController.padNum.value.length == 4) {
+                              if (securityController.savedPassword ==
+                                  securityController.padNum.value) {
+                                   securityController.resetNumber(); // 초기화 시켜버리기
                                 Get.back();
                                 showSnackbar(
                                   result: "환영합니다!",
@@ -160,14 +160,14 @@ firstNumberpadDialog(BuildContext context) {
                                 );
                               }
                             }
-                            // if (settingController.isAuthenticating.value ==
+                            // if (securityController.isAuthenticating.value ==
                             //     false) {
                             //   Get.back();
                             // }
 
                             // 2초 뒤에 false 넣어줘서 원상복구하기
                             Timer(const Duration(milliseconds: 200), () {
-                              settingController.buttonClickStatus[index].value =
+                              securityController.buttonClickStatus[index].value =
                                   false;
                             });
                           },
@@ -175,7 +175,7 @@ firstNumberpadDialog(BuildContext context) {
                             () => AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
-                                color: settingController
+                                color: securityController
                                         .buttonClickStatus[index].value
                                     ? Colors.grey
                                     : Theme.of(context).colorScheme.tertiary,
@@ -207,7 +207,7 @@ firstNumberpadDialog(BuildContext context) {
 }
 
 /// nuberPad 위에 버튼 누를 때 나오는 * 부분
-Widget showNumber(SettingController settingController, int valueLength,
+Widget showNumber(SecurityController securityController, int valueLength,
     BuildContext context) {
   return Padding(
     padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -217,7 +217,7 @@ Widget showNumber(SettingController settingController, int valueLength,
       color: Colors.blueGrey,
       child: Center(
           child: Text(
-        settingController.padNum.value.length < valueLength ? "" : "*",
+        securityController.padNum.value.length < valueLength ? "" : "*",
         style: TextStyle(fontSize: 35.sp),
         textAlign: TextAlign.center,
       )),

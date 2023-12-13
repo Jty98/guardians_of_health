@@ -9,7 +9,7 @@ import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingController extends GetxController {
+class SecurityController extends GetxController {
   DatabaseHandler handler = DatabaseHandler();
   // 잠금 기능
   final LocalAuthentication auth = LocalAuthentication();
