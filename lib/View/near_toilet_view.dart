@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/toilets_model.dart';
 import 'package:latlong2/latlong.dart' as latlng; 
@@ -57,41 +58,16 @@ class _NearToiletViewState extends State<NearToiletView> {
                   : const Center(
                     child: CircularProgressIndicator(),
                   ),
-                // Padding(
-                //   padding: const EdgeInsets.all(10.0),
-                //   child: SearchBar(
-                //     controller: searchBarController,
-                //     hintText: '내 근처 공중화장실 찾기',
-                //     elevation: const MaterialStatePropertyAll(15),    
-                //     shape: const MaterialStatePropertyAll(
-                //       ContinuousRectangleBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(20))
-                //       )
-                //     ),
-                //     shadowColor: const MaterialStatePropertyAll(Colors.blueGrey),     // 시드컬러 따라 바꾸기
-                //     trailing: [
-                //       IconButton(
-                //         onPressed: (){
-                //           // bottom sheet로 근처 화장실 가까운 거리 순서로 띄워주기 (영업시간 꼭 확인하라는 문구와 함께)
-                //           // 검색한 주소 근처 화장실 보여주기
-                //         }, 
-                //         icon: const Icon(
-                //           Icons.search_outlined
-                //         ),
-                //       ),
-                //     ]
-                //   ),
-                // ),  
                 Positioned(
-                  bottom: 100,
-                  right: 20,
+                  bottom: 100.h,
+                  right: 20.w,
                   child: FloatingActionButton(
                     backgroundColor: Colors.blueGrey,     // seedColor에 맞춰 바꾸기
                     onPressed: (){
                       getCurrentLocation();
                     },
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)
+                      borderRadius: BorderRadius.circular(30.r)
                     ),
                     child: const Icon(
                       Icons.location_searching_outlined
@@ -123,8 +99,8 @@ class _NearToiletViewState extends State<NearToiletView> {
         MarkerLayer(           // 전국 화장실 데이터
           markers: toilets.map((toilets) {
             return Marker(    
-              width: 120,
-              height: 120,
+              width: 120.w,
+              height: 120.h,
               point: latlng.LatLng(toilets.x, toilets.y), 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,24 +111,24 @@ class _NearToiletViewState extends State<NearToiletView> {
                         context: context, 
                         builder: (context) {
                           return SizedBox(
-                            height: 300,
-                            width: 500,
+                            height: 300.h,
+                            width: 500.w,
                             child: Padding(
-                              padding: const EdgeInsets.all(15.0),
+                              padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
                                     toilets.name,
-                                    style: const TextStyle(
-                                      fontSize: 20,
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
                                       fontWeight: FontWeight.bold
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Divider(height: 1.0, color: Colors.grey),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
+                                    child: Divider(height: 1.h, color: Colors.grey),
                                   ),
                                   Row(
                                     children: [
@@ -200,14 +176,14 @@ class _NearToiletViewState extends State<NearToiletView> {
                       children: [
                         Text(
                           toilets.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: 15.sp,
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.location_pin,
-                          size: 30,
+                          size: 30.sp,
                           color: Colors.blue,
                         ),
                       ],
@@ -223,21 +199,21 @@ class _NearToiletViewState extends State<NearToiletView> {
         MarkerLayer(          // 현재 내위치 데이터
           markers: [ 
             Marker(   
-              width: 120,
-              height: 120,
+              width: 120.w,
+              height: 120.h,
               point: latlng.LatLng(mylat, mylng), 
-              child: const Column(
+              child: Column(
                 children: [
                   Text(
                     "내 위치",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20
+                      fontSize: 20.sp
                     ),
                   ),
                   Icon(
                     Icons.location_pin,
-                    size: 40,
+                    size: 40.sp,
                     color: Colors.red,
                   ),
                 ],
@@ -300,7 +276,7 @@ class _NearToiletViewState extends State<NearToiletView> {
                   "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 주응학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
                 ),
                 Text(
-                  "지도에 표시되지 않은 화장실이 존재할 수 있음에 양해 부탁드립니다.",
+                  "정보에 오류가 있거나 지도에 표시되지 않은 화장실이 존재할 수 있음에 양해 부탁드립니다.",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -353,8 +329,7 @@ class _NearToiletViewState extends State<NearToiletView> {
     // meter 거리가  1km 미만 -> m / 1km 이상 -> km 변환
     distanceInMeters < 1000 ? betweenDistance = "${distanceInMeters.round().toString()} m" : betweenDistance = "${(distanceInMeters.round()/1000).toString()} km";  
     
-    print("Distance : $betweenDistance");
-
+    // print("Distance : $betweenDistance");
     return betweenDistance;
   }
   

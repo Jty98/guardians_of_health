@@ -28,27 +28,27 @@ class _MyRecordViewState extends State<MyRecordView> {
 
   // Segment Widget
   Map<int, Widget> segmentWidget = {
-    0: const SizedBox(
-      width: 80,
+    0: SizedBox(
+      width: 80.w,
       // height: 100,
       child: Text(
         '일',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
     ),
-    1: const SizedBox(
+    1: SizedBox(
       child: Text(
         '월',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
     ),
-    2: const SizedBox(
+    2: SizedBox(
       child: Text(
         '년',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 18.sp),
       ),
     ),
   };
@@ -133,7 +133,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                             xValueMapper: (_, dateList) => int.parse(dateList.toString()), 
                             yValueMapper: (_, recordData) => double.parse(snapshot.data![0].rating.toString()),
                             xAxisName: "날짜",
-                            spacing: 0.2
+                            // spacing: 0.2
                           )
                         ],
                       ),

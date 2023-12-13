@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/change_ui_mode.dart';
 import 'package:guardians_of_health_project/main.dart';
@@ -30,19 +31,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
       height: MediaQuery.of(context).size.height * 0.6,
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
             child: Text(
               "색상",
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 35.sp,
                 fontWeight: FontWeight.bold,
-                
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -58,19 +58,19 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Column(     // 라이트모드 선택지 
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                         child: Image.asset(
                           isDarkMode ? "assets/images/darkmode.png"
                                       : "assets/images/lightmode.png",
-                          width: 100,
+                          width: 100.w,
                         ),
                       ),
                       Row(
                         children: [
                           Text(
                             isDarkMode ? "다크 모드    " : "라이트 모드    ",
-                            style: const TextStyle(
-                              fontSize: 20
+                            style: TextStyle(
+                              fontSize: 20.sp
                             ),
                           ),
                           Switch(
@@ -94,7 +94,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -108,10 +108,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   // print(MyAppState().seedColor.toString());                  
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.red
@@ -129,10 +129,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.yellow
@@ -150,10 +150,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.green
@@ -171,7 +171,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50,
                     height: 50,
@@ -193,7 +193,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   // print(MyTheme.seedColor.toString());
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50,
                     height: 50,
@@ -206,7 +206,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
             ],
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: 30.h),
           ElevatedButton(
             onPressed: (){
               // MyTheme.seedColor = Colors.white;
