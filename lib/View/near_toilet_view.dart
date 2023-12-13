@@ -267,25 +267,27 @@ class _NearToiletViewState extends State<NearToiletView> {
       builder: (context) {
         return AlertDialog(
           title: const Center(child: Text("※ 알림 ※")),
-          content: SizedBox(
-            height: 240.h,
-            width: 450.w,
-            child: Column(
-              children: [
-                Text(
-                  "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 주응학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
-                  style: TextStyle(
-                    fontSize: 14.sp
+          content: SingleChildScrollView(
+            child: SizedBox(
+              height: 200.h,
+              width: 450.w,
+              child: Column(
+                children: [
+                  Text(
+                    "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 주응학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
+                    style: TextStyle(
+                      fontSize: 14.sp
+                    ),
                   ),
-                ),
-                Text(
-                  "정보에 오류가 있거나 지도에 표시되지 않은 화장실이 존재할 수 있음에 양해 부탁드립니다.",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.sp
+                  Text(
+                    "정보에 오류가 있거나 지도에 표시되지 않은 화장실이 존재할 수 있음에 양해 부탁드립니다.",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.sp
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           actions: [
