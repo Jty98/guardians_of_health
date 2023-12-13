@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/numberpad_dialog.dart';
 import 'package:guardians_of_health_project/Model/local_auth.dart';
@@ -29,7 +30,7 @@ class PasswordSettingView extends StatelessWidget {
                   Text(
                     "비밀번호 사용",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
@@ -55,8 +56,8 @@ class PasswordSettingView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
             Container(
               color: Theme.of(context).colorScheme.background,
@@ -66,13 +67,13 @@ class PasswordSettingView extends StatelessWidget {
                   Text(
                     "생체인식 사용",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
                     child: Switch(
                       value: settingController.biometricsValue.value,
                       onChanged: (value) async {

@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/select_screen_mode.dart';
 import 'package:guardians_of_health_project/VM/setting_ctrl.dart';
@@ -30,16 +31,16 @@ class _SettingViewState extends State<SettingView> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
               child: ListTile(
                 leading: const Icon(
                   Icons.analytics_outlined,
                   size: 35,
                 ),
-                title: const Text(
+                title: Text(
                   "  내 쾌변 기록",
                   style: TextStyle(
-                    fontSize: 25
+                    fontSize: 25.sp
                   ),
                 ),
                 onTap: (){
@@ -48,16 +49,16 @@ class _SettingViewState extends State<SettingView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
               child: ListTile(
                 leading: const Icon(
                   Icons.key_outlined,
                   size: 35,
                 ),
-                title: const Text(
+                title: Text(
                   "  비밀번호 설정",
                   style: TextStyle(
-                    fontSize: 25
+                    fontSize: 25.sp
                   ),                
                 ),
                 onTap: (){
@@ -67,16 +68,16 @@ class _SettingViewState extends State<SettingView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
               child: ListTile(
                 leading: const Icon(
                   Icons.medical_information_outlined,
                   size: 35,
                 ),
-                title: const Text(
+                title: Text(
                   "  건강 정보",
                   style: TextStyle(
-                    fontSize: 25
+                    fontSize: 25.sp
                   ),                
                 ),
                 onTap: (){
@@ -85,16 +86,16 @@ class _SettingViewState extends State<SettingView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
               child: ListTile(
                 leading: const Icon(
                   Icons.settings_suggest,
                   size: 35,
                 ),
-                title: const Text(
+                title: Text(
                   "  테마 변경",
                   style: TextStyle(
-                    fontSize: 25
+                    fontSize: 25.sp
                   ),                
                 ),
                 onTap: (){
