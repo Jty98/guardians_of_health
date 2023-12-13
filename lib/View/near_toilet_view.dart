@@ -268,7 +268,7 @@ class _NearToiletViewState extends State<NearToiletView> {
         return AlertDialog(
           title: const Center(child: Text("※ 알림 ※")),
           content: SizedBox(
-            height: 230.h,
+            height: 240.h,
             width: 450.w,
             child: Column(
               children: [
