@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +45,7 @@ class SecurityController extends GetxController {
 
   /// 일반적인 인증을 수행
   /// authenticate 메서드를 사용하여 사용자 인증을 시도하기, biometricsValue는 switch value임
-  authenticate() async {
+  authenticate(BuildContext context) async {
     try {
       isAuthenticating.value = true; // faceid가 진행중이라 true
       biometricsValue.value = await auth.authenticate(
@@ -57,6 +58,12 @@ class SecurityController extends GetxController {
       // 성공한 경우에만 다이얼로그 닫기
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.back(); // 기존 다이얼로그 닫기
+        showSnackbar(
+            result: "환영합니다!",
+            resultText: "오늘도 쾌변하세요!",
+            resultbackColor: Theme.of(context).colorScheme.tertiary,
+            resultTextColor: Theme.of(context).colorScheme.onTertiary,
+            securityController: this);
       });
 
       return biometricsValue.value;

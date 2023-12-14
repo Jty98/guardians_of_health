@@ -125,7 +125,7 @@ class SecuritySettingView extends StatelessWidget {
                                       value;
                                   if (value == true) {
                                     // 생체 인식이 성공한 경우 처리
-                                    securityController.authenticate(); //
+                                    securityController.authenticate(context); //
                                     securityController
                                         .saveBioSharePreferencese();
                                   } else {

@@ -22,7 +22,9 @@ void main() async {
 
   // 생체인식 스위치 켜져있으면 생체인증
   if (securityController.biometricsValue.value == true) {
-    securityController.authenticate();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      securityController.authenticate(Get.context!);
+    });
   }
 
   SystemChrome.setPreferredOrientations([

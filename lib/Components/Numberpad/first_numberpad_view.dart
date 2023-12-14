@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 /// 비밀번호 사용을 활성화하면 띄워지는 다이어로그
@@ -26,40 +27,6 @@ firstNumberpadDialog(BuildContext context) {
       }
     }
     return keypadList;
-  }
-
-  /// 비밀번호 확인이 틀렸을 때 띄우는 스낵바
-  showSnackbar(
-      {required String result,
-      required String resultText,
-      required Color resultbackColor,
-      required Color resultTextColor}) {
-    Get.showSnackbar(
-      GetSnackBar(
-        titleText: Text(
-          result,
-          style: TextStyle(
-              color: resultTextColor,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        messageText: Text(
-          resultText,
-          style: TextStyle(
-              color: resultTextColor,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        duration: const Duration(milliseconds: 800),
-        backgroundColor: resultbackColor,
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 50.r, // 둥글게하기
-        margin: EdgeInsets.fromLTRB(60.w, 10.h, 60.w, 10.h), // 마진값으로 사이즈 조절
-      ),
-    );
-    securityController.padNum = "".obs; // 비밀번호 확인 리스트 초기화
   }
 
   showDialog(
@@ -139,36 +106,33 @@ firstNumberpadDialog(BuildContext context) {
                             if (securityController.padNum.value.length == 4) {
                               if (securityController.savedPassword ==
                                   securityController.padNum.value) {
-                                   securityController.resetNumber(); // 초기화 시켜버리기
+                                securityController.resetNumber(); // 초기화 시켜버리기
                                 Get.back();
                                 showSnackbar(
-                                  result: "환영합니다!",
-                                  resultText: "오늘도 쾌변하세요!",
-                                  resultbackColor:
-                                      Theme.of(context).colorScheme.tertiary,
-                                  resultTextColor:
-                                      Theme.of(context).colorScheme.onTertiary,
-                                );
+                                    result: "환영합니다!",
+                                    resultText: "오늘도 쾌변하세요!",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    resultTextColor: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiary,
+                                    securityController: securityController);
                               } else {
                                 showSnackbar(
-                                  result: "실패",
-                                  resultText: "비밀번호를 다시 확인해주세요.",
-                                  resultbackColor:
-                                      Theme.of(context).colorScheme.error,
-                                  resultTextColor:
-                                      Theme.of(context).colorScheme.onError,
-                                );
+                                    result: "실패",
+                                    resultText: "비밀번호를 다시 확인해주세요.",
+                                    resultbackColor:
+                                        Theme.of(context).colorScheme.error,
+                                    resultTextColor:
+                                        Theme.of(context).colorScheme.onError,
+                                    securityController: securityController);
                               }
                             }
-                            // if (securityController.isAuthenticating.value ==
-                            //     false) {
-                            //   Get.back();
-                            // }
 
                             // 2초 뒤에 false 넣어줘서 원상복구하기
                             Timer(const Duration(milliseconds: 200), () {
-                              securityController.buttonClickStatus[index].value =
-                                  false;
+                              securityController
+                                  .buttonClickStatus[index].value = false;
                             });
                           },
                           child: Obx(
