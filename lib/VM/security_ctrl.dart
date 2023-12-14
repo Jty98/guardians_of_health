@@ -12,13 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SecurityController extends GetxController {
   DatabaseHandler handler = DatabaseHandler();
-  // 잠금 기능
-  final LocalAuthentication auth = LocalAuthentication();
+  final LocalAuthentication auth = LocalAuthentication(); // 잠금 기능
 
   late RxBool passwordValue = false.obs; // 비밀번호 스위치 상태
   late RxBool biometricsValue = false.obs; // 생체인식 스위치 상태
   RxList<RxBool> buttonClickStatus =
-      RxList<RxBool>.generate(12, (index) => false.obs); // 각 버튼의 클릭 상태 관리
+      RxList<RxBool>.generate(12, (index) => false.obs); // numberpad 버튼의 클릭 상태 관리
   late SharedPreferences prefs;
 
   @override
@@ -34,7 +33,7 @@ class SecurityController extends GetxController {
   bool saveStatus = false; // db에 저장 유무에 따른 bool값
   String? savedPassword =
       ""; // password로 로그인할 때 필요해서 앱 시작시에 password가 있으면 저장시키는 값
-  RxBool isAuthenticating = false.obs; // faceid 진행 여부의 bool 값
+  RxBool isAuthenticating = false.obs; // faceid 진행 여부의 bool 값으로 화면 바뀔때 써서 RxBool
 
   /// keypad 변수 초기화
   resetNumber() {
@@ -45,7 +44,7 @@ class SecurityController extends GetxController {
 
   /// 일반적인 인증을 수행
   /// authenticate 메서드를 사용하여 사용자 인증을 시도하기, biometricsValue는 switch value임
-  /// @prams: int state (처음 들어올 때 띄우는 건 0, 저장할 때 띄우는건 1)
+  /// @prams: 'int state' : (처음 들어올 때 띄우는 건 0, 저장할 때 띄우는건 1)
   authenticate(BuildContext context, int state) async {
     try {
       isAuthenticating.value = true; // faceid가 진행중이라 true
@@ -59,7 +58,7 @@ class SecurityController extends GetxController {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (state == 0) {
           // faceid인증 성공한 경우에만 다이얼로그 닫고 스낵바 띄우기
-          Get.back(); 
+          Get.back();
           showSnackbar(
               result: "환영합니다!",
               resultText: "오늘도 쾌변하세요!",
@@ -85,7 +84,7 @@ class SecurityController extends GetxController {
         biometricsValue.value = false; // 실패한경우 스위치 끄기
       } else if (e.code == 'AuthenticationCanceled') {
         // 사용자가 생체인증을 취소하거나 실패한경우
-        deleteBioSharePreferencese();
+        deleteBioSharePreferencese(); // sharedpreference에서 biostatus 지우기
         biometricsValue.value = false; // 실패한경우 스위치 끄기
       } else {
         // 기타 오류에 대한 처리

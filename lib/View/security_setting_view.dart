@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/numberpad_dialog.dart';
-import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 class SecuritySettingView extends StatelessWidget {

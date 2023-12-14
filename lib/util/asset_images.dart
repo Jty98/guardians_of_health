@@ -1,4 +1,5 @@
 /// assets에있는 이미지들을 static const로 모아놓은 클래스
+/// 이렇게하면 const로 해줬기 때문에 메모리 측면에서 좋음
 class AssetImages {
   static const BANANA = "assets/images/banana.png";
   static const GRAPE = "assets/images/grape.png";

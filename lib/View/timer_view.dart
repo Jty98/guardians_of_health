@@ -16,7 +16,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimerController timerController = Get.find();
+    final timerController = Get.find<TimerController>();
 
     return Scaffold(
       appBar: AppBar(

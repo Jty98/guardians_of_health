@@ -21,10 +21,11 @@ class CalendarController extends GetxController {
   /// 달력에서 날짜 클릭시 그 날짜라고 알려주는 함수
   void changeSelectedDay(DateTime newDay) {
     selectedDay.value = newDay;
-    update();
   }
 
-  /// 이벤트를 가져오는 함수 인자: (이벤트가 있는day,  쿼리문 결과가 저장된 recordList)
+  /// 이벤트를 가져오는 함수
+  /// @Params: 'DateTime day' : 이벤트가 있는day
+  /// @Params: 'List<dynamic>? recordList' : 쿼리문 결과가 저장된 recordList
   List<DateTime> getEventsForDay(DateTime day, List<dynamic>? recordList) {
     // 날짜를 'yyyy-MM-dd' 형식의 문자열로 변환
     String formattedDate = DateFormat('yyyy-MM-dd').format(day.toLocal());

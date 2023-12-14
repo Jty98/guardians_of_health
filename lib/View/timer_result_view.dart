@@ -42,7 +42,8 @@ class TimerResultView extends StatelessWidget {
 
         automaticallyImplyLeading: false, // 왼쪽 뒤로가기 버튼 없애기
       ),
-      body: FutureBuilder<List<dynamic>>(future: () async {
+      body: FutureBuilder<List<dynamic>>(
+        future: () async {
         List? result = [];
         result.add(await handler.queryRecord());
         return result;
@@ -280,6 +281,9 @@ class TimerResultView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
                   ElevatedButton(
                     onPressed: () => insertBottomSheet(context),
                     style: ElevatedButton.styleFrom(
@@ -330,3 +334,4 @@ class TimerResultView extends StatelessWidget {
     );
   }
 }
+

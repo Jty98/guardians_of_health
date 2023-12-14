@@ -9,11 +9,34 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 
-class TimerController extends GetxController with GetSingleTickerProviderStateMixin {
+class TimerController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   DatabaseHandler handler = DatabaseHandler();
 
   late AnimationController animationController;
   late Animation<double> animation;
+  late Timer timer;
+
+  RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
+  RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
+
+  // 투명도 변수들
+  RxDouble opacityUpdate1 = 0.0.obs;
+  RxDouble opacityUpdate2 = 0.0.obs;
+  RxDouble opacityUpdate3 = 0.0.obs;
+  RxDouble opacityUpdate4 = 0.0.obs;
+
+  // bottom sheet 변수들
+  TextEditingController resultTextController = TextEditingController();
+
+  String resultShape = "바나나 모양";
+  String resultColor = "황금색";
+  String resultSmell = "심각";
+  double rating = 3.0;
+
+  RxList<bool> selectedShape = [true, false, false].obs;
+  RxList<bool> selectedColors = [true, false, false, false, false].obs;
+  RxList<bool> selectedSmells = [true, false, false].obs;
 
   @override
   void onInit() {
@@ -36,33 +59,6 @@ class TimerController extends GetxController with GetSingleTickerProviderStateMi
     // 애니메이션 반복
     animationController.repeat(reverse: true);
   }
-
-  RxInt buttonStatus = 0.obs; // 버튼 상태 (flase는 누르지 않음 / true는 누름)
-  RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
-  RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
-  bool animationStarted = false; // 타이머를 시작시키면 바뀌는 변수
-  RxBool isLoading = true.obs; // 웹뷰의 로딩을 관리할 변수
-
-  late Timer timer;
-  // 투명도 변수들
-  RxDouble opacityUpdate1 = 0.0.obs;
-  RxDouble opacityUpdate2 = 0.0.obs;
-  RxDouble opacityUpdate3 = 0.0.obs;
-  RxDouble opacityUpdate4 = 0.0.obs;
-
-  // bottom sheet 변수들
-  TextEditingController resultTextController = TextEditingController();
-
-  String resultShape = "바나나 모양";
-  String resultColor = "황금색";
-  String resultSmell = "심각";
-  double rating = 3.0;
-
-  RxList<bool> selectedShape = [true, false, false].obs;
-  RxList<bool> selectedColors = [true, false, false, false, false].obs;
-  RxList<bool> selectedSmells = [true, false, false].obs;
-
-
 
   /// 모양 선택 버튼 index
   selectedShapeFunc(int index) {
@@ -162,7 +158,6 @@ class TimerController extends GetxController with GetSingleTickerProviderStateMi
     secondsUpdate.value++;
   }
 
-
   @override
   void dispose() {
     timer.cancel(); // 예시: 사용 중인 타이머를 취소
@@ -177,10 +172,8 @@ class TimerController extends GetxController with GetSingleTickerProviderStateMi
     super.onClose();
   }
 
-
   /// 타이머 돌아간 시간을 보기 좋게 변환하는 함수
   String formattedTime() {
-    //String result = "";
     int hours = secondsUpdate.value ~/ 3600;
     int minutes = (secondsUpdate.value % 3600) ~/ 60;
     int seconds = secondsUpdate.value % 60;
@@ -220,11 +213,9 @@ class TimerController extends GetxController with GetSingleTickerProviderStateMi
     return update.value;
   }
 
-
   /// 기록 insert
   Future<bool> insertAction() async {
     bool result = false;
-    DatabaseHandler handler = DatabaseHandler();
 
     var recordInsert = RecordModel(
       rating: rating,
@@ -242,7 +233,5 @@ class TimerController extends GetxController with GetSingleTickerProviderStateMi
 
     return result;
   }
-
-
 } // End
 

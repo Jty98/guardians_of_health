@@ -2,8 +2,6 @@
   기능: 앱의 공통적으로 띄워주는 위젯들(Appbar, Drawer, Tabbar)들을 분리해놓은 위젯
 */
 
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

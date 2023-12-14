@@ -19,8 +19,6 @@ class HealthInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Property
-    
 
     return Scaffold(
       body: Center(

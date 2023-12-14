@@ -9,7 +9,6 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 class HomeController extends GetxController with GetSingleTickerProviderStateMixin {
 
   late PersistentTabController tabController;
-  // int initialSelectedTab = 0;
 
   // tabbar init
   @override
@@ -24,6 +23,5 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     tabController.dispose();
     super.dispose();
   }
-
 
 }
