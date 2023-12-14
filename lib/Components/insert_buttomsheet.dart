@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
+import 'package:guardians_of_health_project/util/asset_images.dart';
 
 /// 배변 정보 저장할때 입력하는 바텀시트
 void insertBottomSheet(BuildContext context) {
@@ -18,9 +19,9 @@ void insertBottomSheet(BuildContext context) {
 
   // 모양
   List<String> imagePaths = [
-    "assets/images/banana.png",
-    "assets/images/grape.png",
-    "assets/images/water.png",
+    AssetImages.BANANA,
+    AssetImages.GRAPE,
+    AssetImages.WATER,
   ];
 
   // 모양을 담은 Sizedbox 크기

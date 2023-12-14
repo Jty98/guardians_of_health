@@ -69,14 +69,6 @@ class MyAppState extends State<MyApp> {
             firstNumberpadDialog(Get.context!);
           });
         }
-        // WidgetsBinding.instance.addPostFrameCallback((_) {
-        //   showSnackbar(
-        //       result: "환영합니다!",
-        //       resultText: "오늘도 쾌변하세요!",
-        //       resultbackColor: Theme.of(context).colorScheme.tertiary,
-        //       resultTextColor: Theme.of(context).colorScheme.onTertiary,
-        //       securityController: securityController);
-        // });
 
         return GetMaterialApp(
           title: 'Flutter Demo',

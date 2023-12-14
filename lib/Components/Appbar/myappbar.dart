@@ -14,8 +14,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       // automaticallyImplyLeading: false, // 뒤로가기 버튼 없애기
-      title: const Text("골든타임"),
-      // backgroundColor: Theme.of(context).colorScheme.primary,
+      title: Text("골든타임",
+      style: TextStyle(
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary,
     );
   }
 

@@ -2,7 +2,6 @@
   기능: 타이머가 끝났을 때의 화면, 기록을 보여주고 저장하는 뷰
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,6 +9,7 @@ import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
+import 'package:guardians_of_health_project/util/asset_images.dart';
 
 class TimerResultView extends StatelessWidget {
   const TimerResultView({super.key});
@@ -23,14 +23,23 @@ class TimerResultView extends StatelessWidget {
     String result = ""; // 결과를 저장할 전역 변수
     bool dataEmpty = false; // 데이터 기록이 있나 없나를 비교할 bool값
     timerController.resetOpacityValues(); // 빌드할 때 초기화
-    String fastImagePath = "assets/images/rabit_ddabong.png";
-    String slowImagePath = "assets/images/tutle_ddabong.png";
-    String defulatImagePath = "assets/images/firecracker1.png";
+    String fastImagePath = AssetImages.RABIT_DDABONG;
+    String slowImagePath = AssetImages.TUTLE_DDABONG;
+    String defulatImagePath = AssetImages.FIRECRACKER1;
     String imagePath = ""; // 결과 이미지를 띄울 경로
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("골든타임"),
+        title: Text(
+          "골든타임",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+
         automaticallyImplyLeading: false, // 왼쪽 뒤로가기 버튼 없애기
       ),
       body: FutureBuilder<List<dynamic>>(future: () async {
@@ -157,7 +166,7 @@ class TimerResultView extends StatelessWidget {
                             width: 70.w,
                             height: 70.h,
                             child: Image.asset(
-                              "assets/images/firecracker1.png",
+                              AssetImages.FIRECRACKER1,
                             ),
                           ),
                         ),
@@ -264,7 +273,7 @@ class TimerResultView extends StatelessWidget {
                             width: 70.w,
                             height: 70.h,
                             child: Image.asset(
-                              "assets/images/firecracker2.png",
+                              AssetImages.FIRECRACKER2,
                             ),
                           ),
                         ),

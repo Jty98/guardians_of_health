@@ -20,7 +20,15 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("골든타임"),
+        title: Text(
+          "골든타임",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
           onPressed: () {
             timerController.showTimer(false);
@@ -30,7 +38,11 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
               transition: Transition.noTransition,
             );
           },
-          icon: Icon(Icons.arrow_back_ios_new, size: 30.h,),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            size: 30.h,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
       body: PageView(
