@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/numberpad_dialog.dart';
+import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 
 class SecuritySettingView extends StatelessWidget {
@@ -125,7 +126,7 @@ class SecuritySettingView extends StatelessWidget {
                                       value;
                                   if (value == true) {
                                     // 생체 인식이 성공한 경우 처리
-                                    securityController.authenticate(context); //
+                                    securityController.authenticate(context, 1); // 저장이라서 0을 넣어주면 안됨
                                     securityController
                                         .saveBioSharePreferencese();
                                   } else {

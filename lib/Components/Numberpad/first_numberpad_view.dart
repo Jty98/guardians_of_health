@@ -67,7 +67,6 @@ firstNumberpadDialog(BuildContext context) {
                             securityController.padNum.value =
                                 securityController.padNum.value.substring(0,
                                     securityController.padNum.value.length - 1);
-                            print("padNum: ${securityController.padNum}");
                           }
                         },
                         child: Icon(

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad_view.dart';
+import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ void main() async {
   // 생체인식 스위치 켜져있으면 생체인증
   if (securityController.biometricsValue.value == true) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      securityController.authenticate(Get.context!);
+      securityController.authenticate(Get.context!, 0);
     });
   }
 
@@ -68,6 +69,14 @@ class MyAppState extends State<MyApp> {
             firstNumberpadDialog(Get.context!);
           });
         }
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //   showSnackbar(
+        //       result: "환영합니다!",
+        //       resultText: "오늘도 쾌변하세요!",
+        //       resultbackColor: Theme.of(context).colorScheme.tertiary,
+        //       resultTextColor: Theme.of(context).colorScheme.onTertiary,
+        //       securityController: securityController);
+        // });
 
         return GetMaterialApp(
           title: 'Flutter Demo',
