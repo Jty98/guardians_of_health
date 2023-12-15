@@ -16,8 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarView extends StatefulWidget {
-  // ignore: use_key_in_widget_constructors
-  const CalendarView({Key? key});
+  const CalendarView({Key? key}):super(key: key);
 
   @override
   State<CalendarView> createState() => CalendarViewState();

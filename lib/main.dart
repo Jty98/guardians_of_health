@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad_view.dart';
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
@@ -31,12 +32,14 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
+  
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key});
+  const MyApp({Key? key}):super(key: key);
 
   @override
   State<MyApp> createState() => MyAppState();
@@ -148,8 +151,8 @@ Future<List> getisPasswordState() async {
   List passwordList = [];
   bool isPasswordValue = prefs.getBool('isPassword') ?? false;
   String password = prefs.getString('password') ?? "";
-  print("password 등록 여부: $isPasswordValue");
-  print("로그인된 password: $password");
+  debugPrint("password 등록 여부: $isPasswordValue");
+  debugPrint("로그인된 password: $password");
   passwordList.add(isPasswordValue);
   passwordList.add(password);
 
@@ -160,6 +163,6 @@ Future<List> getisPasswordState() async {
 getisPrivatedState() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isBioValue = prefs.getBool('isBio') ?? false;
-  print("생체인식 등록 여부: $isBioValue");
+  debugPrint("생체인식 등록 여부: $isBioValue");
   return isBioValue;
 }

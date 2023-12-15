@@ -5,14 +5,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:guardians_of_health_project/Components/health_info_widget.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
-import 'package:guardians_of_health_project/View/health_info.dart';
+import 'package:guardians_of_health_project/View/health_info_view.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 
 class TimerView extends StatelessWidget implements PreferredSizeWidget {
-  // ignore: use_key_in_widget_constructors
-  const TimerView({Key? key});
+  const TimerView({Key? key}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
         scrollDirection: Axis.vertical,
         children: [
           buildTimerPage(timerController),
-          const HealthInfoPage(),
+          healthInfoWidget(context: context),
         ],
       ),
     );

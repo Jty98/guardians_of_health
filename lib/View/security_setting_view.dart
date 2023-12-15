@@ -16,7 +16,15 @@ class SecuritySettingView extends StatelessWidget {
     final SecurityController securityController = Get.put(SecurityController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text("잠금 설정"),
+        title: const Text(
+          "잠금 설정",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Obx(
         () => Column(
