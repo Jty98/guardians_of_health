@@ -2,6 +2,7 @@
   기능: SQLite의 CRUD를 해주는 Handler
 */
 
+import 'package:guardians_of_health_project/Model/record_count_model.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -75,4 +76,46 @@ class DatabaseHandler {
       ]
     );
   }
-}
+  
+  // 일/주/월 별 데이터 개수 count해서 return
+  Future<List<RecordCountModel>> queryRecordCountPerDateType(String perDate) async {
+    final Database db = await initializeDB();
+    late List<Map<String, Object?>> queryCountResult = [];
+    // SQLite 쿼리 실행 (currentTime 내림차순으로 정렬)
+    if (perDate == "per day") {
+      queryCountResult =
+        await db.rawQuery('''
+          SELECT 
+            substr(currentTime, 1, 10) AS inserted_per_date, 
+            COUNT(*) AS total_count 
+          FROM record 
+          GROUP BY substr(currentTime, 1, 10)
+        ''');
+        // 날짜('yyyy-mm-dd')별 데이터 개수 합 return
+    } else if (perDate == "per week") {
+      queryCountResult =
+        await db.rawQuery('''
+          SELECT 
+            STRFTIME('%Y-%m-%d', currentTime, '-6 days', 'weekday 0') AS inserted_per_date,
+            COUNT(*) AS total_count
+          FROM record
+          GROUP BY STRFTIME('%Y-%W', currentTime)
+        ''');
+    } else {
+      queryCountResult =
+        await db.rawQuery('''
+          SELECT 
+            STRFTIME('%Y-%m', currentTime) AS inserted_per_date, 
+            COUNT(*) AS total_count
+          FROM record
+          GROUP BY STRFTIME('%Y-%m', currentTime)
+        ''');
+    }
+    // 쿼리 결과를 RecordModel로 변환
+    return queryCountResult.map((e) => RecordCountModel.fromMap(e)).toList();
+  }
+
+  // 일/주/월별 String data unique한 값 count 해서 return
+  // Future<List<RecordCountModel>>re
+
+} // class END

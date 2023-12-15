@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/my_record_data.dart';
-import 'package:guardians_of_health_project/Model/record_model.dart';
-import 'package:intl/intl.dart';
+import 'package:guardians_of_health_project/Model/record_count_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MyRecordView extends StatefulWidget {
@@ -18,15 +16,17 @@ class MyRecordView extends StatefulWidget {
 class _MyRecordViewState extends State<MyRecordView> {
   late List recordData;                       // 사용자 기록 불러와 저장할 변수
   late TooltipBehavior tooltipBehavior;       // 차트 패키지
-  late int kindchoice;                        // segment 선택된 번호
+  late int segChoice;                        // segment 선택된 번호
   late DatabaseHandler handler;               // DataBase
   late List<bool> _selectedVariable;          // toggle button 선택 여부 리스트
   late List<String> recordVariable;           // record DB column명들
   late int selectedIndex;                     // toggle button 선택된 인덱스 ()
-  late List varData;                          // 변수별 데이터 
   late List savedDateList;                    // 저장 날짜 형태 데이터
   late List<MyRecordData> chartData;
+  late List<RecordCountModel> recordCountList;   // 일, 주, 월 별 기록 횟수
+  late List ratingList;                       // 만족도 기록 데이터
 
+  late List varData;                          // 변수별 데이터 
   late List yearList;
   late List monthList;
   late List dayList;
@@ -47,14 +47,14 @@ class _MyRecordViewState extends State<MyRecordView> {
     ),
     1: SizedBox(
       child: Text(
-        '월',
+        '주',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 18.sp),
       ),
     ),
     2: SizedBox(
       child: Text(
-        '년',
+        '월',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 18.sp),
       ),
@@ -75,26 +75,6 @@ class _MyRecordViewState extends State<MyRecordView> {
     ),
     const SizedBox(
       child: Text(
-        "모양"
-      ),
-    ),
-    const SizedBox(
-      child: Text(
-        "색상"
-      ),
-    ),
-    const SizedBox(
-      child: Text(
-        "냄새"
-      ),
-    ),
-    const SizedBox(
-      child: Text(
-        "특이사항"
-      ),
-    ),
-    const SizedBox(
-      child: Text(
         "소요시간"
       ),
     ),
@@ -104,33 +84,43 @@ class _MyRecordViewState extends State<MyRecordView> {
   void initState() {
     super.initState();
     tooltipBehavior = TooltipBehavior(enable: true);
-    kindchoice = 0;
+    segChoice = 0;
     handler = DatabaseHandler();
-    _selectedVariable = <bool>[true, false, false, false, false, false, false];
-    recordVariable = <String>['횟수', '만족도', '모양', '색상', '냄새', '특이사항', '소요시간'];
+    _selectedVariable = <bool>[true, false, false];
+    recordVariable = <String>['횟수', '만족도', '소요시간'];
     selectedIndex = 0;
-    varData = [];
     savedDateList = [];
     chartData = [];
+    recordCountList = [];
+    ratingList = [];
 
+    varData = [];
     recordData = [];
     yearList = [];
     monthList =[];
     dayList = [];
     colorList = [];
     dateList = [];
-
-    _fetchData();
+    
+    print("여긴 오나1");
+    getCountData("per day");
+    print("여긴 오나2");
+    // _fetchData();
+    print("에러 확인 날짜3 : ${DateTime.parse(recordCountList[0].perDateType)}");
   }
+
+
 
   _fetchData() async{
     var temp = await handler.queryRecord();
     for(var i in temp){
       dateList.add(i.currentTime!.substring(0, 10));
+      ratingList.add(i.rating);
     }
 
     for (int i=0; i < dateList.length; i++) {
       DateTime dateTime = DateTime.parse(dateList[i]);
+      print("dateTime: $dateTime");
       int tempYear = dateTime.year;
       int tempMonth = dateTime.month;
       int tempDay = dateTime.day;
@@ -139,8 +129,18 @@ class _MyRecordViewState extends State<MyRecordView> {
       dayList.add(tempDay);
     }
 
-    savedDateList = dayList;
-    addChartData([1, 2, 3, 5, 2, 1]);
+    // savedDateList = dayList;
+    savedDateList = dateList;
+    // var tlist = [1, 2, 3, 5, 2, 1, 2, 3, 4];
+    // addChartData(tlist);
+    print("rating List data : $ratingList");
+    print("dateList : $dateList");
+    // print("yearList : $yearList");
+    // print("monthList : $monthList");
+    // print("dayList : $dayList");
+    
+    print("fetched");
+
   }
 
   @override
@@ -150,23 +150,32 @@ class _MyRecordViewState extends State<MyRecordView> {
       appBar: AppBar(
         title: const Text('내 기록'),
       ),
+      // body: savedDateList.isEmpty 
+      // ? const Center(
+      //     child: Text("기록이 없습니다."),
+      //   )
+      // : Center(
       body: Center(
         child: Column(
           children: [
             CupertinoSegmentedControl(
-              groupValue: kindchoice,
+              groupValue: segChoice,
               children: segmentWidget, 
               onValueChanged: (value){
-                kindchoice = value;
-                if (kindchoice == 0) {
-                  savedDateList = dayList;
-                  print("day : $savedDateList");
-                } else if (kindchoice == 1) {
-                  savedDateList = monthList;
-                  print("month : $savedDateList");
+                segChoice = value;
+                if (segChoice == 0) {
+                  // DateTime.now().month;
+                  getCountData("per day");
+                  // savedDateList = dayList;
+                  // print("day : $savedDateList");
+                } else if (segChoice == 1) {
+                  getCountData("per week");
+                  // savedDateList = monthList;
+                  // print("month : $savedDateList");
                 } else {
-                  savedDateList = yearList;
-                  print("year : $savedDateList");
+                  getCountData("per month");
+                  // savedDateList = yearList;
+                  // print("year : $savedDateList");
                 }
                 setState(() {
                   
@@ -176,22 +185,58 @@ class _MyRecordViewState extends State<MyRecordView> {
             SizedBox(
               width: 400.w,
               height: 500.h,
-              child: SfCartesianChart(
+              child: ((selectedIndex == 0) | (selectedIndex == 2))
+              ? SfCartesianChart(
                 title: ChartTitle(
                   text: recordVariable[selectedIndex]
                 ),
                 tooltipBehavior: tooltipBehavior,
+                primaryXAxis: DateTimeAxis(
+                  // intervalType: DateTimeIntervalType.auto,
+                  // dateFormat: dateFormat,
+                  minimum: 
+                  // DateTime.parse("${DateTime.parse(recordCountList[0].perDateType).year}-${DateTime.parse(recordCountList[0].perDateType).month}-${DateTime.parse(recordCountList[0].perDateType).day}"),
+                  DateTime.parse(recordCountList[0].perDateType),
+                  maximum: DateTime.now()
+                ),
                 series: [
-                  ColumnSeries<MyRecordData, int>(
+                  selectedIndex == 0        // 횟수 : Bar Chart
+                  ? ColumnSeries<RecordCountModel, DateTime>(
                     color: Theme.of(context).colorScheme.primary,
-                    dataSource: chartData, 
-                    xValueMapper: (MyRecordData records, _) => records.savedDate, 
-                    yValueMapper: (MyRecordData records, _) => records.toShowVar,
+                    dataSource: recordCountList, 
+                    xValueMapper: (RecordCountModel records, _) 
+                      => segChoice == 2? DateTime.parse("${records.perDateType}-${DateTime.now().day}") : DateTime.parse(records.perDateType), 
+                    yValueMapper: (RecordCountModel records, _) => records.totalCount,
                     xAxisName: "날짜",
                     // spacing: 0.2
                   )
+                  : ColumnSeries<MyRecordData, DateTime>(
+                      color: Theme.of(context).colorScheme.primary,
+                      dataSource: chartData, 
+                      xValueMapper: (MyRecordData records, _) => DateTime.parse(records.savedDate),
+                      // DateTime.parse("${DateTime.now().year}-${DateTime.now().month}-${records.savedDate}"), 
+                      yValueMapper: (MyRecordData records, _) => records.toShowVar,
+                      xAxisName: "날짜",
+                      // spacing: 0.2
+                    )
                 ],
-              ),
+              )
+              : SfCircularChart(
+                title: ChartTitle(
+                  text: recordVariable[selectedIndex]
+                ),
+                tooltipBehavior: tooltipBehavior,
+                series: <CircularSeries<MyRecordData, DateTime>>[
+                  PieSeries(
+                    dataSource: chartData,
+                    selectionBehavior: SelectionBehavior(enable: true),
+                    xValueMapper: (MyRecordData records, _) => DateTime.parse(records.savedDate),
+                    yValueMapper: (MyRecordData records, _) => records.toShowVar.toDouble(),
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    enableTooltip: true
+                  )
+                ],                
+              )
             ),
             ToggleButtons(
               isSelected: _selectedVariable,
@@ -200,11 +245,14 @@ class _MyRecordViewState extends State<MyRecordView> {
                   for (int buttonIndex=0; buttonIndex<_selectedVariable.length; buttonIndex++) {
                     _selectedVariable[buttonIndex] = buttonIndex == newIndex;
                     selectedIndex = newIndex;
+                    if (selectedIndex == 1) {
+                      addChartData(ratingList);
+                    }
                   }
-                  print(dayList);
-                  addChartData(dayList);
+                  // print(dayList);
+                  // addChartData(dayList);
+
                 });
-                print(_selectedVariable);
               },
               selectedBorderColor: Theme.of(context).colorScheme.primary,
               selectedColor: Theme.of(context).colorScheme.tertiary,
@@ -217,12 +265,19 @@ class _MyRecordViewState extends State<MyRecordView> {
     );
   }
 
-  addChartData(List<dynamic> varList){
-    for (int i=0; i<savedDateList.length; i++){
-      chartData.add(MyRecordData(savedDate: savedDateList[i], toShowVar: varList[i]));
+  getCountData(String perDateType) async{
+    var temp = await handler.queryRecordCountPerDateType(perDateType);
+    for (var i in temp) {
+        recordCountList.add(RecordCountModel(perDateType: i.perDateType, totalCount: i. totalCount));
     }
-    print("저장된 날짜 : $savedDateList");
-    print("입력된 데이터 : ${chartData[0].toShowVar}");
+  }
+
+  addChartData(varList){
+    for (int i=0; i<savedDateList.length; i++){
+      chartData.add(MyRecordData(savedDate: savedDateList[i].toString(), toShowVar: varList[i]));
+    }
+    // print("저장된 날짜 : $savedDateList");
+    // print("입력된 데이터 : ${chartData[0].toShowVar}");
     // chartData.add(MyRecordData(savedDate: savedDateList, varName: varList));
     // 저장 날짜 별 변수에 대한 그래프 그려줘야 함. 
     // 횟수는 DB에서 count 해서 return 받고 보여줘야 할 거 같고
@@ -232,6 +287,32 @@ class _MyRecordViewState extends State<MyRecordView> {
     // 
   }
 
+
+  // /// 모양 선택 버튼 index
+  // changeShapeToInt() {
+  //   for (int i = 0; i < shapeList.length; i++) {
+  //     switch (shapeList[i]) {
+  //       case "바나나 모양":
+  //         // shapeInt = 0;
+  //         shapeIntList.add(0);
+  //         break;
+  //       case "포도알 모양":
+  //         // shapeInt = 1;
+  //         shapeIntList.add(1);
+  //         break;
+  //       case "설사":
+  //         // shapeInt = 2;
+  //         shapeIntList.add(2);
+  //         break;
+  //     }
+  //   }
+  //   print("after Mapping: $shapeIntList");
+  //   // if (selectedIndex == 2){
+  //   //   addChartData(shapeIntList);
+  //   // }
+  //   addChartData(shapeIntList);
+  //   print("after add to chartData: $shapeIntList");
+  // }  
 
 
   
