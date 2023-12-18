@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:guardians_of_health_project/VM/change_ui_mode.dart';
 import 'package:guardians_of_health_project/main.dart';
-import 'package:guardians_of_health_project/my_theme.dart';
 
 class SelectScreenMode extends StatefulWidget {
   final Function(ThemeMode) onChangeTheme;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
@@ -26,6 +23,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
   @override
   Widget build(BuildContext context) {
     // MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
+    MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.6,

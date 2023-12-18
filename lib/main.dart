@@ -51,10 +51,16 @@ class MyAppState extends State<MyApp> {
 
   changeThemeMode(ThemeMode themeMode) {
     _themeMode = themeMode; // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌.
+    setState(() {
+      
+    });
   }
 
   changeSeedColor(Color getSeedColor) {
     seedColor = getSeedColor;
+    setState(() {
+      
+    });
   }
 
   @override
@@ -96,9 +102,9 @@ class MyAppState extends State<MyApp> {
             if (securityController.biometricsValue.value == true) {
               return securityController.isAuthenticating.value
                   ? Container(color: Colors.black)
-                  : const Home();
+                  : Home(onChangeTheme: changeThemeMode,onChangeThemeColor: changeSeedColor);
             } else {
-              return const Home();
+              return Home(onChangeTheme: changeThemeMode,onChangeThemeColor: changeSeedColor);
             }
           }),
           // const Home(),

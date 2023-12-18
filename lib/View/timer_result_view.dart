@@ -304,10 +304,10 @@ class TimerResultView extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
-                      Get.offAll(
-                        () => const Home(),
-                        transition: Transition.noTransition,
-                      );
+                      // Get.offAll(
+                        // () => Home(onChangeTheme: ,),
+                        // transition: Transition.noTransition,
+                      // );
                     },
                     child: Column(
                       children: [

@@ -33,10 +33,10 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             timerController.showTimer(false);
             timerController.secondsUpdate.value = 0;
-            Get.offAll(
-              () => const Home(),
-              transition: Transition.noTransition,
-            );
+            // Get.offAll(
+              // () => const Home(),
+              // transition: Transition.noTransition,
+            // );
           },
           icon: Icon(
             Icons.arrow_back_ios_new,

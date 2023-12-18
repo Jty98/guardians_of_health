@@ -13,7 +13,9 @@ import 'package:guardians_of_health_project/View/security_setting_view.dart';
 import 'package:guardians_of_health_project/main.dart';
 
 class SettingView extends StatefulWidget {
-  const SettingView({super.key});
+  final Function(ThemeMode) onChangeTheme;
+  final Function(Color) onChangeThemeColor;
+  const SettingView({super.key, required this.onChangeTheme, required this.onChangeThemeColor});
 
   @override
   State<SettingView> createState() => _SettingViewState();
@@ -89,10 +91,8 @@ class _SettingViewState extends State<SettingView> {
                     context: context,
                     builder: (BuildContext context) {
                       return SelectScreenMode(
-                          onChangeTheme:
-                              myAppState!.changeThemeMode(ThemeMode.light),
-                          onChangeThemeColor:
-                              myAppState.changeSeedColor(Colors.white));
+                          onChangeTheme: widget.onChangeTheme,
+                          onChangeThemeColor: widget.onChangeThemeColor);
                     });
               },
             ),

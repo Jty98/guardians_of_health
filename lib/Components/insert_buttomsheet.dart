@@ -272,7 +272,7 @@ _showDialog(BuildContext context) {
     actions: [
       TextButton(
         onPressed: () {
-          Get.offAll(() => const Home(), transition: Transition.noTransition);
+          // Get.offAll(() => const Home(), transition: Transition.noTransition);
           timerController.resetBottomSheetValues();
           Get.back(); // 다이얼로그 닫기
         },

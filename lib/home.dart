@@ -15,7 +15,9 @@ import 'package:guardians_of_health_project/View/mainpage_view.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  final Function(ThemeMode) onChangeTheme; 
+  final Function(Color) onChangeThemeColor;
+  const Home({super.key, required this.onChangeTheme, required this.onChangeThemeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +111,7 @@ class Home extends StatelessWidget {
       const MainPageView(),
       const CalendarView(),
       const NearToiletView(), // 지도 페이지 추가시 바꾸기
-      const SettingView() 
+      SettingView(onChangeTheme: onChangeTheme,onChangeThemeColor: onChangeThemeColor) 
     ];
   }
 } // End
