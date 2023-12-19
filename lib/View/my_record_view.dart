@@ -144,9 +144,6 @@ class _MyRecordViewState extends State<MyRecordView> {
                   labelFormat: '{value}M',
                   intervalType: DateTimeIntervalType.auto,
                   dateFormat: DateFormat.yMd(),
-                  // minimum: DateTime.parse(recordCountList[0].perDateType),
-                  //segChoice == 2? DateTime.parse("${recordCountList[0].perDateType}-${DateTime.now().day}") : DateTime.parse(recordCountList[0].perDateType),
-                  // DateTime.parse(recordCountList[0].perDateType),
                   maximum: DateTime.now()
                 ),
                 primaryYAxis: NumericAxis(
@@ -162,25 +159,20 @@ class _MyRecordViewState extends State<MyRecordView> {
                     dataSource: recordCountList, 
                     xValueMapper: (RecordCountModel records, _) 
                       => (segChoice == 2) & (selectedIndex == 0) ? DateTime.parse("${records.perDateType}-${DateTime.now().day}") : DateTime.parse(records.perDateType), 
-                      // =>  (DateTime.parse(records.perDateType)), 
                     yValueMapper: (RecordCountModel records, _) => records.totalCount,
                     xAxisName: "날짜",
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
                     enableTooltip: true
-                    // spacing: 0.2 
                   )
                   : ColumnSeries<TakenTimeModel, DateTime>(
                       color: Theme.of(context).colorScheme.primary,
                       dataSource: takenTimeList, 
                       xValueMapper: (TakenTimeModel records, _) 
                       => (segChoice == 2) & (selectedIndex == 2) ? DateTime.parse("${records.perDateType}-${DateTime.now().day}") : DateTime.parse(records.perDateType), 
-                      // => DateTime.parse(records.perDateType),
-                      // DateTime.parse("${DateTime.now().year}-${DateTime.now().month}-${records.savedDate}"), 
                       yValueMapper: (TakenTimeModel records, _) => records.takenTime,
                       xAxisName: "날짜",
                       dataLabelSettings: const DataLabelSettings(isVisible: true),
                       enableTooltip: true
-                      // spacing: 0.2
                     )
                 ],
               )
@@ -234,17 +226,8 @@ class _MyRecordViewState extends State<MyRecordView> {
     recordCountList = [];
     var temp = await handler.queryRecordCountPerDateType(perDateType);
     for (var i in temp) {
-      // print("날짜 : ${i.perDateType}");
-      // print("개수 : ${i.totalCount}");
       recordCountList.add(RecordCountModel(perDateType: i.perDateType.toString(), totalCount: i. totalCount));
     }
-
-    // 확인
-    for (int i=0; i<recordCountList.length; i++){
-      print("날짜 타입별 : ${recordCountList[i].perDateType}");
-      print("데이터 개수 : ${recordCountList[i].totalCount}");
-    }
-    print("------------------------");
 
     setState(() {
       
@@ -259,22 +242,10 @@ class _MyRecordViewState extends State<MyRecordView> {
     perDateType == 0 ? temp = await handler.queryRatingCountPerDayType()
                       : temp = await handler.queryRatingCountPerWMType(perDateType);
     for (var i in temp) {
-      // print("날짜 : ${i.perDateType}");
-      // print("개수 : ${i.totalCount}");
       segChoice == 0 ? ratingList.add(RatingCountModelPerDay(perDateType: i.perDateType, rating: i.rating, countPerCategory: i.countPerCategory))
       : segChoice == 1 ? ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory))
       : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 91)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory));
     }
-
-    // 확인
-    for (int i=0; i<ratingList.length; i++){
-      debugPrint("날짜 타입별 : ${ratingList[i].perDateType}");
-      debugPrint("rating 범주별 : ${ratingList[i].rating}");
-      debugPrint("데이터 개수 : ${ratingList[i].countPerCategory}");
-      debugPrint("리스트의 데이터 개수 : ${ratingList.length}");
-    }
-    // print("${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}");
-    print("--------------------");
 
     setState(() {
       
@@ -288,25 +259,8 @@ class _MyRecordViewState extends State<MyRecordView> {
     takenTimeList = [];
     var temp = await handler.queryTakenTimeDataPerDateType(perDateType);
     for (var i in temp) {
-      // print("날짜 : ${i.perDateType}");
-      // print("개수 : ${i.totalCount}");
-      // var timeString = i.takenTime;
-
-      // tempResult.add(double.parse(result));
-      // double averageMinutes = tempResult.isNotEmpty ? tempResult.reduce((a, b) => a + b) / tempResult.length : 0;
-      // reduce() : 리스트의 모든 요소를 하나의 값으로 축소(reduce). 모든 tempResult 값들을 합산. a는 누적값, b는 현재 요소값
-
-      // 일별 데이터는 그대로 보여주고, 주 or 월별 데이터는 해당 기간동안의 데이터 평균으로 보여주기
-      // 일별 데이터에서 만약 횟수가 1회 이상이면 소요시간의 평균으로 보여주기
       takenTimeList.add(TakenTimeModel(perDateType: i.perDateType, takenTime: i.takenTime));
     }
-
-    // 확인
-    for (int i=0; i<takenTimeList.length; i++){
-      debugPrint("날짜 타입별 : ${takenTimeList[i].perDateType}");
-      debugPrint("소요시간(분) : ${takenTimeList[i].takenTime}");
-    }
-    debugPrint("------------");
 
     setState(() {
       

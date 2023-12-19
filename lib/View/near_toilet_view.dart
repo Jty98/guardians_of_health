@@ -193,8 +193,6 @@ class _NearToiletViewState extends State<NearToiletView> {
               ),
             );
           }).toList(),
-          //   // 반경 내 1km 거리 계산한 뒤 list로 받아서 뿌려주면 되려나?
-          //   // 현재 내 위치를 넣고 거리 계산한 뒤 1km 반경 내 화장실 return 해주는 모델 만들기?
         ),
         MarkerLayer(          // 현재 내위치 데이터
           markers: [ 
@@ -254,9 +252,8 @@ class _NearToiletViewState extends State<NearToiletView> {
         mylat = currentPosition.latitude;
         mylng = currentPosition.longitude;
         setState(() {});
-        // print("현재위치 위도 : 경도 = " + latData.toString() + " : " + longData.toString());
       }).catchError((e){
-        print(e);
+        debugPrint("지도파트 오류(near_toilet_view.dart) : $e");
       });
   }
 

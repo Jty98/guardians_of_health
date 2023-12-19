@@ -7,7 +7,6 @@ class SelectScreenMode extends StatefulWidget {
   final Function(ThemeMode) onChangeTheme;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
   final Function(Color) onChangeThemeColor;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
   const SelectScreenMode({super.key, required this.onChangeTheme, required this.onChangeThemeColor});   
-  // const SelectScreenMode({super.key});   
 
   @override
   State<SelectScreenMode> createState() => _SelectScreenModeState();
@@ -23,10 +22,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
   void initState() {
     super.initState();
     getThemeInfo();
-
-    // themeInfo = myTheme.getThemeInfo();
-    // isDarkMode = themeInfo[0];
-    // themeColor = themeInfo[1];               // 0: white, 1: red, 2: yellow, 3: green, 4: blue, 5: purple
   }
 
   @override
@@ -52,7 +47,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
                     isDarkMode ? widget.onChangeTheme(ThemeMode.dark)
                                 : widget.onChangeTheme(ThemeMode.light);
                     isDarkMode = !isDarkMode;
@@ -113,8 +107,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   setState(() {
                     
                   });
-                  // print("터치 됐당 ");
-                  // print(MyAppState().seedColor.toString());                  
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -144,8 +136,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   setState(() {
                     
                   });
-                  // print("터치 됐당 ");
-                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -175,8 +165,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   setState(() {
                     
                   });
-                  // print("터치 됐당 ");
-                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -206,8 +194,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   setState(() {
                     
                   });
-                  // print("터치 됐당 ");
-                  // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -231,15 +217,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
               GestureDetector(
                 onTap: (){
-                  // print("터치 전이당");
                   widget.onChangeThemeColor(Colors.purple);
                   themeColor = 5;
                   saveThemeInfo();
                   setState(() {
                     
                   });
-                  // print("터치 됐당 ");
-                  // print(MyTheme.seedColor.toString());
                 },
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
@@ -275,9 +258,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                 
               });
             }, 
-            // style: ElevatedButton.styleFrom(
-            //   backgroundColor: Theme.of(context).colorScheme.secondary
-            // ),
             child: const Text(
               "기본 스타일로 변경",
               ),

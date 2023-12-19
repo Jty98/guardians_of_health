@@ -15,7 +15,6 @@ class SettingView extends StatefulWidget {
   final Function(ThemeMode) onChangeTheme;
   final Function(Color) onChangeThemeColor;
   const SettingView({super.key, required this.onChangeTheme, required this.onChangeThemeColor});
-  // const SettingView({super.key});
 
   @override
   State<SettingView> createState() => _SettingViewState();
@@ -92,7 +91,6 @@ class _SettingViewState extends State<SettingView> {
                       return SelectScreenMode(
                           onChangeTheme: widget.onChangeTheme,
                           onChangeThemeColor: widget.onChangeThemeColor);
-                      // return const SelectScreenMode();
                     });
               },
             ),
