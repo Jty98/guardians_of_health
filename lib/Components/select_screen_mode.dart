@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:guardians_of_health_project/my_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectScreenMode extends StatefulWidget {
@@ -13,14 +14,19 @@ class SelectScreenMode extends StatefulWidget {
 }
 
 class _SelectScreenModeState extends State<SelectScreenMode> {
-  late bool isDarkMode;
-  late int themeColor;
+  bool isDarkMode = false;
+  int themeColor = 0;
+  MyTheme myTheme = MyTheme();
+  late List themeInfo;
   
   @override
   void initState() {
     super.initState();
-    isDarkMode = false;
-    themeColor = 0;               // 0: white, 1: red, 2: yellow, 3: green, 4: blue, 5: purple
+    getThemeInfo();
+
+    // themeInfo = myTheme.getThemeInfo();
+    // isDarkMode = themeInfo[0];
+    // themeColor = themeInfo[1];               // 0: white, 1: red, 2: yellow, 3: green, 4: blue, 5: purple
   }
 
   @override
@@ -115,6 +121,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Container(
                     width: 50.w,
                     height: 50.h,
+                    child: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),  
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.red
@@ -138,6 +148,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Container(
                     width: 50.w,
                     height: 50.h,
+                    child: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),                    
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.yellow
@@ -161,6 +175,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Container(
                     width: 50.w,
                     height: 50.h,
+                    child: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.green
@@ -184,6 +202,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Container(
                     width: 50,
                     height: 50,
+                    child: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.blue
@@ -208,6 +230,10 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   child: Container(
                     width: 50,
                     height: 50,
+                    child: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.purple
@@ -221,18 +247,37 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
           ElevatedButton(
             onPressed: (){
               widget.onChangeThemeColor(Colors.white);
+              widget.onChangeTheme(ThemeMode.light);
+              isDarkMode = false;
               themeColor = 0;
               saveThemeInfo();
               setState(() {
                 
               });
             }, 
-            child: const Text("기본 스타일로 변경"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.tertiary
+            ),
+            child: const Text(
+              "기본 스타일로 변경",
+              ),
           )
         ],
       ),
     );
   }
+
+  /// SharedPreferences - 테마 변경 저장된 값 있으면 가져오기 (없으면 기본값)
+  getThemeInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    isDarkMode = prefs.getBool('ThemeMode') ?? false;
+    themeColor = prefs.getInt('ThemeColor') ?? 0;
+    print(isDarkMode);
+    setState(() {
+      
+    });
+  }
+
 
   saveThemeInfo() async {
     final prefs = await SharedPreferences.getInstance();

@@ -7,11 +7,15 @@ import 'package:guardians_of_health_project/Components/Numberpad/first_numberpad
 import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:guardians_of_health_project/my_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SecurityController securityController = Get.put(SecurityController());
+
+  MyTheme myTheme = MyTheme();
+  
 
   // 생체인증 status shared로 불러오기
   securityController.biometricsValue.value = await getisPrivatedState();
@@ -29,7 +33,7 @@ void main() async {
   }
 
   // 테마 정보 가져오기
-  final themeInfo = await getThemeInfo();
+  final themeInfo = await myTheme.getThemeInfo();
   final bool isDarkMode = themeInfo[0];
   final int themeColor = themeInfo[1];
 
@@ -62,7 +66,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _themeMode = widget.isDarkMode? ThemeMode.dark : ThemeMode.light; 
-    _seedColor = widget.themeColor == 0 ? Colors.white 
+    _seedColor = widget.themeColor == 0 ? const Color.fromARGB(255, 247, 251, 243) 
                 : widget.themeColor == 1 ? Colors.red 
                 : widget.themeColor == 2 ? Colors.yellow 
                 : widget.themeColor == 3 ? Colors.green 
@@ -160,6 +164,7 @@ class MyAppState extends State<MyApp> {
       fontFamily: "omyu-pretty",
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+          // backgroundColor: Theme.of(context).colorScheme.tertiary,
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정

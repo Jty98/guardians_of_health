@@ -32,7 +32,7 @@ class Home extends StatelessWidget {
         screens: _buildScreens(), // 탭바누르면 이동할 페이지들 함수
         items: _navBarsItems(context), // 탭들 디자인하는 함수
         confineInSafeArea: true,
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         // handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true, // 키보드 눌렀을 때 화면 자동으로 위로 올라감
         // stateManagement: true,
@@ -71,8 +71,8 @@ class Home extends StatelessWidget {
         title: "홈",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onTertiary),
-        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
+            color: Theme.of(context).colorScheme.onSecondary),
+        activeColorPrimary: Theme.of(context).colorScheme.onSecondary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -80,8 +80,8 @@ class Home extends StatelessWidget {
         title: "쾌변기록",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onTertiary),
-        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
+            color: Theme.of(context).colorScheme.onSecondary),
+        activeColorPrimary: Theme.of(context).colorScheme.onSecondary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -89,8 +89,8 @@ class Home extends StatelessWidget {
         title: "긴급지도",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onTertiary),
-        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
+            color: Theme.of(context).colorScheme.onSecondary),
+        activeColorPrimary: Theme.of(context).colorScheme.onSecondary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -98,8 +98,8 @@ class Home extends StatelessWidget {
         title: "설정",
         textStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onTertiary),
-        activeColorPrimary: Theme.of(context).colorScheme.onTertiary,
+            color: Theme.of(context).colorScheme.onSecondary),
+        activeColorPrimary: Theme.of(context).colorScheme.onSecondary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
