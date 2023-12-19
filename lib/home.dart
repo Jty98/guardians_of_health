@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/Appbar/myappbar.dart';
+import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/View/near_toilet_view.dart';
 import 'package:guardians_of_health_project/View/setting_view.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
-import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
@@ -108,7 +108,7 @@ class Home extends StatelessWidget {
   // 탭바 누르면 이동할 페이지
   List<Widget> _buildScreens() {
     return  [
-      const MainPageView(),
+      MainPageView(onChangeTheme: onChangeTheme,onChangeThemeColor: onChangeThemeColor),
       const CalendarView(),
       const NearToiletView(), // 지도 페이지 추가시 바꾸기
       SettingView(onChangeTheme: onChangeTheme,onChangeThemeColor: onChangeThemeColor) 

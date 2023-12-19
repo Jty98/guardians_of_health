@@ -11,7 +11,12 @@ import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/timer_view.dart';
 
 class MainPageView extends StatefulWidget {
-  const MainPageView({super.key});
+  final Function(ThemeMode) onChangeTheme;
+  final Function(Color) onChangeThemeColor;
+  const MainPageView(
+      {super.key,
+      required this.onChangeTheme,
+      required this.onChangeThemeColor});
 
   @override
   State<MainPageView> createState() => _MainPageViewState();
@@ -45,7 +50,7 @@ class _MainPageViewState extends State<MainPageView> {
             // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
             timerController.showTimer(true);
             Get.to(
-              () => const TimerView(),
+              () => TimerView(onChangeTheme: widget.onChangeTheme,onChangeThemeColor: widget.onChangeThemeColor),
               transition: Transition.noTransition,
             );
           },
@@ -56,14 +61,17 @@ class _MainPageViewState extends State<MainPageView> {
             height: animationStatus ? 320.0.h : 370.0.h,
             decoration: BoxDecoration(
               color:
-                  animationStatus ? Colors.green[500] : Colors.amber[500],
+                  // animationStatus ? Colors.green[500] : Colors.amber[500],
+                  animationStatus
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.tertiary,
               borderRadius: BorderRadius.circular(200.0.r),
             ),
             child: Center(
               child: Text(
                 "볼일을 시작하면 여기를 눌러주세요!",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                 ),

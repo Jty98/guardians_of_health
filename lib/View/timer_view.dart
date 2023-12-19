@@ -7,12 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/health_info_widget.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
-import 'package:guardians_of_health_project/View/health_info_view.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
-import 'package:guardians_of_health_project/home.dart';
 
 class TimerView extends StatelessWidget implements PreferredSizeWidget {
-  const TimerView({Key? key}):super(key: key);
+  final Function(ThemeMode) onChangeTheme;
+  final Function(Color) onChangeThemeColor;
+
+  const TimerView(
+      {Key? key, required this.onChangeTheme, required this.onChangeThemeColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +36,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             timerController.showTimer(false);
             timerController.secondsUpdate.value = 0;
-            // Get.offAll(
-              // () => const Home(),
-              // transition: Transition.noTransition,
-            // );
+            Get.back();
           },
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -48,7 +48,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
       body: PageView(
         scrollDirection: Axis.vertical,
         children: [
-          buildTimerPage(timerController),
+          buildTimerPage(timerController, context),
           healthInfoWidget(context: context),
         ],
       ),
@@ -58,13 +58,13 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
   @override
   // preferredSize 지정
   Size get preferredSize => Size.fromHeight(56.h);
-  Widget buildTimerPage(TimerController timerController) {
+  Widget buildTimerPage(TimerController timerController, BuildContext context) {
     return Center(
       child: GestureDetector(
         onTap: () {
           timerController.showTimer(false);
           Get.to(
-            () => const TimerResultView(),
+            () => TimerResultView(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
             transition: Transition.noTransition,
           );
         },
@@ -76,7 +76,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
               height: 350.0.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(200.0.r),
-                color: Colors.green,
+                color: Theme.of(context).colorScheme.primary,
               ),
               child: Center(
                 child: Column(
@@ -86,7 +86,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
                       return Text(
                         timerController.formattedTime(),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 40.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -98,7 +98,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
                     Text(
                       "볼일이 끝나면 여기를 눌러주세요!",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),

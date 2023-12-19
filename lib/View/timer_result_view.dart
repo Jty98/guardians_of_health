@@ -8,11 +8,18 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
+import 'package:guardians_of_health_project/View/mainpage_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 import 'package:guardians_of_health_project/util/asset_images.dart';
 
 class TimerResultView extends StatelessWidget {
-  const TimerResultView({super.key});
+  final Function(ThemeMode) onChangeTheme;
+  final Function(Color) onChangeThemeColor;
+
+  const TimerResultView(
+      {super.key,
+      required this.onChangeTheme,
+      required this.onChangeThemeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +49,7 @@ class TimerResultView extends StatelessWidget {
 
         automaticallyImplyLeading: false, // 왼쪽 뒤로가기 버튼 없애기
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: () async {
+      body: FutureBuilder<List<dynamic>>(future: () async {
         List? result = [];
         result.add(await handler.queryRecord());
         return result;
@@ -285,7 +291,7 @@ class TimerResultView extends StatelessWidget {
                     height: 30.h,
                   ),
                   ElevatedButton(
-                    onPressed: () => insertBottomSheet(context),
+                    onPressed: () => insertBottomSheet(context, onChangeTheme, onChangeThemeColor),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.tertiary,
                     ),
@@ -304,9 +310,11 @@ class TimerResultView extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                       // Get.offAll(
-                        // () => Home(onChangeTheme: ,),
-                        // transition: Transition.noTransition,
+                      //   Home(onChangeTheme: (a) {}, onChangeThemeColor: (b) {}),
+                      //   // Home(),
+                      //   transition: Transition.noTransition,
                       // );
                     },
                     child: Column(
@@ -334,4 +342,3 @@ class TimerResultView extends StatelessWidget {
     );
   }
 }
-

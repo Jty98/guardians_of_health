@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarView extends StatefulWidget {
-  const CalendarView({Key? key}):super(key: key);
+  const CalendarView({Key? key}) : super(key: key);
 
   @override
   State<CalendarView> createState() => CalendarViewState();
@@ -38,6 +38,7 @@ class CalendarViewState extends State<CalendarView> {
   // 그날 이벤트의 갯수
   @override
   Widget build(BuildContext context) {
+    handler.queryRecord();
     // 날짜 포멧
     formattedDate = DateFormat('yyyy-MM-dd')
         .format(calendarController.selectedDay.value!.toLocal());
@@ -88,75 +89,71 @@ class CalendarViewState extends State<CalendarView> {
 
             return Scaffold(
               body: Center(
-                child: Obx(
-                  () {
-                    return Column(
-                      children: [
-                        TableCalendar(
-                          rowHeight: 42.h,
-                          focusedDay: calendarController.selectedDay.value!,
-                          firstDay: DateTime.utc(2000, 1, 1),
-                          lastDay: DateTime.utc(2050, 12, 31),
-                          locale: "ko_KR",
-                          headerStyle: const HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true,
+                  child: Obx(
+                () => Column(
+                  children: [
+                    TableCalendar(
+                      rowHeight: 42.h,
+                      focusedDay: calendarController.selectedDay.value!,
+                      firstDay: DateTime.utc(2000, 1, 1),
+                      lastDay: DateTime.utc(2050, 12, 31),
+                      locale: "ko_KR",
+                      headerStyle: const HeaderStyle(
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                      ),
+                      onDaySelected: _daySelected,
+                      selectedDayPredicate: (day) =>
+                          isSameDay(day, calendarController.selectedDay.value!),
+                      eventLoader: (day) {
+                        return calendarController.getEventsForDay(
+                            day, recordList);
+                      },
+                      calendarBuilders: CalendarBuilders(
+                        markerBuilder: (context, date, events) {
+                          MarkerStyle markerStyle = MarkerStyle();
+                          return events.isNotEmpty
+                              ? markerStyle.buildEventsMarkerNum(events)
+                              : Container();
+                        },
+                      ),
+
+                      // 토요일, 일요일 글씨색
+                      calendarStyle: const CalendarStyle(
+                          markerSize: 8.0,
+                          weekendTextStyle: TextStyle(color: Colors.red),
+                          holidayTextStyle: TextStyle(color: Colors.red),
+                          holidayDecoration: BoxDecoration()
+                          // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
                           ),
-                          onDaySelected: _daySelected,
-                          selectedDayPredicate: (day) => isSameDay(
-                              day, calendarController.selectedDay.value!),
-                          eventLoader: (day) {
-                            return calendarController.getEventsForDay(
-                                day, recordList);
-                          },
-                          calendarBuilders: CalendarBuilders(
-                            markerBuilder: (context, date, events) {
-                              MarkerStyle markerStyle = MarkerStyle();
-                              return events.isNotEmpty
-                                  ? markerStyle.buildEventsMarkerNum(events)
-                                  : Container();
-                            },
-                          ),
-              
-                          // 토요일, 일요일 글씨색
-                          calendarStyle: const CalendarStyle(
-                              markerSize: 8.0,
-                              weekendTextStyle: TextStyle(color: Colors.red),
-                              holidayTextStyle: TextStyle(color: Colors.red),
-                              holidayDecoration: BoxDecoration()
-                              // 마커 말고 텍스트로 숫자를 넣어주는 방법도 고려
-                              ),
-                          // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        TodayBanner(
-                          selectedDate: calendarController.selectedDay.value!,
-                          count: calendarController
-                              .getEventsForDay(
-                                  calendarController.selectedDay.value!,
-                                  recordList)
-                              .length,
-                        ),
-                        SizedBox(
-                          height: 350.h,
-                          child: CalendarDetail(
-                            listLength: calendarController
-                                .getEventsForDay(
-                                    calendarController.selectedDay.value!,
-                                    recordList)
-                                .length,
-                            selectedDate: calendarController.selectedDay.value!,
-                            events: events,
-                            recordList: recordList,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                      // 캘린더 페이지를 이동해서 년도, 월이 바뀔 때 호출하는 콜백함수
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    TodayBanner(
+                      selectedDate: calendarController.selectedDay.value!,
+                      count: calendarController
+                          .getEventsForDay(
+                              calendarController.selectedDay.value!, recordList)
+                          .length,
+                    ),
+                    SizedBox(
+                      height: 350.h,
+                      child: CalendarDetail(
+                        listLength: calendarController
+                            .getEventsForDay(
+                                calendarController.selectedDay.value!,
+                                recordList)
+                            .length,
+                        selectedDate: calendarController.selectedDay.value!,
+                        events: events,
+                        recordList: recordList,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              )),
             );
           }
           return SizedBox(
@@ -177,4 +174,4 @@ class CalendarViewState extends State<CalendarView> {
   }
 }
 
-// End
+  // End
