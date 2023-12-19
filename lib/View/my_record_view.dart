@@ -30,14 +30,6 @@ class _MyRecordViewState extends State<MyRecordView> {
   late List<RatingCountModelPerDay> ratingList;                       // 만족도 기록 데이터
   late List<TakenTimeModel> takenTimeList;                       // 만족도 기록 데이터
 
-  late List varData;                          // 변수별 데이터 
-  late List yearList;
-  late List monthList;
-  late List dayList;
-  late List colorList;
-  late List dateList;
-  String formattedDate = "";
-
   // Segment Widget
   Map<int, Widget> segmentWidget = {
     0: SizedBox(
@@ -99,54 +91,7 @@ class _MyRecordViewState extends State<MyRecordView> {
     ratingList = [];
     takenTimeList = [];
 
-    varData = [];
-    recordData = [];
-    yearList = [];
-    monthList =[];
-    dayList = [];
-    colorList = [];
-    dateList = [];
-    
-    // print("여긴 오나1");
     getCountData(segChoice);
-    // print("여긴 오나2");
-    // print(recordCountList);
-    // _fetchData();
-    // print("에러 확인 날짜3 : ${DateTime.parse(recordCountList[0].perDateType)}");
-  }
-
-
-
-  _fetchData() async{
-    var temp = await handler.queryRecord();
-    for(var i in temp){
-      dateList.add(i.currentTime!.substring(0, 10));
-      // ratingList.add(i.rating);
-    }
-
-    for (int i=0; i < dateList.length; i++) {
-      DateTime dateTime = DateTime.parse(dateList[i]);
-      print("dateTime: $dateTime");
-      int tempYear = dateTime.year;
-      int tempMonth = dateTime.month;
-      int tempDay = dateTime.day;
-      yearList.add(tempYear);
-      monthList.add(tempMonth);
-      dayList.add(tempDay);
-    }
-
-    // savedDateList = dayList;
-    savedDateList = dateList;
-    // var tlist = [1, 2, 3, 5, 2, 1, 2, 3, 4];
-    // addChartData(tlist);
-    print("rating List data : $ratingList");
-    print("dateList : $dateList");
-    // print("yearList : $yearList");
-    // print("monthList : $monthList");
-    // print("dayList : $dayList");
-    
-    print("fetched");
-
   }
 
   @override
@@ -167,8 +112,6 @@ class _MyRecordViewState extends State<MyRecordView> {
               children: segmentWidget, 
               onValueChanged: (value){
                 segChoice = value;
-                // print("segvalue : $value");
-                // print("segChoice : $segChoice");
                 selectedIndex == 0 ? getCountData(segChoice)
                 : selectedIndex == 1? getRatingCountData(segChoice)
                 : getTakenTimeCountData(segChoice);
@@ -187,8 +130,9 @@ class _MyRecordViewState extends State<MyRecordView> {
                 ),
                 tooltipBehavior: tooltipBehavior,
                 primaryXAxis: DateTimeAxis(
+                  labelFormat: "MMM dd, yyyy",
                   intervalType: DateTimeIntervalType.auto,
-                  dateFormat: DateFormat.yMd(),
+                  // dateFormat: DateFormat.yMd(),
                   // minimum: DateTime.parse(recordCountList[0].perDateType),
                   //segChoice == 2? DateTime.parse("${recordCountList[0].perDateType}-${DateTime.now().day}") : DateTime.parse(recordCountList[0].perDateType),
                   // DateTime.parse(recordCountList[0].perDateType),
@@ -303,7 +247,8 @@ class _MyRecordViewState extends State<MyRecordView> {
       // print("날짜 : ${i.perDateType}");
       // print("개수 : ${i.totalCount}");
       segChoice == 0 ? ratingList.add(RatingCountModelPerDay(perDateType: i.perDateType, rating: i.rating, countPerCategory: i.countPerCategory))
-      : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory));
+      : segChoice == 1 ? ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory))
+      : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 91)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory));
     }
 
     // 확인

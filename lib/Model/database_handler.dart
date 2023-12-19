@@ -118,11 +118,6 @@ class DatabaseHandler {
     return queryCountResult.map((e) => RecordCountModel.fromMap(e)).toList();
   }
 
-
-
-
-
-
 // 일(최근 7일)별 만족도 범주별 데이터 count
   Future<List<RatingCountModelPerDay>> queryRatingCountPerDayType() async {
     final Database db = await initializeDB();

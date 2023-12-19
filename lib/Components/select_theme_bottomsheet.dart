@@ -120,14 +120,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50.w,
-                    height: 50.h,
-                    child: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),  
+                    height: 50.h,  
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.red
+                    ),
+                    child: Visibility(
+                      visible: themeColor == 1 ? true : false,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.red[100],
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
@@ -147,14 +151,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50.w,
-                    height: 50.h,
-                    child: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),                    
+                    height: 50.h,                    
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.yellow
+                    ),
+                    child: Visibility(
+                      visible: themeColor == 2 ? true : false,
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.orange,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
@@ -174,14 +182,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50.w,
-                    height: 50.h,
-                    child: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),                      
+                    height: 50.h,                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.green
+                    ),
+                    child: Visibility(
+                      visible: themeColor == 3 ? true : false,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.green[900],
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
@@ -201,14 +213,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50,
-                    height: 50,
-                    child: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),                      
+                    height: 50,                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.blue
+                    ),
+                    child: Visibility(
+                      visible: themeColor == 4 ? true : false,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.blue[900],
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
@@ -229,14 +245,18 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                   padding: EdgeInsets.fromLTRB(5.w, 5.h, 5.w, 5.h),
                   child: Container(
                     width: 50,
-                    height: 50,
-                    child: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),                      
+                    height: 50,                      
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.purple
+                    ),
+                    child: Visibility(
+                      visible: themeColor == 5 ? true : false,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.deepPurple[100],
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
@@ -272,7 +292,6 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
     final prefs = await SharedPreferences.getInstance();
     isDarkMode = prefs.getBool('ThemeMode') ?? false;
     themeColor = prefs.getInt('ThemeColor') ?? 0;
-    print(isDarkMode);
     setState(() {
       
     });
