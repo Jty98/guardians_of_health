@@ -191,9 +191,9 @@ class DatabaseHandler {
         await db.rawQuery('''
           SELECT 
             STRFTIME('%Y-%m-%d', currentTime) AS inserted_per_date,
-            ROUND(AVG((CAST(STRFTIME('%H', takenTime) AS INTEGER) * 60 +
+            ROUND((CAST(STRFTIME('%H', takenTime) AS INTEGER) * 60 +
                   CAST(STRFTIME('%M', takenTime) AS INTEGER) +
-                  CAST(STRFTIME('%S', takenTime) AS REAL) / 60)) , 2) AS takenTime
+                  CAST(STRFTIME('%S', takenTime) AS REAL) / 60) , 2) AS takenTime
           FROM record
           GROUP BY STRFTIME('%Y-%m-%d', currentTime)
         ''');

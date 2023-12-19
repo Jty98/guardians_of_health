@@ -79,7 +79,6 @@ class _MyRecordViewState extends State<MyRecordView> {
   @override
   void initState() {
     super.initState();
-    tooltipBehavior = TooltipBehavior(enable: true);
     segChoice = 0;
     handler = DatabaseHandler();
     _selectedVariable = <bool>[true, false, false];
@@ -91,8 +90,20 @@ class _MyRecordViewState extends State<MyRecordView> {
     ratingList = [];
     takenTimeList = [];
 
+    tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: setTooltipBehavior()
+      );
     getCountData(segChoice);
   }
+
+  setTooltipBehavior(){
+    return selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex];
+    // setState(() {
+      
+    // });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +137,13 @@ class _MyRecordViewState extends State<MyRecordView> {
               child: ((selectedIndex == 0) | (selectedIndex == 2))
               ? SfCartesianChart(
                 title: ChartTitle(
-                  text: recordVariable[selectedIndex]
+                  text: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
                 ),
                 tooltipBehavior: tooltipBehavior,
                 primaryXAxis: DateTimeAxis(
-                  labelFormat: "MMM dd, yyyy",
+                  labelFormat: '{value}M',
                   intervalType: DateTimeIntervalType.auto,
-                  // dateFormat: DateFormat.yMd(),
+                  dateFormat: DateFormat.yMd(),
                   // minimum: DateTime.parse(recordCountList[0].perDateType),
                   //segChoice == 2? DateTime.parse("${recordCountList[0].perDateType}-${DateTime.now().day}") : DateTime.parse(recordCountList[0].perDateType),
                   // DateTime.parse(recordCountList[0].perDateType),
@@ -144,7 +155,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                   rangePadding: ChartRangePadding.auto,
                   autoScrollingMode: AutoScrollingMode.end,
                 ),
-                series: [
+                series: <CartesianSeries>[
                   selectedIndex == 0        // 횟수 : Bar Chart
                   ? ColumnSeries<RecordCountModel, DateTime>(
                     color: Theme.of(context).colorScheme.primary,
@@ -154,6 +165,8 @@ class _MyRecordViewState extends State<MyRecordView> {
                       // =>  (DateTime.parse(records.perDateType)), 
                     yValueMapper: (RecordCountModel records, _) => records.totalCount,
                     xAxisName: "날짜",
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    enableTooltip: true
                     // spacing: 0.2 
                   )
                   : ColumnSeries<TakenTimeModel, DateTime>(
@@ -165,6 +178,8 @@ class _MyRecordViewState extends State<MyRecordView> {
                       // DateTime.parse("${DateTime.now().year}-${DateTime.now().month}-${records.savedDate}"), 
                       yValueMapper: (TakenTimeModel records, _) => records.takenTime,
                       xAxisName: "날짜",
+                      dataLabelSettings: const DataLabelSettings(isVisible: true),
+                      enableTooltip: true
                       // spacing: 0.2
                     )
                 ],
@@ -253,10 +268,10 @@ class _MyRecordViewState extends State<MyRecordView> {
 
     // 확인
     for (int i=0; i<ratingList.length; i++){
-      print("날짜 타입별 : ${ratingList[i].perDateType}");
-      print("rating 범주별 : ${ratingList[i].rating}");
-      print("데이터 개수 : ${ratingList[i].countPerCategory}");
-      print("리스트의 데이터 개수 : ${ratingList.length}");
+      debugPrint("날짜 타입별 : ${ratingList[i].perDateType}");
+      debugPrint("rating 범주별 : ${ratingList[i].rating}");
+      debugPrint("데이터 개수 : ${ratingList[i].countPerCategory}");
+      debugPrint("리스트의 데이터 개수 : ${ratingList.length}");
     }
     // print("${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}");
     print("--------------------");
@@ -288,28 +303,14 @@ class _MyRecordViewState extends State<MyRecordView> {
 
     // 확인
     for (int i=0; i<takenTimeList.length; i++){
-      print("날짜 타입별 : ${takenTimeList[i].perDateType}");
-      print("소요시간(분) : ${takenTimeList[i].takenTime}");
+      debugPrint("날짜 타입별 : ${takenTimeList[i].perDateType}");
+      debugPrint("소요시간(분) : ${takenTimeList[i].takenTime}");
     }
-    print("------------");
+    debugPrint("------------");
 
     setState(() {
       
     });
   }
   
-  addChartData(varList){
-    for (int i=0; i<savedDateList.length; i++){
-      chartData.add(MyRecordData(savedDate: savedDateList[i].toString(), toShowVar: varList[i]));
-    }
-    // print("저장된 날짜 : $savedDateList");
-    // print("입력된 데이터 : ${chartData[0].toShowVar}");
-    // chartData.add(MyRecordData(savedDate: savedDateList, varName: varList));
-    // 저장 날짜 별 변수에 대한 그래프 그려줘야 함. 
-    // 횟수는 DB에서 count 해서 return 받고 보여줘야 할 거 같고
-    // 다른 데이터들을 <저장날짜(x축), 변수(숫자 - y축)> 형태로 빈 리스트에 추가 한 뒤 그때그때 x, y 그래프에 넣어줘야 할듯.
-    // 횟수 - bar, 만족도, 모양, 색상, 냄새 - 비율 그래프, 소요시간 : 평균 시간과 비교하는 bar 차트
-    // 특이사항은 자주 등장하는 단어 빈도수로 word cloud 그려주면 좋을듯.
-    // 
-  }
 }   // END
