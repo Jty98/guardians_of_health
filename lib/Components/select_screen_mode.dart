@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:guardians_of_health_project/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectScreenMode extends StatefulWidget {
   final Function(ThemeMode) onChangeTheme;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
   final Function(Color) onChangeThemeColor;      // main page에 있는 home: Home(onChangeTheme: _changeThemeMode) 형태에 맞춰 수정
   const SelectScreenMode({super.key, required this.onChangeTheme, required this.onChangeThemeColor});   
+  // const SelectScreenMode({super.key});   
 
   @override
   State<SelectScreenMode> createState() => _SelectScreenModeState();
@@ -13,18 +14,17 @@ class SelectScreenMode extends StatefulWidget {
 
 class _SelectScreenModeState extends State<SelectScreenMode> {
   late bool isDarkMode;
+  late int themeColor;
   
   @override
   void initState() {
     super.initState();
     isDarkMode = false;
+    themeColor = 0;               // 0: white, 1: red, 2: yellow, 3: green, 4: blue, 5: purple
   }
 
   @override
   Widget build(BuildContext context) {
-    // MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
-    MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
-
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.6,
       child: Column(
@@ -49,6 +49,8 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                     // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
                     isDarkMode ? widget.onChangeTheme(ThemeMode.dark)
                                 : widget.onChangeTheme(ThemeMode.light);
+                    isDarkMode = !isDarkMode;
+                    saveThemeInfo();
                     setState(() {
                       
                     });
@@ -79,6 +81,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                               isDarkMode = value;
                               value ? widget.onChangeTheme(ThemeMode.dark)
                                 : widget.onChangeTheme(ThemeMode.light);
+                              saveThemeInfo();
                               setState(() {
                                 
                               });
@@ -99,10 +102,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               GestureDetector(
                 onTap: (){
                   widget.onChangeThemeColor(Colors.red);
+                  themeColor = 1;
+                  saveThemeInfo();
                   setState(() {
                     
                   });
-                  print("터치 됐당 ");
+                  // print("터치 됐당 ");
                   // print(MyAppState().seedColor.toString());                  
                 },
                 child: Padding(
@@ -120,10 +125,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               GestureDetector(
                 onTap: (){
                   widget.onChangeThemeColor(Colors.yellow);
+                  themeColor = 2;
+                  saveThemeInfo();
                   setState(() {
                     
                   });
-                  print("터치 됐당 ");
+                  // print("터치 됐당 ");
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
@@ -141,10 +148,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               GestureDetector(
                 onTap: (){
                   widget.onChangeThemeColor(Colors.green);
+                  themeColor = 3;
+                  saveThemeInfo();
                   setState(() {
                     
                   });
-                  print("터치 됐당 ");
+                  // print("터치 됐당 ");
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
@@ -162,10 +171,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               GestureDetector(
                 onTap: (){
                   widget.onChangeThemeColor(Colors.blue);
+                  themeColor = 4;
+                  saveThemeInfo();
                   setState(() {
                     
                   });
-                  print("터치 됐당 ");
+                  // print("터치 됐당 ");
                   // print(MyTheme.seedColor.toString());                  
                 },
                 child: Padding(
@@ -182,12 +193,14 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
               ),
               GestureDetector(
                 onTap: (){
-                  print("터치 전이당");
+                  // print("터치 전이당");
                   widget.onChangeThemeColor(Colors.purple);
+                  themeColor = 5;
+                  saveThemeInfo();
                   setState(() {
                     
                   });
-                  print("터치 됐당 ");
+                  // print("터치 됐당 ");
                   // print(MyTheme.seedColor.toString());
                 },
                 child: Padding(
@@ -207,7 +220,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
           SizedBox(height: 30.h),
           ElevatedButton(
             onPressed: (){
-              // MyTheme.seedColor = Colors.white;
+              widget.onChangeThemeColor(Colors.white);
+              themeColor = 0;
+              saveThemeInfo();
+              setState(() {
+                
+              });
             }, 
             child: const Text("기본 스타일로 변경"),
           )
@@ -215,79 +233,12 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
       ),
     );
   }
-}
+
+  saveThemeInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("ThemeMode", isDarkMode);       // ThemeMode == 0 : lightMode | ThemeMode == 1 : darkMode
+    prefs.setInt("ThemeColor", themeColor);       // themeColor == 0: white, 1: red, 2: yellow, 3: green, 4: blue, 5: purple
+  }
 
 
-
-
-// void selectScreenMode (BuildContext context){
-//   Get.bottomSheet(
-//   // isScrollControlled: true,
-//   backgroundColor: Colors.white,      // 라이트/다크모드에 따라 바뀌게 하기
-//   Column(
-//     children: [
-//       Padding(
-//         padding: const EdgeInsets.all(10.0),
-//         child: Text(
-//           "색상",
-//           style: TextStyle(
-//             fontSize: 35,
-//             // color:       // 테마 색상 선택에 따라 변경되도록
-//             fontWeight: FontWeight.bold,
-            
-//           ),
-//         ),
-//       ),
-//       const SizedBox(height: 50),
-//       Padding(
-//         padding: const EdgeInsets.all(20.0),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             GestureDetector(
-//               onTap: (){
-//                 // light mode / dark mode 선택시 스위치처럼 값 하나씩 선택해서 바뀌도록 하기
-//                 widget.onChangeTheme(ThemeMode.dark);
-//                 ChangeUIMode(onChangeTheme: _changeThemeMode)
-//               },
-//               child: Column(     // 라이트모드 선택지 
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.all(10.0),
-//                     child: Image.asset(
-//                       "assets/images/lightmode.png",
-//                       width: 100,
-//                     ),
-//                   ),
-//                   Row(
-//                     children: [
-//                       const Text(
-//                         "라이트 모드    "
-//                       ),
-//                       Image.asset(
-//                         "assets/images/lightSwitch.png",
-//                         width: 50,
-//                       ),
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//       Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           // ToggleButtons(
-//           //   children: children, 
-//           //   isSelected: isSelected,
-//           // )
-//         ],
-
-//       )
-//     ],
-//   )
-// );
-
-// }
+}   // END

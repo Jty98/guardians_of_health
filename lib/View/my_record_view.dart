@@ -107,10 +107,10 @@ class _MyRecordViewState extends State<MyRecordView> {
     colorList = [];
     dateList = [];
     
-    print("여긴 오나1");
+    // print("여긴 오나1");
     getCountData(segChoice);
-    print("여긴 오나2");
-    print(recordCountList);
+    // print("여긴 오나2");
+    // print(recordCountList);
     // _fetchData();
     // print("에러 확인 날짜3 : ${DateTime.parse(recordCountList[0].perDateType)}");
   }
@@ -155,12 +155,11 @@ class _MyRecordViewState extends State<MyRecordView> {
       appBar: AppBar(
         title: const Text('내 기록'),
       ),
-      // body: savedDateList.isEmpty 
-      // ? const Center(
-      //     child: Text("기록이 없습니다."),
-      //   )
-      // : Center(
-      body: Center(
+      body: recordCountList.isEmpty 
+      ? const Center(
+          child: Text("기록이 없습니다."),
+        )
+      : Center(
         child: Column(
           children: [
             CupertinoSegmentedControl(
@@ -173,8 +172,6 @@ class _MyRecordViewState extends State<MyRecordView> {
                 selectedIndex == 0 ? getCountData(segChoice)
                 : selectedIndex == 1? getRatingCountData(segChoice)
                 : getTakenTimeCountData(segChoice);
-
-                
                 setState(() {
                   
                 });

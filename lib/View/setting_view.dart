@@ -10,12 +10,12 @@ import 'package:guardians_of_health_project/VM/security_ctrl.dart';
 import 'package:guardians_of_health_project/View/health_info_view.dart';
 import 'package:guardians_of_health_project/View/my_record_view.dart';
 import 'package:guardians_of_health_project/View/security_setting_view.dart';
-import 'package:guardians_of_health_project/main.dart';
 
 class SettingView extends StatefulWidget {
   final Function(ThemeMode) onChangeTheme;
   final Function(Color) onChangeThemeColor;
   const SettingView({super.key, required this.onChangeTheme, required this.onChangeThemeColor});
+  // const SettingView({super.key});
 
   @override
   State<SettingView> createState() => _SettingViewState();
@@ -26,7 +26,6 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
-    MyAppState? myAppState = context.findRootAncestorStateOfType<MyAppState>();
 
     return Scaffold(
       body: ListView(
@@ -93,6 +92,7 @@ class _SettingViewState extends State<SettingView> {
                       return SelectScreenMode(
                           onChangeTheme: widget.onChangeTheme,
                           onChangeThemeColor: widget.onChangeThemeColor);
+                      // return const SelectScreenMode();
                     });
               },
             ),

@@ -312,13 +312,6 @@ class _NearToiletViewState extends State<NearToiletView> {
     return listFromJson.map((json) => ToiletsModel.fromMap(json)).toList();
   }
 
-  // 지하철 역사 화장실 정보
-  getSubwayToiletJsonData() async {
-    var url = Uri.parse(
-      "https://openapi.kric.go.kr/openapi/convenientInfo/stationToilet?요청변수=값"
-    );
-  }
-
   // 거리 계산
   calcDistance(double toiletX, double toiletY){
     // 두 지점 사이 거리 변수

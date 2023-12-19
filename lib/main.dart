@@ -28,27 +28,47 @@ void main() async {
     });
   }
 
+  // 테마 정보 가져오기
+  final themeInfo = await getThemeInfo();
+  final bool isDarkMode = themeInfo[0];
+  final int themeColor = themeInfo[1];
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+
   
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(const MyApp());
+  runApp(MyApp(isDarkMode, themeColor));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}):super(key: key);
+  final bool isDarkMode;
+  final int themeColor;
+  const MyApp(this.isDarkMode, this.themeColor, {Key? key}):super(key: key);
 
   @override
   State<MyApp> createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.system; // system : 사용자가 정해둔 대로 보여준다.
-  static var seedColor = Colors.white;
+  late ThemeMode _themeMode;
+  late Color _seedColor;
 
+  @override
+  void initState() {
+    super.initState();
+    _themeMode = widget.isDarkMode? ThemeMode.dark : ThemeMode.light; 
+    _seedColor = widget.themeColor == 0 ? Colors.white 
+                : widget.themeColor == 1 ? Colors.red 
+                : widget.themeColor == 2 ? Colors.yellow 
+                : widget.themeColor == 3 ? Colors.green 
+                : widget.themeColor == 4 ? Colors.blue : Colors.purple;
+  }
+  
   changeThemeMode(ThemeMode themeMode) {
     _themeMode = themeMode; // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌.
     setState(() {
@@ -57,7 +77,7 @@ class MyAppState extends State<MyApp> {
   }
 
   changeSeedColor(Color getSeedColor) {
-    seedColor = getSeedColor;
+    _seedColor = getSeedColor;
     setState(() {
       
     });
@@ -102,9 +122,9 @@ class MyAppState extends State<MyApp> {
             if (securityController.biometricsValue.value == true) {
               return securityController.isAuthenticating.value
                   ? Container(color: Colors.black)
-                  : Home(onChangeTheme: changeThemeMode,onChangeThemeColor: changeSeedColor);
+                  : Home(onChangeTheme: changeThemeMode, onChangeThemeColor: changeSeedColor);
             } else {
-              return Home(onChangeTheme: changeThemeMode,onChangeThemeColor: changeSeedColor);
+              return Home(onChangeTheme: changeThemeMode, onChangeThemeColor: changeSeedColor);
             }
           }),
           // const Home(),
@@ -118,7 +138,7 @@ class MyAppState extends State<MyApp> {
     return ThemeData(
       brightness: Brightness.dark,
       useMaterial3: true,
-      colorSchemeSeed: seedColor,
+      colorSchemeSeed: _seedColor,
       fontFamily: "omyu-pretty",
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -136,7 +156,7 @@ class MyAppState extends State<MyApp> {
     return ThemeData(
       brightness: Brightness.light,
       useMaterial3: true,
-      colorSchemeSeed: seedColor,
+      colorSchemeSeed: _seedColor,
       fontFamily: "omyu-pretty",
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -171,4 +191,19 @@ getisPrivatedState() async {
   bool isBioValue = prefs.getBool('isBio') ?? false;
   debugPrint("생체인식 등록 여부: $isBioValue");
   return isBioValue;
+}
+
+
+/// SharedPreferences - 테마 변경 저장된 값 있으면 가져오기 (없으면 기본값)
+getThemeInfo() async {
+  final prefs = await SharedPreferences.getInstance();
+  List themeInfoList = [];
+  bool isDarkMode = prefs.getBool('ThemeMode') ?? false;
+  int themeColor = prefs.getInt('ThemeColor') ?? 0;
+  
+  themeInfoList.add(isDarkMode);
+  themeInfoList.add(themeColor);
+  print(themeInfoList);
+  
+  return themeInfoList;
 }
