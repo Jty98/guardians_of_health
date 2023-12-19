@@ -75,7 +75,10 @@ dependencies:
 
   # Charts
   syncfusion_flutter_charts: ^23.2.7
+
+  # splash 화면 패키지
   flutter_native_splash: ^2.3.8
+  # 앱 icon 설정 패키지
   flutter_launcher_icons: ^0.13.1
   
 
@@ -111,26 +114,6 @@ flutter:
     
 
   fonts:
-    - family: NotoSansKR-Bold
-      fonts:
-        - asset: assets/fonts/NotoSansKR-Bold.otf
-          weight: 700
-
-    - family: NotoSansKR-Medium
-      fonts:
-        - asset: assets/fonts/NotoSansKR-Medium.otf
-          weight: 500
-
-    - family: NotoSansKR-Regular
-      fonts:
-        - asset: assets/fonts/NotoSansKR-Regular.otf
-          weight: 400
-
-    - family: NotoSansKR-Light
-      fonts:
-        - asset: assets/fonts/NotoSansKR-Light.otf
-          weight: 300
-
     - family: omyu-pretty
       fonts:
         - asset: assets/fonts/omyu-pretty.ttf

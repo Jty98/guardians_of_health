@@ -15,7 +15,6 @@ void main() async {
   final SecurityController securityController = Get.put(SecurityController());
 
   MyTheme myTheme = MyTheme();
-  
 
   // 생체인증 status shared로 불러오기
   securityController.biometricsValue.value = await getisPrivatedState();
@@ -24,12 +23,14 @@ void main() async {
   securityController.passwordValue.value =
       initPw[0]; // 0번째에 있는 passwordStatus 가져와서 넣어주기
   securityController.savedPassword = initPw[1]; // 1번째에 있는 password 값 넣어주기
+  print("init_isFirstRun: ${securityController.isFirstValue}");
 
   // 생체인식 스위치 켜져있으면 생체인증
   if (securityController.biometricsValue.value == true) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       securityController.authenticate(Get.context!, 0);
     });
+    // 첫 실행시 obs로 관리하는 밸류를 true로 바꿔서 테마 변경 및 빌드시 setState 될때 인증 뜨는거 막기
   }
 
   // 테마 정보 가져오기
@@ -42,8 +43,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-
-  
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MyApp(isDarkMode, themeColor));
@@ -52,39 +51,58 @@ void main() async {
 class MyApp extends StatefulWidget {
   final bool isDarkMode;
   final int themeColor;
-  const MyApp(this.isDarkMode, this.themeColor, {Key? key}):super(key: key);
+  const MyApp(this.isDarkMode, this.themeColor, {Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
+  final securityController = Get.find<SecurityController>();
   late ThemeMode _themeMode;
   late Color _seedColor;
+  bool _hasInitialized = false; // 초기화 여부를 확인하는 플래그
 
   @override
   void initState() {
     super.initState();
-    _themeMode = widget.isDarkMode? ThemeMode.dark : ThemeMode.light; 
-    _seedColor = widget.themeColor == 0 ? const Color.fromARGB(255, 247, 251, 243) 
-                : widget.themeColor == 1 ? Colors.red 
-                : widget.themeColor == 2 ? Colors.yellow 
-                : widget.themeColor == 3 ? Colors.green 
-                : widget.themeColor == 4 ? Colors.blue : Colors.purple;
+    _themeMode = widget.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    _seedColor = widget.themeColor == 0
+        ? const Color.fromARGB(255, 247, 251, 243)
+        : widget.themeColor == 1
+            ? Colors.red
+            : widget.themeColor == 2
+                ? Colors.yellow
+                : widget.themeColor == 3
+                    ? Colors.green
+                    : widget.themeColor == 4
+                        ? Colors.blue
+                        : Colors.purple;
+    if (!_hasInitialized) {
+      _hasInitialized = true; // 초기화가 되었다고 플래그를 업데이트
+      _initializeApp();
+    }
   }
-  
+
   changeThemeMode(ThemeMode themeMode) {
     _themeMode = themeMode; // home page에서 버튼을 누르면 역으로 올라와 여기서 색상을 바꿔줌.
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   changeSeedColor(Color getSeedColor) {
     _seedColor = getSeedColor;
-    setState(() {
-      
-    });
+    setState(() {});
+  }
+
+  _initializeApp() {
+
+    if (securityController.passwordValue.value == true) {
+      // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        firstNumberpadDialog(Get.context!);
+      });
+      // 첫 실행시 obs로 관리하는 밸류를 true로 바꿔서 테마 변경 및 빌드시 setState 될때 인증 뜨는거 막기
+    }
   }
 
   @override
@@ -93,14 +111,15 @@ class MyAppState extends State<MyApp> {
       // 기기별 Layout 조절
       designSize: const Size(430, 932), // IPhone 14 & 15 ProMax 기기 해상도
       builder: (context, child) {
-        final securityController = Get.find<SecurityController>();
+        
 
-        if (securityController.passwordValue.value == true) {
-          // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            firstNumberpadDialog(Get.context!);
-          });
-        }
+        // if (securityController.passwordValue.value == true) {
+        //   // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     firstNumberpadDialog(Get.context!);
+        //   });
+        //   // 첫 실행시 obs로 관리하는 밸류를 true로 바꿔서 테마 변경 및 빌드시 setState 될때 인증 뜨는거 막기
+        // }
 
         return GetMaterialApp(
           title: 'Flutter Demo',
@@ -126,9 +145,13 @@ class MyAppState extends State<MyApp> {
             if (securityController.biometricsValue.value == true) {
               return securityController.isAuthenticating.value
                   ? Container(color: Colors.black)
-                  : Home(onChangeTheme: changeThemeMode, onChangeThemeColor: changeSeedColor);
+                  : Home(
+                      onChangeTheme: changeThemeMode,
+                      onChangeThemeColor: changeSeedColor);
             } else {
-              return Home(onChangeTheme: changeThemeMode, onChangeThemeColor: changeSeedColor);
+              return Home(
+                  onChangeTheme: changeThemeMode,
+                  onChangeThemeColor: changeSeedColor);
             }
           }),
           // const Home(),
@@ -145,11 +168,12 @@ class MyAppState extends State<MyApp> {
       colorSchemeSeed: _seedColor,
       fontFamily: "omyu-pretty",
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary, // 기본 색상
+          foregroundColor:
+              Theme.of(context).colorScheme.onSecondary, // 텍스트 및 아이콘 색상
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6), // 모서리 둥글기 설정
           ),
         ),
       ),
@@ -163,12 +187,12 @@ class MyAppState extends State<MyApp> {
       colorSchemeSeed: _seedColor,
       fontFamily: "omyu-pretty",
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          // backgroundColor: Theme.of(context).colorScheme.tertiary,
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6), // 테두리 모서리 둥글기 설정
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.secondary, // 기본 색상
+          foregroundColor:
+              Theme.of(context).colorScheme.onSecondary, // 텍스트 및 아이콘 색상
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6), // 모서리 둥글기 설정
           ),
         ),
       ),
@@ -198,17 +222,16 @@ getisPrivatedState() async {
   return isBioValue;
 }
 
-
 /// SharedPreferences - 테마 변경 저장된 값 있으면 가져오기 (없으면 기본값)
 getThemeInfo() async {
   final prefs = await SharedPreferences.getInstance();
   List themeInfoList = [];
   bool isDarkMode = prefs.getBool('ThemeMode') ?? false;
   int themeColor = prefs.getInt('ThemeColor') ?? 0;
-  
+
   themeInfoList.add(isDarkMode);
   themeInfoList.add(themeColor);
   print(themeInfoList);
-  
+
   return themeInfoList;
 }

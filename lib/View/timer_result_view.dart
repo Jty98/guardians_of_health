@@ -292,9 +292,9 @@ class TimerResultView extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () => insertBottomSheet(context, onChangeTheme, onChangeThemeColor),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.tertiary,
-                    ),
+                    // style: ElevatedButton.styleFrom(
+                    //   backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    // ),
                     child: Text(
                       "기록 남기러가기",
                       style: TextStyle(

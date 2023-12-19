@@ -14,6 +14,8 @@ class SecurityController extends GetxController {
   DatabaseHandler handler = DatabaseHandler();
   final LocalAuthentication auth = LocalAuthentication(); // 잠금 기능
 
+  RxBool isFirstValue = false.obs; // 앱을 처음 킬때 value값
+
   late RxBool passwordValue = false.obs; // 비밀번호 스위치 상태
   late RxBool biometricsValue = false.obs; // 생체인식 스위치 상태
   RxList<RxBool> buttonClickStatus =

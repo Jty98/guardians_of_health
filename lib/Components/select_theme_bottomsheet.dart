@@ -266,7 +266,7 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
           SizedBox(height: 30.h),
           ElevatedButton(
             onPressed: (){
-              widget.onChangeThemeColor(Colors.white);
+              widget.onChangeThemeColor(const Color.fromARGB(255, 247, 251, 243));
               widget.onChangeTheme(ThemeMode.light);
               isDarkMode = false;
               themeColor = 0;
@@ -275,9 +275,9 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                 
               });
             }, 
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.tertiary
-            ),
+            // style: ElevatedButton.styleFrom(
+            //   backgroundColor: Theme.of(context).colorScheme.secondary
+            // ),
             child: const Text(
               "기본 스타일로 변경",
               ),
