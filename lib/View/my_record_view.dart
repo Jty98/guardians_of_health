@@ -91,17 +91,21 @@ class _MyRecordViewState extends State<MyRecordView> {
     takenTimeList = [];
 
     tooltipBehavior = TooltipBehavior(
-      enable: false,
-      header: setTooltipBehavior()
+      enable: true,
+      header: '횟수'
       );
     getCountData(segChoice);
   }
 
   setTooltipBehavior(){
-    return selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex];
-    // setState(() {
+    tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
+      );
+    setState(() {
       
-    // });
+    });
+    return tooltipBehavior;
   }
 
 
@@ -139,7 +143,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                 title: ChartTitle(
                   text: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
                 ),
-                tooltipBehavior: tooltipBehavior,
+                tooltipBehavior: setTooltipBehavior(),
                 primaryXAxis: DateTimeAxis(
                   intervalType: DateTimeIntervalType.auto,
                   dateFormat: DateFormat.yMd(),
