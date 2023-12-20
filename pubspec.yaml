@@ -75,11 +75,6 @@ dependencies:
 
   # Charts
   syncfusion_flutter_charts: ^23.2.7
-
-  # splash 화면 패키지
-  flutter_native_splash: ^2.3.8
-  # 앱 icon 설정 패키지
-  flutter_launcher_icons: ^0.13.1
   
 
 

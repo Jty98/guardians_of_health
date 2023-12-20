@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/health_info_widget.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
+import 'package:guardians_of_health_project/home.dart';
 
 class TimerView extends StatelessWidget implements PreferredSizeWidget {
   final Function(ThemeMode) onChangeTheme;
@@ -36,7 +37,9 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             timerController.showTimer(false);
             timerController.secondsUpdate.value = 0;
-            Get.back();
+            Get.offAll(Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
+            transition: Transition.noTransition
+            );
           },
           icon: Icon(
             Icons.arrow_back_ios_new,
