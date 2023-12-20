@@ -91,7 +91,7 @@ class _MyRecordViewState extends State<MyRecordView> {
     takenTimeList = [];
 
     tooltipBehavior = TooltipBehavior(
-      enable: true,
+      enable: false,
       header: setTooltipBehavior()
       );
     getCountData(segChoice);
@@ -141,7 +141,6 @@ class _MyRecordViewState extends State<MyRecordView> {
                 ),
                 tooltipBehavior: tooltipBehavior,
                 primaryXAxis: DateTimeAxis(
-                  labelFormat: '{value}M',
                   intervalType: DateTimeIntervalType.auto,
                   dateFormat: DateFormat.yMd(),
                   maximum: DateTime.now()
@@ -204,6 +203,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                   selectedIndex == 0 ? getCountData(segChoice)
                     : selectedIndex == 1 ? getRatingCountData(segChoice)
                     : getTakenTimeCountData(segChoice);
+                  setTooltipBehavior();
                 });
               },
               selectedBorderColor: Theme.of(context).colorScheme.primary,
