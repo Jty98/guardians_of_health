@@ -190,10 +190,16 @@ class DatabaseHandler {
       queryCountResult =
         await db.rawQuery('''
           SELECT 
-            STRFTIME('%Y-%m-%d', currentTime) AS inserted_per_date,
-            ROUND((CAST(STRFTIME('%H', takenTime) AS INTEGER) * 60 +
-                  CAST(STRFTIME('%M', takenTime) AS INTEGER) +
-                  CAST(STRFTIME('%S', takenTime) AS REAL) / 60) , 2) AS takenTime
+              STRFTIME('%Y-%m-%d', currentTime) AS inserted_per_date,
+              CASE
+                  WHEN COUNT(takenTime) > 1 THEN ROUND(AVG(
+                          CAST(STRFTIME('%H', takenTime) AS INTEGER) * 60 +
+                          CAST(STRFTIME('%M', takenTime) AS INTEGER) +
+                          CAST(STRFTIME('%S', takenTime) AS REAL) / 60), 2)
+                  ELSE ROUND((CAST(STRFTIME('%H', MAX(takenTime)) AS INTEGER) * 60 +
+                          CAST(STRFTIME('%M', MAX(takenTime)) AS INTEGER) +
+                          CAST(STRFTIME('%S', MAX(takenTime)) AS REAL) / 60), 2)
+              END AS takenTime
           FROM record
           GROUP BY STRFTIME('%Y-%m-%d', currentTime)
         ''');

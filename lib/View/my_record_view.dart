@@ -92,16 +92,24 @@ class _MyRecordViewState extends State<MyRecordView> {
 
     tooltipBehavior = TooltipBehavior(
       enable: true,
-      header: '횟수'
-      );
+      header: '횟수',
+    );
     getCountData(segChoice);
   }
 
   setTooltipBehavior(){
     tooltipBehavior = TooltipBehavior(
       enable: true,
-      header: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
-      );
+      header: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex],
+      builder: (dynamic recordCountList, dynamic ratingList, dynamic takenTimeList, int categoryPerCount, int totalLength) {
+        return Container(
+          child: Text(
+            ""
+          ),
+        );
+      } 
+      
+    );
     setState(() {
       
     });
@@ -143,6 +151,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                 title: ChartTitle(
                   text: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
                 ),
+                legend: const Legend(isVisible: true),
                 tooltipBehavior: setTooltipBehavior(),
                 primaryXAxis: DateTimeAxis(
                   intervalType: DateTimeIntervalType.auto,
@@ -183,7 +192,8 @@ class _MyRecordViewState extends State<MyRecordView> {
                 title: ChartTitle(
                   text: recordVariable[selectedIndex]
                 ),
-                tooltipBehavior: tooltipBehavior,
+                tooltipBehavior: setTooltipBehavior(),
+                legend: const Legend(isVisible: true),
                 series: <CircularSeries<RatingCountModelPerDay, List>>[
                   PieSeries(
                     dataSource: ratingList,
@@ -191,7 +201,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                     xValueMapper: (RatingCountModelPerDay records, _) => [records.perDateType, records.rating], 
                     yValueMapper: (RatingCountModelPerDay records, _) => records.countPerCategory,
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
-                    enableTooltip: true
+                    enableTooltip: true,
                   )
                 ],                
               )
