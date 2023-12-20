@@ -1,9 +1,9 @@
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/appLogo.png
+  image: assets/images/AppLogo_bacground.png
   # branding: assets/branding-development.png
   color_dark: "#121212"
-  image_dark: assets/images/appLogo.png
+  image_dark: assets/images/AppLogo_bacground.png
   # branding_dark: assets/branding-development.png
 
   web: false

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppLogo.png",
+      "filename" : "LaunchImage.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppLogo 3.png",
+      "filename" : "LaunchImageDark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "AppLogo 1.png",
+      "filename" : "LaunchImage@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppLogo 4.png",
+      "filename" : "LaunchImageDark@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "AppLogo 2.png",
+      "filename" : "LaunchImage@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppLogo 5.png",
+      "filename" : "LaunchImageDark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

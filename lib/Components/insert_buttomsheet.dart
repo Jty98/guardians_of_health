@@ -10,15 +10,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
-import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:guardians_of_health_project/home.dart';
-import 'package:guardians_of_health_project/main.dart';
 import 'package:guardians_of_health_project/util/asset_images.dart';
 
 /// 배변 정보 저장할때 입력하는 바텀시트
 void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
     Function(Color) onChangeThemeColor) {
-  TimerController timerController = Get.find();
+  final timerController = Get.find<TimerController>();
 
   // 모양
   List<String> imagePaths = [
@@ -166,7 +164,8 @@ void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
                             minHeight: 45.0.h,
                             minWidth: 45.0.w,
                           ),
-                          isSelected: timerController.selectedShape,
+                          // ignore: invalid_use_of_protected_member
+                          isSelected: timerController.selectedShape.value,
                           children: shapeContainer,
                         ),
                         SizedBox(
@@ -189,7 +188,8 @@ void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
                             minHeight: 45.0.h,
                             minWidth: 45.0.w,
                           ),
-                          isSelected: timerController.selectedColors,
+                          // ignore: invalid_use_of_protected_member
+                          isSelected: timerController.selectedColors.value,
                           children: coloredContainers,
                         ),
                         SizedBox(
@@ -212,7 +212,8 @@ void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
                             minHeight: 45.0.h,
                             minWidth: 45.0.w,
                           ),
-                          isSelected: timerController.selectedSmells,
+                          // ignore: invalid_use_of_protected_member
+                          isSelected: timerController.selectedSmells.value,
                           children: smellsSizedbox,
                         ),
                         SizedBox(
@@ -239,7 +240,7 @@ void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
                           onPressed: () async {
                             await timerController.insertAction() == true
                                 // ignore: use_build_context_synchronously
-                                ? _showDialog(context, onChangeTheme, onChangeThemeColor)
+                                ? _showDialog(context, onChangeTheme, onChangeThemeColor, timerController)
                                 // ignore: use_build_context_synchronously
                                 : _showSnackbar(context);
                             // calendarState?.setState(() {
@@ -272,9 +273,8 @@ void insertBottomSheet(BuildContext context, Function(ThemeMode) onChangeTheme,
 
 /// 입력결과 다이어로그
 _showDialog(BuildContext context, Function(ThemeMode) onChangeTheme,
-    Function(Color) onChangeThemeColor) {
-  final timerController = Get.find<TimerController>();
-  MyAppState? mainState = context.findAncestorStateOfType<MyAppState>();
+    Function(Color) onChangeThemeColor, TimerController timerController) {
+  // final timerController = Get.find<TimerController>();
 
   Get.defaultDialog(
     backgroundColor: Theme.of(context).colorScheme.tertiary,
@@ -292,9 +292,6 @@ _showDialog(BuildContext context, Function(ThemeMode) onChangeTheme,
     actions: [
       TextButton(
         onPressed: () {
-          // Navigator.of(context, rootNavigator: true).popUntil((route) => route.isFirst);
-          // Get.offAll(Home(onChangeTheme: (changeThemeMode){mainState?.changeThemeMode(ThemeMode.system);},
-          // onChangeThemeColor: (changeSeedColor){mainState?.changeSeedColor(Colors.white);}));
           Get.offAll(Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor));
           timerController.resetBottomSheetValues();
           // Get.back(); // 다이얼로그 닫기

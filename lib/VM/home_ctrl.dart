@@ -2,6 +2,7 @@
   기능: 탭바의 상태관리를 위한 GetXController
 */
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
@@ -15,8 +16,8 @@ class HomeController extends GetxController
   void onInit() async {
     super.onInit();
     tabController = PersistentTabController(initialIndex: 0);
-    await Future.delayed(const Duration(seconds: 2));
-    // FlutterNativeSplash.remove();
+    await Future.delayed(const Duration(microseconds: 3000));
+    FlutterNativeSplash.remove();
   }
 
   // tabbar dispose
