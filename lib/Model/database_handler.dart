@@ -95,7 +95,7 @@ class DatabaseHandler {
           GROUP BY substr(currentTime, 1, 10)
         ''');
         // 날짜('yyyy-mm-dd')별 데이터 개수 합 return
-    } else if (perDate == 1) {    // per month
+    } else if (perDate == 1) {    // per week
       queryCountResult =
         await db.rawQuery('''
           SELECT 
@@ -123,16 +123,28 @@ class DatabaseHandler {
     final Database db = await initializeDB();
     late List<Map<String, Object?>> queryCountResult = [];
     // SQLite 쿼리 실행 (currentTime 내림차순으로 정렬)
-    queryCountResult =
+    queryCountResult =        // 최근 3일 내의 데이터
       await db.rawQuery('''
         SELECT 
-          STRFTIME('%Y-%m-%d', currentTime) AS inserted_per_date,
-          rating, 
-          COUNT(rating) AS count_per_category
-        FROM record
-        WHERE currentTime >= DATE('now', '-6 days')
-        GROUP BY STRFTIME('%Y-%m-%d', currentTime) , rating
-        HAVING COUNT(*) > 0;
+          subquery.inserted_per_date,
+          subquery.rating,
+          subquery.count_per_category,
+          ROUND(
+            (subquery.count_per_category * 100.0) / total.total_records, 2
+          ) AS percentage_of_total
+        FROM (
+          SELECT 
+            STRFTIME('%Y-%m-%d', currentTime) AS inserted_per_date,
+            rating, 
+            COUNT(rating) AS count_per_category
+          FROM record
+          WHERE currentTime >= DATE('now', '-3 days')
+          GROUP BY inserted_per_date, rating
+          HAVING COUNT(*) > 0
+        ) subquery
+        JOIN (
+          SELECT COUNT(*) AS total_records FROM record WHERE currentTime >= DATE('now', '-3 days')
+        ) total;
       ''');
       // 날짜('yyyy-mm-dd')별 데이터 개수 합 return
     
@@ -143,37 +155,49 @@ class DatabaseHandler {
   Future<List<RatingCountModel>> queryRatingCountPerWMType(int perDate) async {
     final Database db = await initializeDB();
     late List<Map<String, Object?>> queryCountResult = [];
-    if (perDate == 1) {          // 주별 만족도 count (최근 2주 기준)
+    if (perDate == 1) {          // 주별 만족도 count (최근 1주 기준)
       queryCountResult =
         await db.rawQuery('''
           SELECT 
-              rating,
-              SUM(count_per_category) AS total_count_per_category
+            subquery.rating,
+            SUM(subquery.count_per_category) AS total_count_per_category,
+            ROUND(
+              (SUM(subquery.count_per_category) * 100.0) / total.total_records, 2
+            ) AS percentage_of_total
           FROM (
-              SELECT 
-                  rating,
-                  COUNT(*) AS count_per_category
-              FROM record
-              WHERE currentTime >= DATE('now', '-13 days')
-              GROUP BY currentTime, rating
+            SELECT 
+              rating,
+              COUNT(*) AS count_per_category
+            FROM record
+            WHERE currentTime >= DATE('now', '-7 days')
+            GROUP BY currentTime, rating
           ) subquery
-          GROUP BY rating;
+          JOIN (
+            SELECT COUNT(*) AS total_records FROM record WHERE currentTime >= DATE('now', '-7 days')
+          ) total
+          GROUP BY subquery.rating;
         ''');
-    } else {              // 월별 만족도 카테고리 별 count (최근 3개월 기준)
+    } else {              // 월별 만족도 카테고리 별 count (최근 1개월 기준)
       queryCountResult =
         await db.rawQuery('''
           SELECT 
-              rating,
-              SUM(count_per_category) AS total_count_per_category
+            subquery.rating,
+            SUM(subquery.count_per_category) AS total_count_per_category,
+            ROUND(
+              (SUM(subquery.count_per_category) * 100.0) / total.total_records, 2
+            ) AS percentage_of_total
           FROM (
-              SELECT 
-                  rating,
-                  COUNT(*) AS count_per_category
-              FROM record
-              WHERE currentTime >= DATE('now', '-3 months')
-              GROUP BY currentTime, rating
+            SELECT 
+              rating,
+              COUNT(*) AS count_per_category
+            FROM record
+            WHERE currentTime >= DATE('now', '-1 months')
+            GROUP BY rating
           ) subquery
-          GROUP BY rating;
+          JOIN (
+            SELECT COUNT(*) AS total_records FROM record WHERE currentTime >= DATE('now', '-1 months')
+          ) total
+          GROUP BY subquery.rating;
         ''');
     }
     // 쿼리 결과를 RecordModel로 변환

@@ -24,11 +24,9 @@ class _MyRecordViewState extends State<MyRecordView> {
   late List<bool> _selectedVariable;          // toggle button 선택 여부 리스트
   late List<String> recordVariable;           // record DB column명들
   late int selectedIndex;                     // toggle button 선택된 인덱스 ()
-  late List savedDateList;                    // 저장 날짜 형태 데이터
-  late List<MyRecordData> chartData;
   late List<RecordCountModel> recordCountList;   // 일, 주, 월 별 기록 횟수
   late List<RatingCountModelPerDay> ratingList;                       // 만족도 기록 데이터
-  late List<TakenTimeModel> takenTimeList;                       // 만족도 기록 데이터
+  late List<TakenTimeModel> takenTimeList;                       // 소요시간 기록 데이터
 
   // Segment Widget
   Map<int, Widget> segmentWidget = {
@@ -84,38 +82,93 @@ class _MyRecordViewState extends State<MyRecordView> {
     _selectedVariable = <bool>[true, false, false];
     recordVariable = <String>['횟수', '만족도', '소요시간'];
     selectedIndex = 0;
-    savedDateList = [];
-    chartData = [];
     recordCountList = [];
     ratingList = [];
     takenTimeList = [];
 
-    tooltipBehavior = TooltipBehavior(
-      enable: true,
-      header: '횟수',
-    );
     getCountData(segChoice);
+    getRatingCountData(segChoice);
+    getTakenTimeCountData(segChoice);
+    setTooltipBehavior();
+
   }
 
   setTooltipBehavior(){
     tooltipBehavior = TooltipBehavior(
       enable: true,
-      header: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex],
-      builder: (dynamic recordCountList, dynamic ratingList, dynamic takenTimeList, int categoryPerCount, int totalLength) {
-        return Container(
-          child: Text(
-            ""
-          ),
+      builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        // 데이터에서 툴팁 내용 동적 생성
+        final RecordCountModel recordCountModel = recordCountList[pointIndex];
+        final RatingCountModelPerDay ratingCountModel = ratingList[seriesIndex];
+        final TakenTimeModel takenTimeModel = takenTimeList[pointIndex];
+
+        return SizedBox(
+          width: 210.w,
+          height: 80.h,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.w,6.h, 0.w, 0.h),
+                child: Text(
+                  (selectedIndex==0) & (segChoice==1)? "${recordCountModel.perDateType} ~ ${DateFormat('yyyy-MM-dd').format(DateTime.parse(recordCountModel.perDateType).add(const Duration(days: 6)))}" 
+                  : selectedIndex==0? recordCountModel.perDateType 
+                  : selectedIndex==1? ratingCountModel.perDateType 
+                  : segChoice==1? "${takenTimeModel.perDateType} ~ ${DateFormat('yyyy-MM-dd').format(DateTime.parse(takenTimeModel.perDateType).add(const Duration(days: 6)))}" 
+                  : takenTimeModel.perDateType,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: Theme.of(context).colorScheme.onPrimary
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.w, 0.h, 10.w, 0.h),
+                child: const Divider(),
+              ),
+              selectedIndex==0 ? 
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 10.h),
+                child: Text(
+                " ${recordCountModel.totalCount} (회)  ",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: Theme.of(context).colorScheme.onPrimary
+                  ),
+                ),
+              )
+              : selectedIndex==1 ?
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 10.h),
+                child: Text(
+                    // " 평점 : ${ratingCountModel.rating} (${  (ratingCountModel.percentageOfTotal % 1 == 0) ? ratingCountModel.percentageOfTotal.toInt().toString() : ratingCountModel.percentageOfTotal} %)  ",
+                    " 평점 : ${ratingCountModel.rating} (${(ratingCountModel.percentageOfTotal).toStringAsFixed((ratingCountModel.percentageOfTotal).truncateToDouble() == ratingCountModel.percentageOfTotal ? 0 : 1) }%)  ",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: Theme.of(context).colorScheme.onPrimary
+                  ),                
+                ),
+              )
+              : Padding(
+                padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 10.h),
+                child: Text(
+                    " 평균 ${takenTimeModel.takenTime} (분)  ",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: Theme.of(context).colorScheme.onPrimary
+                  ),              
+                ),
+              ),
+            ],
+          )
         );
       } 
-      
     );
+   
     setState(() {
       
     });
     return tooltipBehavior;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +192,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                 : selectedIndex == 1? getRatingCountData(segChoice)
                 : getTakenTimeCountData(segChoice);
                 setState(() {
-                  
+                  setTooltipBehavior();
                 });
               },
             ),
@@ -151,10 +204,9 @@ class _MyRecordViewState extends State<MyRecordView> {
                 title: ChartTitle(
                   text: selectedIndex==2? "평균 ${recordVariable[selectedIndex]} (분)" : recordVariable[selectedIndex]
                 ),
-                legend: const Legend(isVisible: true),
                 tooltipBehavior: setTooltipBehavior(),
                 primaryXAxis: DateTimeAxis(
-                  intervalType: DateTimeIntervalType.auto,
+                  intervalType: segChoice==2? DateTimeIntervalType.months : segChoice==0? DateTimeIntervalType.days : DateTimeIntervalType.auto,
                   dateFormat: DateFormat.yMd(),
                   maximum: DateTime.now()
                 ),
@@ -163,6 +215,7 @@ class _MyRecordViewState extends State<MyRecordView> {
                   interval: 1,
                   rangePadding: ChartRangePadding.auto,
                   autoScrollingMode: AutoScrollingMode.end,
+                  
                 ),
                 series: <CartesianSeries>[
                   selectedIndex == 0        // 횟수 : Bar Chart
@@ -193,18 +246,25 @@ class _MyRecordViewState extends State<MyRecordView> {
                   text: recordVariable[selectedIndex]
                 ),
                 tooltipBehavior: setTooltipBehavior(),
-                legend: const Legend(isVisible: true),
-                series: <CircularSeries<RatingCountModelPerDay, List>>[
-                  PieSeries(
+                // legend: const Legend(isVisible: true),
+                series: <CircularSeries>[
+                  PieSeries<RatingCountModelPerDay, double>(
                     dataSource: ratingList,
                     selectionBehavior: SelectionBehavior(enable: true),
-                    xValueMapper: (RatingCountModelPerDay records, _) => [records.perDateType, records.rating], 
+                    xValueMapper: (RatingCountModelPerDay records, _) => records.rating, 
                     yValueMapper: (RatingCountModelPerDay records, _) => records.countPerCategory,
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
                     enableTooltip: true,
                   )
                 ],                
               )
+            ),
+            SizedBox(
+              height: 50,
+              child: (selectedIndex==1) & (segChoice==0)? const Text('최근 3일간 기록한 만족도의 비율입니다.') 
+              : (selectedIndex==1) & (segChoice==1) ? const Text('최근 1주간 기록한 만족도의 비율입니다.')
+              : (selectedIndex==1) & (segChoice==2) ? const Text('최근 1개월간 기록한 만족도의 비율입니다.')
+              : const Text(""),
             ),
             ToggleButtons(
               isSelected: _selectedVariable,
@@ -240,7 +300,7 @@ class _MyRecordViewState extends State<MyRecordView> {
     recordCountList = [];
     var temp = await handler.queryRecordCountPerDateType(perDateType);
     for (var i in temp) {
-      recordCountList.add(RecordCountModel(perDateType: i.perDateType.toString(), totalCount: i. totalCount));
+      recordCountList.add(RecordCountModel(perDateType: i.perDateType.toString(), totalCount: i.totalCount));
     }
 
     setState(() {
@@ -256,9 +316,17 @@ class _MyRecordViewState extends State<MyRecordView> {
     perDateType == 0 ? temp = await handler.queryRatingCountPerDayType()
                       : temp = await handler.queryRatingCountPerWMType(perDateType);
     for (var i in temp) {
-      segChoice == 0 ? ratingList.add(RatingCountModelPerDay(perDateType: i.perDateType, rating: i.rating, countPerCategory: i.countPerCategory))
-      : segChoice == 1 ? ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 14)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory))
-      : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 91)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory));
+      segChoice == 0 ? ratingList.add(RatingCountModelPerDay(perDateType: i.perDateType, rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal))
+      : segChoice == 1 ? ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal))
+      : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 31)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal));
+    }
+
+    for (int i=0; i<ratingList.length; i++) {
+      debugPrint("만족도 확인");
+      debugPrint("date : ${ratingList[i].perDateType}");
+      debugPrint("rating : ${ratingList[i].rating}");
+      debugPrint("total count per category : ${ratingList[i].countPerCategory}");
+      debugPrint("percentage of total : ${ratingList[i].percentageOfTotal}");
     }
 
     setState(() {
@@ -275,6 +343,8 @@ class _MyRecordViewState extends State<MyRecordView> {
     for (var i in temp) {
       takenTimeList.add(TakenTimeModel(perDateType: i.perDateType, takenTime: i.takenTime));
     }
+
+    print(takenTimeList);
 
     setState(() {
       

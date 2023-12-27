@@ -1,11 +1,13 @@
 class RatingCountModel {
   final double rating;
   final int countPerCategory;
+  final double percentageOfTotal;
 
   RatingCountModel(
     {
       required this.rating,
-      required this.countPerCategory
+      required this.countPerCategory,
+      required this.percentageOfTotal
     }
   );
 
@@ -13,6 +15,7 @@ class RatingCountModel {
   RatingCountModel.fromMap(Map<String, dynamic> res)   
     :
       rating= res['rating'],
-      countPerCategory= res['total_count_per_category'];
+      countPerCategory= res['total_count_per_category'],
+      percentageOfTotal= res['percentage_of_total'];
 
 }

@@ -2,12 +2,14 @@ class RatingCountModelPerDay{
   final String perDateType;
   final double rating;
   final int countPerCategory;
+  final double percentageOfTotal;
 
   RatingCountModelPerDay(
     {
       required this.perDateType,
       required this.rating,
-      required this.countPerCategory
+      required this.countPerCategory,
+      required this.percentageOfTotal
     }
   );
 
@@ -16,7 +18,8 @@ class RatingCountModelPerDay{
     :
       perDateType= res['inserted_per_date'],
       rating= res['rating'],
-      countPerCategory= res['count_per_category'];
+      countPerCategory= res['count_per_category'],
+      percentageOfTotal= res['percentage_of_total'];
 
 
 }
