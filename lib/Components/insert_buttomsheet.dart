@@ -292,10 +292,11 @@ _showDialog(BuildContext context, Function(ThemeMode) onChangeTheme,
     actions: [
       TextButton(
         onPressed: () {
-          Get.offAll(Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor));
+          Get.offAll(() => Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
+          transition: Transition.noTransition
+          );
           timerController.resetBottomSheetValues();
-          // Get.back(); // 다이얼로그 닫기
-          // Get.back();
+          timerController.secondsUpdate.value = 0;
         },
         child: Text(
           "돌아가기",

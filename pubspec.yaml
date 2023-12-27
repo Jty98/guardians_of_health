@@ -79,7 +79,7 @@ dependencies:
   # icon바꿔주기 패키지
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.8
-  
+
 
 
 

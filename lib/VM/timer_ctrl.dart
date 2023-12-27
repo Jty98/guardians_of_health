@@ -5,9 +5,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
+import 'package:guardians_of_health_project/VM/stopwatch.dart';
+import 'package:guardians_of_health_project/VM/timer_difference_handler.dart';
 
 class TimerController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -15,19 +18,22 @@ class TimerController extends GetxController
 
   late AnimationController animationController;
   late Animation<double> animation;
-  late Timer timer;
+  // late Timer timer;
+  bool isTimerRunning = false; // 타이머가 실행 중인지 여부 초기값: false
+  final timerHandler = TimerDifferenceHandler.instance; // TimerDifferenceHandler 인스턴스 생성
+  late StopWatch stopWatch; // StopWatch 클래스 선언
 
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
   RxInt secondsUpdate = 0.obs; // 타이머를 실시간으로 저장하고 보여줄 변수
+
+  // bottom sheet 변수들
+  TextEditingController resultTextController = TextEditingController();
 
   // 투명도 변수들
   RxDouble opacityUpdate1 = 0.0.obs;
   RxDouble opacityUpdate2 = 0.0.obs;
   RxDouble opacityUpdate3 = 0.0.obs;
   RxDouble opacityUpdate4 = 0.0.obs;
-
-  // bottom sheet 변수들
-  TextEditingController resultTextController = TextEditingController();
 
   String resultShape = "바나나 모양";
   String resultColor = "황금색";
@@ -58,6 +64,70 @@ class TimerController extends GetxController
 
     // 애니메이션 반복
     animationController.repeat(reverse: true);
+  }
+
+
+  /// 초기 타이머로 백그라운드에 들어갈 때 backgroundTimerOperation()로 timerHandler.remainingSeconds를 타이머에 넣어줌
+  void initTimerOperation() {
+    //timer callbacks
+    stopWatch = StopWatch(
+      onTick: (seconds) {
+        isTimerRunning = true;
+        secondsUpdate.value = seconds;
+      },
+    );
+
+    //native app life cycle
+    SystemChannels.lifecycle.setMessageHandler((msg) {
+      // On AppLifecycleState: paused
+      if (msg == AppLifecycleState.paused.toString()) {
+        if (isTimerRunning) {
+          debugPrint(secondsUpdate.value.toString());
+          stopWatch.pause(); // 더 이상 초를 전달하지 않음
+        }
+      }
+
+      // On AppLifecycleState: resumed
+      if (msg == AppLifecycleState.resumed.toString()) {
+        if (isTimerRunning) {
+          debugPrint(secondsUpdate.value.toString());
+          backgroundTimerOperation();
+          stopWatch.resume(); // 더 이상 초를 전달하지 않음
+        }
+      }
+      return Future(() => null);
+    });
+
+    isTimerRunning = true;
+    stopWatch.start();
+  }
+
+  /// 백그라운드 타이머로 초기에 onTick에서 seconds를 쓴것과 다르게 timerHandler.remainingSeconds를 사용
+  void backgroundTimerOperation() {
+    //timer callbacks
+    stopWatch = StopWatch(
+      onTick: (seconds) {
+        isTimerRunning = true;
+        secondsUpdate.value = timerHandler.remainingSeconds;
+      },
+    );
+
+    isTimerRunning = true;
+    stopWatch.start();
+  }
+
+  /// 타이머 정지
+  void stopTimer() {
+    isTimerRunning = false;
+    timerHandler.resetInitialElapsedSeconds();
+    stopWatch.stop();
+  }
+
+  /// 타이머 초기화
+  void resetTimer() {
+    isTimerRunning = false;
+    stopTimer();
+    stopWatch.cancel();
   }
 
   /// 모양 선택 버튼 index
@@ -143,35 +213,6 @@ class TimerController extends GetxController
     opacityUpdate4.value = 0.0;
   }
 
-  /// 타이머 시작을 누르면 1초 간격으로 증가되게끔 하는 함수
-  showTimer(bool status) {
-    if (!status) {
-      timer.cancel();
-    } else {
-      secondsUpdate.value = 0;
-      timer = Timer.periodic(const Duration(seconds: 1), updateTimer);
-    }
-  }
-
-  /// 타이머가 status에 따라서 돌아가고 멈추게하는 함수
-  void updateTimer(Timer timer) {
-    secondsUpdate.value++;
-  }
-
-  @override
-  void dispose() {
-    timer.cancel(); // 예시: 사용 중인 타이머를 취소
-    resultTextController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void onClose() {
-    timer.cancel();
-    animationController.dispose();
-    super.onClose();
-  }
-
   /// 타이머 돌아간 시간을 보기 좋게 변환하는 함수
   String formattedTime() {
     int hours = secondsUpdate.value ~/ 3600;
@@ -233,5 +274,19 @@ class TimerController extends GetxController
 
     return result;
   }
-} // End
 
+  @override
+  void onClose() {
+    stopWatch.stop();
+    stopWatch.cancel();
+    super.onClose();
+  }
+
+  @override
+  void dispose() {
+    // 컨트롤러 제거 시 타이머 중지
+    stopWatch.stop();
+    stopWatch.cancel();
+    super.dispose();
+  }
+} // End

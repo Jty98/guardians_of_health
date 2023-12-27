@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/health_info_widget.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
+import 'package:guardians_of_health_project/VM/timer_difference_handler.dart';
 import 'package:guardians_of_health_project/View/timer_result_view.dart';
 import 'package:guardians_of_health_project/home.dart';
 
@@ -21,6 +22,7 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final timerController = Get.find<TimerController>();
+    final timerHandler = TimerDifferenceHandler.instance;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,11 +37,15 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
           onPressed: () {
-            timerController.showTimer(false);
+            timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
+            timerHandler.resetInitialElapsedSeconds();
             timerController.secondsUpdate.value = 0;
-            Get.offAll(Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
-            transition: Transition.noTransition
-            );
+            timerController.resetTimer();
+            Get.offAll(
+                () => Home(
+                    onChangeTheme: onChangeTheme,
+                    onChangeThemeColor: onChangeThemeColor),
+                transition: Transition.noTransition);
           },
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -61,20 +67,23 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
   @override
   // preferredSize 지정
   Size get preferredSize => Size.fromHeight(56.h);
+
   Widget buildTimerPage(TimerController timerController, BuildContext context) {
     return Center(
-      child: GestureDetector(
-        onTap: () {
-          timerController.showTimer(false);
-          Get.to(
-            () => TimerResultView(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
-            transition: Transition.noTransition,
-          );
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.to(
+                () => TimerResultView(
+                    onChangeTheme: onChangeTheme,
+                    onChangeThemeColor: onChangeThemeColor),
+                transition: Transition.noTransition,
+              );
+              timerController.resetTimer();
+            },
+            child: Container(
               width: 350.0.w,
               height: 350.0.h,
               decoration: BoxDecoration(
@@ -110,36 +119,37 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 40.h,
+          ),
+          SizedBox(
+            height: 40.h,
+          ),
+          Padding(
+            padding: EdgeInsets.all(15.0.w),
+            child: Text(
+              "화면을 위로 올리면 장 건강정보가 나와요!",
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
             ),
-            Padding(
-              padding: EdgeInsets.all(15.0.w),
-              child: Text(
-                "화면을 위로 올리면 장 건강정보가 나와요!",
-                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-              ),
-            ),
-            GetBuilder<TimerController>(
-              builder: (controller) {
-                return AnimatedBuilder(
-                  animation: controller.animation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(0, controller.animation.value),
-                      child: Icon(
-                        Icons.keyboard_double_arrow_up_outlined,
-                        size: 50,
-                        color: Theme.of(context).colorScheme.tertiary,
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+          GetBuilder<TimerController>(
+            builder: (controller) {
+              return AnimatedBuilder(
+                animation: controller.animation,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, controller.animation.value),
+                    child: Icon(
+                      Icons.keyboard_double_arrow_up_outlined,
+                      size: 50,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
+
 }

@@ -48,7 +48,7 @@ class _MainPageViewState extends State<MainPageView> {
         child: GestureDetector(
           onTap: () {
             // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
-            timerController.showTimer(true);
+            timerController.initTimerOperation();
             Get.to(
               () => TimerView(onChangeTheme: widget.onChangeTheme,onChangeThemeColor: widget.onChangeThemeColor),
               transition: Transition.noTransition,
