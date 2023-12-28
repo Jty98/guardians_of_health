@@ -55,6 +55,7 @@ class StopWatch {
     }
 
     timerController.secondsUpdate.value = _initialElapsedSeconds;
+
     start();
     onPausedCalled = false;
   }

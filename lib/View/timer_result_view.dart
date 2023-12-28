@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/insert_buttomsheet.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:guardians_of_health_project/VM/timer_ctrl.dart';
 import 'package:guardians_of_health_project/VM/timer_difference_handler.dart';
 import 'package:guardians_of_health_project/home.dart';
@@ -52,7 +52,7 @@ class TimerResultView extends StatelessWidget {
             ),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
-      
+
           automaticallyImplyLeading: false, // 왼쪽 뒤로가기 버튼 없애기
         ),
         body: FutureBuilder<List<dynamic>>(future: () async {
@@ -77,80 +77,63 @@ class TimerResultView extends StatelessWidget {
                 );
               }).toList();
               print("durations: $durations");
-      
+
               /*
             List<int> numbers = [1, 2, 3, 4, 5];
             int sum = numbers.reduce((value, element) => value + element);
             print(sum); // 출력: 15 (1+2 + 1+2된거에+3) 이런식으로 누적되게 합해주는게 reduce
             */
-      
+
               // Duration 합산하기 (takenTime를 못불러와서 durations이 null일 경우의 처리)
               Duration timeSum = durations.isNotEmpty
                   ? durations.reduce((value, element) => value + element)
                   : Duration.zero;
-      
-              print("timeSum: $timeSum");
-              print("durations: $durations");
-              print(
-                  "timeSum.inMinutes : ${(timeSum.inMinutes % 60) / durations.length}");
-              print(
-                  "timeSum.inSeconds : ${(timeSum.inSeconds % 60) / durations.length}");
-      
+
               // 평균 계산하기
-              // Duration average = durations.isNotEmpty
-              //   ? Duration(
-              //       hours: timeSum.inHours ~/ durations.length, // ~/는 정수 나눗셈
-              //       minutes: ((timeSum.inMinutes % 60) / durations.length).round(),
-              //       seconds: ((timeSum.inSeconds % 60) / durations.length).round(),
-              //     )
-              //   : Duration.zero;
               int totalSeconds = timeSum.inSeconds;
               int averageSeconds =
                   durations.isNotEmpty ? totalSeconds ~/ durations.length : 0;
-      
+
               Duration average = Duration(seconds: averageSeconds);
-      
-              print("average : $average");
-      
-              print("average : $average");
-      
+
               // String 형식의 시간을 Duration으로 변환하는 함수
               durationFromString(String timeString) {
                 List<String> parts = timeString.split(':');
                 int hours = int.parse(parts[0]);
                 int minutes = int.parse(parts[1]);
                 int seconds = int.parse(parts[2]);
-      
-                return Duration(hours: hours, minutes: minutes, seconds: seconds);
+
+                return Duration(
+                    hours: hours, minutes: minutes, seconds: seconds);
               }
-      
+
               // formattedTime을 Duration으로 변환
               Duration formattedDuration =
                   durationFromString(timerController.formattedTime());
-      
+
               // averageTime을 Duration으로 변환
               Duration averageDuration =
                   durationFromString(average.toString().split(".").first);
-      
+
               result = (averageDuration - formattedDuration).toString();
-      
+
               // 평균과의 차이 계산
               int differenceInSeconds =
                   (formattedDuration - averageDuration).inSeconds;
               int absoluteDifference = differenceInSeconds.abs();
-      
+
               // 차이를 시간, 분, 초로 변환
               int hours = absoluteDifference ~/ 3600;
               int minutes = (absoluteDifference % 3600) ~/ 60;
               int seconds = absoluteDifference % 60;
-      
+
               // 차이를 문자열로 표시
               timeDifference =
                   '${hours > 0 ? '$hours시간 ' : ''}${minutes > 0 ? '$minutes분 ' : ''}${seconds >= 0 ? '$seconds초' : ''}';
-      
+
               // 두 Duration을 비교
               int resultTime = formattedDuration.compareTo(averageDuration);
-      
+
               // 결과 출력
               if (resultTime < 0) {
                 dataEmpty = true;
@@ -175,7 +158,7 @@ class TimerResultView extends StatelessWidget {
             result = "기록을 남겨서 매번 비교해보세요!";
             imagePath = defulatImagePath;
           }
-      
+
           return Obx(() {
             return SingleChildScrollView(
               child: Center(
@@ -334,10 +317,14 @@ class TimerResultView extends StatelessWidget {
                     // 타이머 결과 평균 확인하기, 타이머 백그라운드 돌아가게하기
                     TextButton(
                       onPressed: () {
-                        timerController.resetBottomSheetValues(); // 바텀시트 선택들 초기화
+                        timerController
+                            .resetBottomSheetValues(); // 바텀시트 선택들 초기화
                         timerHandler.resetInitialElapsedSeconds();
                         timerController.secondsUpdate.value = 0;
-                        Get.offAll(() => Home(onChangeTheme: onChangeTheme, onChangeThemeColor: onChangeThemeColor),
+                        Get.offAll(
+                          () => Home(
+                              onChangeTheme: onChangeTheme,
+                              onChangeThemeColor: onChangeThemeColor),
                           transition: Transition.noTransition,
                         );
                       },

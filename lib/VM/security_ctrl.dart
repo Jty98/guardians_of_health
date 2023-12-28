@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Components/snacbar_widget.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +18,8 @@ class SecurityController extends GetxController {
 
   late RxBool passwordValue = false.obs; // 비밀번호 스위치 상태
   late RxBool biometricsValue = false.obs; // 생체인식 스위치 상태
-  RxList<RxBool> buttonClickStatus =
-      RxList<RxBool>.generate(12, (index) => false.obs); // numberpad 버튼의 클릭 상태 관리
+  RxList<RxBool> buttonClickStatus = RxList<RxBool>.generate(
+      12, (index) => false.obs); // numberpad 버튼의 클릭 상태 관리
   late SharedPreferences prefs;
 
   @override
@@ -35,7 +35,8 @@ class SecurityController extends GetxController {
   bool saveStatus = false; // db에 저장 유무에 따른 bool값
   String? savedPassword =
       ""; // password로 로그인할 때 필요해서 앱 시작시에 password가 있으면 저장시키는 값
-  RxBool isAuthenticating = false.obs; // faceid 진행 여부의 bool 값으로 화면 바뀔때 써서 RxBool
+  RxBool isAuthenticating =
+      false.obs; // faceid 진행 여부의 bool 값으로 화면 바뀔때 써서 RxBool
 
   /// keypad 변수 초기화
   resetNumber() {
@@ -66,7 +67,9 @@ class SecurityController extends GetxController {
               resultText: "오늘도 쾌변하세요!",
               resultbackColor: Theme.of(context).colorScheme.tertiary,
               resultTextColor: Theme.of(context).colorScheme.onTertiary,
-              securityController: this);
+              securityController: this,
+              snackPosition: SnackPosition.BOTTOM,
+              );
         } else {
           // 저장 성공한 경우에 스낵바 띄우기
           showSnackbar(
@@ -74,7 +77,9 @@ class SecurityController extends GetxController {
               resultText: "잠금이 성공적으로 설정되었습니다!",
               resultbackColor: Theme.of(context).colorScheme.tertiary,
               resultTextColor: Theme.of(context).colorScheme.onTertiary,
-              securityController: this);
+              securityController: this,
+              snackPosition: SnackPosition.BOTTOM,
+              );
         }
       });
 
@@ -83,11 +88,15 @@ class SecurityController extends GetxController {
       if (e.code == 'NotAvailable') {
         // 생체 인식을 사용할 수 없는 경우에 대한 처리
         cancelAuthentication();
-        biometricsValue.value = false; // 실패한경우 스위치 끄기
+        state == 0
+            ? biometricsValue.value = true
+            : biometricsValue.value = false; // 실패한경우 스위치 끄기
       } else if (e.code == 'AuthenticationCanceled') {
         // 사용자가 생체인증을 취소하거나 실패한경우
         deleteBioSharePreferencese(); // sharedpreference에서 biostatus 지우기
-        biometricsValue.value = false; // 실패한경우 스위치 끄기
+        state == 0
+            ? biometricsValue.value = true
+            : biometricsValue.value = false; // 실패한경우 스위치 끄기
       } else {
         // 기타 오류에 대한 처리
       }
@@ -108,15 +117,15 @@ class SecurityController extends GetxController {
     prefs.setBool('isPassword', passwordValue.value);
     prefs.setString('password', savedPassword!);
 
-    print("저장된 passwordValue: $passwordValue");
-    print("저장된 password: $savedPassword");
+    // print("저장된 passwordValue: $passwordValue");
+    // print("저장된 password: $savedPassword");
   }
 
   /// bio set
   saveBioSharePreferencese() async {
     prefs.setBool('isBio', biometricsValue.value);
 
-    print("저장된 biometricsValue: $biometricsValue");
+    // print("저장된 biometricsValue: $biometricsValue");
   }
 
   /// delete Pw

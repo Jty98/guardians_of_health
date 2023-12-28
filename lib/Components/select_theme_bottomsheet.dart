@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:guardians_of_health_project/my_theme.dart';
+import 'package:guardians_of_health_project/util/asset_images.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectScreenMode extends StatefulWidget {
@@ -17,6 +18,8 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
   int themeColor = 0;
   MyTheme myTheme = MyTheme();
   late List themeInfo;
+  String lightMode = AssetImages.LIGHTMODE;
+  String darkMode = AssetImages.DARKMODE;
   
   @override
   void initState() {
@@ -60,8 +63,8 @@ class _SelectScreenModeState extends State<SelectScreenMode> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
                         child: Image.asset(
-                          isDarkMode ? "assets/images/darkmode.png"
-                                      : "assets/images/lightmode.png",
+                          isDarkMode ? darkMode
+                                      : lightMode,
                           width: 100.w,
                         ),
                       ),

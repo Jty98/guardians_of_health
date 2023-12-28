@@ -115,7 +115,9 @@ firstNumberpadDialog(BuildContext context) {
                                     resultTextColor: Theme.of(context)
                                         .colorScheme
                                         .onTertiary,
-                                    securityController: securityController);
+                                    securityController: securityController,
+                                    snackPosition: SnackPosition.TOP,
+                                    );
                               } else {
                                 showSnackbar(
                                     result: "실패",
@@ -124,7 +126,9 @@ firstNumberpadDialog(BuildContext context) {
                                         Theme.of(context).colorScheme.error,
                                     resultTextColor:
                                         Theme.of(context).colorScheme.onError,
-                                    securityController: securityController);
+                                    securityController: securityController,
+                                    snackPosition: SnackPosition.TOP,
+                                    );
                               }
                             }
 

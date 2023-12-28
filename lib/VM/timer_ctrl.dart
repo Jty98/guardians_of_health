@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:guardians_of_health_project/VM/stopwatch.dart';
 import 'package:guardians_of_health_project/VM/timer_difference_handler.dart';
@@ -18,9 +18,9 @@ class TimerController extends GetxController
 
   late AnimationController animationController;
   late Animation<double> animation;
-  // late Timer timer;
   bool isTimerRunning = false; // 타이머가 실행 중인지 여부 초기값: false
-  final timerHandler = TimerDifferenceHandler.instance; // TimerDifferenceHandler 인스턴스 생성
+  final timerHandler =
+      TimerDifferenceHandler.instance; // TimerDifferenceHandler 인스턴스 생성
   late StopWatch stopWatch; // StopWatch 클래스 선언
 
   RxBool animationStatus = true.obs; // 버튼 애니메이션 상태
@@ -65,7 +65,6 @@ class TimerController extends GetxController
     // 애니메이션 반복
     animationController.repeat(reverse: true);
   }
-
 
   /// 초기 타이머로 백그라운드에 들어갈 때 backgroundTimerOperation()로 timerHandler.remainingSeconds를 타이머에 넣어줌
   void initTimerOperation() {

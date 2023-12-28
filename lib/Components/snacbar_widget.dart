@@ -10,6 +10,7 @@ import 'package:guardians_of_health_project/VM/security_ctrl.dart';
       required Color resultbackColor,
       required Color resultTextColor,
       required SecurityController securityController,
+      required SnackPosition snackPosition,
       }) {
     Get.showSnackbar(
       GetSnackBar(
@@ -29,9 +30,9 @@ import 'package:guardians_of_health_project/VM/security_ctrl.dart';
               fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
-        duration: const Duration(milliseconds: 800),
+        duration: const Duration(milliseconds: 1000),
         backgroundColor: resultbackColor,
-        snackPosition: SnackPosition.TOP,
+        snackPosition: snackPosition,
         borderRadius: 50.r, // 둥글게하기
         margin: EdgeInsets.fromLTRB(60.w, 10.h, 60.w, 10.h), // 마진값으로 사이즈 조절
       ),

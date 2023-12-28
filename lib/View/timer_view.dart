@@ -121,7 +121,10 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           SizedBox(
-            height: 40.h,
+            height: 30.h,
+          ),
+          SizedBox(
+            height: 30.h,
           ),
           Padding(
             padding: EdgeInsets.all(15.0.w),
@@ -151,5 +154,4 @@ class TimerView extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
 }

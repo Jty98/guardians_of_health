@@ -11,7 +11,7 @@ class MyTheme{
     
     themeInfoList.add(isDarkMode);
     themeInfoList.add(themeColor);
-    print(themeInfoList);
+    // print(themeInfoList);
     
     return themeInfoList;
   }

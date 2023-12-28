@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:guardians_of_health_project/View/calendar_view.dart';
 import 'package:intl/intl.dart';

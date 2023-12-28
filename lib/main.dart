@@ -23,7 +23,7 @@ void main() async {
   securityController.passwordValue.value =
       initPw[0]; // 0번째에 있는 passwordStatus 가져와서 넣어주기
   securityController.savedPassword = initPw[1]; // 1번째에 있는 password 값 넣어주기
-  print("init_isFirstRun: ${securityController.isFirstValue}");
+  // print("init_isFirstRun: ${securityController.isFirstValue}");
 
   // 생체인식 스위치 켜져있으면 생체인증
   if (securityController.biometricsValue.value == true) {
@@ -95,7 +95,6 @@ class MyAppState extends State<MyApp> {
   }
 
   _initializeApp() {
-
     if (securityController.passwordValue.value == true) {
       // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -111,16 +110,6 @@ class MyAppState extends State<MyApp> {
       // 기기별 Layout 조절
       designSize: const Size(430, 932), // IPhone 14 & 15 ProMax 기기 해상도
       builder: (context, child) {
-        
-
-        // if (securityController.passwordValue.value == true) {
-        //   // MyWidgets의 Build가 끝난 후 실행 (이렇게 안하면 순서상 오류가 생겨서 localizationsDelegates에서 오류남)
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //     firstNumberpadDialog(Get.context!);
-        //   });
-        //   // 첫 실행시 obs로 관리하는 밸류를 true로 바꿔서 테마 변경 및 빌드시 setState 될때 인증 뜨는거 막기
-        // }
-
         return GetMaterialApp(
           title: 'Flutter Demo',
           // Localization
@@ -206,8 +195,8 @@ Future<List> getisPasswordState() async {
   List passwordList = [];
   bool isPasswordValue = prefs.getBool('isPassword') ?? false;
   String password = prefs.getString('password') ?? "";
-  debugPrint("password 등록 여부: $isPasswordValue");
-  debugPrint("로그인된 password: $password");
+  // debugPrint("password 등록 여부: $isPasswordValue");
+  // debugPrint("로그인된 password: $password");
   passwordList.add(isPasswordValue);
   passwordList.add(password);
 
@@ -218,21 +207,7 @@ Future<List> getisPasswordState() async {
 getisPrivatedState() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isBioValue = prefs.getBool('isBio') ?? false;
-  debugPrint("생체인식 등록 여부: $isBioValue");
+  // debugPrint("생체인식 등록 여부: $isBioValue");
   return isBioValue;
 }
 
-/// SharedPreferences - 테마 변경 저장된 값 있으면 가져오기 (없으면 기본값)
-getThemeInfo() async {
-  final prefs = await SharedPreferences.getInstance();
-  List themeInfoList = [];
-  bool isDarkMode = prefs.getBool('ThemeMode') ?? false;
-  int themeColor = prefs.getInt('ThemeColor') ?? 0;
-
-  themeInfoList.add(isDarkMode);
-  themeInfoList.add(themeColor);
-  print(themeInfoList);
-
-  return themeInfoList;
-}
- 

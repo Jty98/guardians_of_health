@@ -2,6 +2,7 @@
 /// 이렇게하면 const로 해줬기 때문에 메모리 측면에서 좋음
 class AssetImages {
   static const APP_LOGO = "assets/images/AppLogo.png";
+  static const APP_LOGO_BACK = "assets/images/AppLogo_bacground.png";
   static const BANANA = "assets/images/banana.png";
   static const GRAPE = "assets/images/grape.png";
   static const WATER = "assets/images/water.png";

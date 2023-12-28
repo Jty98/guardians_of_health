@@ -9,7 +9,7 @@ import 'package:guardians_of_health_project/Components/Calendar/calendar_detail.
 import 'package:guardians_of_health_project/Components/Calendar/calendar_todaybanner.dart';
 import 'package:guardians_of_health_project/Components/Calendar/marker_style.dart';
 import 'package:guardians_of_health_project/Model/calendar_event_model.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:guardians_of_health_project/Model/record_model.dart';
 import 'package:guardians_of_health_project/VM/calendar_ctrl.dart';
 import 'package:intl/intl.dart';

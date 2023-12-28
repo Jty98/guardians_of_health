@@ -25,7 +25,6 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
-      // drawer: const MyDrawer(),
       body: PersistentTabView(
         context,
         controller: homecontroller.tabController,
@@ -33,29 +32,13 @@ class Home extends StatelessWidget {
         items: _navBarsItems(context), // 탭들 디자인하는 함수
         confineInSafeArea: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        // handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true, // 키보드 눌렀을 때 화면 자동으로 위로 올라감
-        // stateManagement: true,
         hideNavigationBarWhenKeyboardShows:
             true, // resizeToAvoidBottomInset를 돕는애
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(30.0.r),
         ),
-        // // popAllScreensOnTapOfSelectedTab: true,
-        // // popActionScreens: PopActionScreensType.all,
-        // itemAnimationProperties: const ItemAnimationProperties(
-        //   // bar items property
-        //   duration: Duration(milliseconds: 100),
-        //   // curve: Curves.ease,
-        // ),
-        // screenTransitionAnimation: const ScreenTransitionAnimation(
-        //   // 탭바 클릭시 발생하는 애니메이션
-        //   animateTabTransition: false,
-        //   // curve: Curves.ease,
-        //   duration: Duration(milliseconds: 100),
-        // ),
         navBarHeight: 80.h,
-        // navBarHeight: 80.h,
         navBarStyle: NavBarStyle.style11,
       ),
     );

@@ -3,7 +3,7 @@
 */
 
 import 'package:get/get.dart';
-import 'package:guardians_of_health_project/Model/database_handler.dart';
+import 'package:guardians_of_health_project/VM/database_handler.dart';
 import 'package:intl/intl.dart';
 
 class CalendarController extends GetxController {

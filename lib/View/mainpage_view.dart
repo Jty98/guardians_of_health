@@ -45,39 +45,57 @@ class _MainPageViewState extends State<MainPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: GestureDetector(
-          onTap: () {
-            // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
-            timerController.initTimerOperation();
-            Get.to(
-              () => TimerView(onChangeTheme: widget.onChangeTheme,onChangeThemeColor: widget.onChangeThemeColor),
-              transition: Transition.noTransition,
-            );
-          },
-          child: AnimatedContainer(
-            duration: const Duration(seconds: 2),
-            curve: Curves.easeInOut,
-            width: animationStatus ? 320.0.w : 370.0.w,
-            height: animationStatus ? 320.0.h : 370.0.h,
-            decoration: BoxDecoration(
-              color:
-                  // animationStatus ? Colors.green[500] : Colors.amber[500],
-                  animationStatus
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.tertiary,
-              borderRadius: BorderRadius.circular(200.0.r),
-            ),
-            child: Center(
-              child: Text(
-                "볼일을 시작하면 여기를 눌러주세요!",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                // true값을 넣어줘서 timer 작동시키고 타이머 보이는 화면으로 이동
+                timerController.initTimerOperation();
+                Get.to(
+                  () => TimerView(
+                      onChangeTheme: widget.onChangeTheme,
+                      onChangeThemeColor: widget.onChangeThemeColor),
+                  transition: Transition.noTransition,
+                );
+              },
+              child: AnimatedContainer(
+                duration: const Duration(seconds: 2),
+                curve: Curves.easeInOut,
+                width: animationStatus ? 320.0.w : 370.0.w,
+                height: animationStatus ? 320.0.h : 370.0.h,
+                decoration: BoxDecoration(
+                  color:
+                      // animationStatus ? Colors.green[500] : Colors.amber[500],
+                      animationStatus
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.tertiary,
+                  borderRadius: BorderRadius.circular(200.0.r),
+                ),
+                child: Center(
+                  child: Text(
+                    "볼일을 시작하면 여기를 눌러주세요!",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              height: 30.h,
+            ),
+            Text(
+              "※ 타이머 시작 후에 다른 곳에 갔다오면 시간이 바뀔 때 까지 조금 기다려주세요! ※",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
