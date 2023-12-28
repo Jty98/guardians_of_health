@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:guardians_of_health_project/Model/database_handler.dart';
-import 'package:guardians_of_health_project/Model/my_record_data.dart';
 import 'package:guardians_of_health_project/Model/rating_count_model_per_day.dart';
 import 'package:guardians_of_health_project/Model/record_count_model.dart';
 import 'package:guardians_of_health_project/Model/taken_time_model.dart';
@@ -319,14 +318,6 @@ class _MyRecordViewState extends State<MyRecordView> {
       segChoice == 0 ? ratingList.add(RatingCountModelPerDay(perDateType: i.perDateType, rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal))
       : segChoice == 1 ? ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 7)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal))
       : ratingList.add(RatingCountModelPerDay(perDateType: "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 31)))} ~ ${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}", rating: i.rating, countPerCategory: i.countPerCategory, percentageOfTotal: i.percentageOfTotal));
-    }
-
-    for (int i=0; i<ratingList.length; i++) {
-      debugPrint("만족도 확인");
-      debugPrint("date : ${ratingList[i].perDateType}");
-      debugPrint("rating : ${ratingList[i].rating}");
-      debugPrint("total count per category : ${ratingList[i].countPerCategory}");
-      debugPrint("percentage of total : ${ratingList[i].percentageOfTotal}");
     }
 
     setState(() {
