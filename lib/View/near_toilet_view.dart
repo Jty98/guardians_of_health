@@ -53,18 +53,19 @@ class _NearToiletViewState extends State<NearToiletView> {
             List<ToiletsModel> toilets = snapshot.data as List<ToiletsModel>;
             return Stack(
               children: [         
-                canRun
-                  ? flutterMap(toilets)
-                  : const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                // canRun
+                //   ? flutterMap(toilets)
+                //   : const Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                flutterMap(toilets),
                 Positioned(
                   bottom: 100.h,
                   right: 20.w,
                   child: FloatingActionButton(
                     backgroundColor: Colors.blueGrey,     // seedColor에 맞춰 바꾸기
                     onPressed: (){
-                      getCurrentLocation();
+                      canRun? getCurrentLocation() : showCheckLocationModal();
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.r)
@@ -90,13 +91,12 @@ class _NearToiletViewState extends State<NearToiletView> {
         initialZoom: 17.0,
         maxZoom: 20,
         minZoom: 14,
-
       ), 
       children: [
         TileLayer(
           urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         ),
-        MarkerLayer(           // 전국 화장실 데이터
+        MarkerLayer(           // 전국 화장실 데이터 마커 찍기
           markers: toilets.map((toilets) {
             return Marker(    
               width: 120.w,
@@ -224,40 +224,101 @@ class _NearToiletViewState extends State<NearToiletView> {
   }
 
   // ---------- functions ----------
-  ///// 위치 사용 권한 확인 
+  /// 위치 사용 권한 확인 
   checkLocationPermission() async{      // permission 받을때 까지 await를 통해 대기해야함. 사용자의 선택에 따라 활동이 정해지거나 대기해야 하면 무조건 async await
     LocationPermission permission = await Geolocator.checkPermission();     // 사용자의 허용을 받았는지 여부에 따라 조건문 작성
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
+      // getBasicLocation();
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return;
+      canRun = false;
+      showCheckLocationModal();
+      getBasicLocation();
+      // return;
     }
 
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
+      canRun = true;
       getCurrentLocation();           // 허용하면 현재 위치 가져오는 함수 실행 
       showNoticeModal();
     }
   }
 
-  ////// 내 위치 불러오기
+  /// 내 위치 불러오기
   getCurrentLocation() async{
+    canRun ?    // 현재 위치 세팅하기
+      await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: true).then((position) {
+          currentPosition = position;
+          mylat = currentPosition.latitude;
+          mylng = currentPosition.longitude;
+          setState(() {});
+        }).catchError((e){
+          debugPrint("지도파트 오류(near_toilet_view.dart) currentLocation : $e");
+        })
+      : await ( // 광화문 광장 위치 세팅하기
+        // mylat = 37.572946136442916,
+        // mylng = 126.97689874408849;
+      );
+  }
+
+  /// 위치 권한 요청 거부시 초기 위치 설정 (광화문)
+  getBasicLocation() async {
     await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
       forceAndroidLocationManager: true).then((position) {
         currentPosition = position;
-        canRun = true;
-        mylat = currentPosition.latitude;
-        mylng = currentPosition.longitude;
+        canRun = false;
+        mylat = 37.572946136442916;
+        mylng = 126.97689874408849;
         setState(() {});
       }).catchError((e){
-        debugPrint("지도파트 오류(near_toilet_view.dart) : $e");
+        debugPrint("지도파트 오류(near_toilet_view.dart) BasicLocation : $e");
       });
   }
 
-  // 지도 탭 처음 들어왔을 때 보여줄 경고창
+  /// 권한 설정 거부됐을 때 현재 위치의 화장실 알고 싶다면 위치 권한 허용해달라고 알림창 띄우기
+  showCheckLocationModal() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          title: const Center(child: Text("위치 사용 권한 거부 알림")),
+          content: SizedBox(
+            height: 200.h,
+            width: 500.w,
+            child: const Column(
+              children: [
+                Text(
+                  "위치 사용 권한이 허용되지 않았습니다. 현재 위치 근처의 화장실 정보를 보시려면 위치 사용 권한을 허용해 주세요.\n"
+                ),
+                Text(
+                  "허용 방법 : 설정 > 개인정보 보호 및 보안 > 위치 서비스 > 골든타임"
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Center(
+              child: TextButton(
+                onPressed: (){
+                  getBasicLocation();
+                  Get.back();
+                }, 
+                child: const Text("확인"),
+              ),
+            )
+          ],          
+        );
+      }
+    );
+  }
+
+  /// 지도 탭 처음 들어왔을 때 보여줄 경고창
   showNoticeModal() {
     showDialog(
       context: context, 
@@ -271,7 +332,7 @@ class _NearToiletViewState extends State<NearToiletView> {
               child: Column(
                 children: [
                   Text(
-                    "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 주응학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
+                    "지도에 표시되는 화장실은 「공중화장실 등에 관한 법률」 등에 따라 국민의 위생상의 편의와 복지증진을 위해 공중이 이용하도록 국가, 지방자치단체, 법인 또는 개인이 설치하는 화장실에 대한 정보(지방자치단체 관리 대상 개방화장실, 공중화장실, 이동화장실 등 (포함), 초등학교, 중학교 등 학교 화장실은 제공범위(대상) 제외)에 의거하여 표시되었으며, \n",
                     style: TextStyle(
                       fontSize: 14.sp
                     ),
@@ -302,14 +363,14 @@ class _NearToiletViewState extends State<NearToiletView> {
     );
   }
 
-  ////// 전국 화장실 (toilets.json) 데이터 불러오기
+  /// 전국 화장실 (toilets.json) 데이터 불러오기
   Future<List<ToiletsModel>> getToiletsJsonData() async {
     var routeFromJsonFile = await rootBundle.loadString('assets/json/toilets.json');
     List<dynamic> listFromJson = json.decode(routeFromJsonFile);
     return listFromJson.map((json) => ToiletsModel.fromMap(json)).toList();
   }
 
-  // 거리 계산
+  /// 거리 계산
   calcDistance(double toiletX, double toiletY){
     // 두 지점 사이 거리 변수
     String betweenDistance = '';
@@ -325,7 +386,6 @@ class _NearToiletViewState extends State<NearToiletView> {
     // meter 거리가  1km 미만 -> m / 1km 이상 -> km 변환
     distanceInMeters < 1000 ? betweenDistance = "${distanceInMeters.round().toString()} m" : betweenDistance = "${(distanceInMeters.round()/1000).toString()} km";  
     
-    // print("Distance : $betweenDistance");
     return betweenDistance;
   }
   
