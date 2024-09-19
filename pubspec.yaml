@@ -45,7 +45,7 @@ dependencies:
   # Calendar 패키지
   table_calendar: ^3.0.9
   # 날짜 포멧해주는 패키지
-  intl: ^0.18.1
+  intl: ^0.19.0
   # 리스트 슬라이더 패키지
   flutter_slidable: ^3.0.1
   # 생체인증 패키지
@@ -74,7 +74,7 @@ dependencies:
   latlong2: ^0.9.0
 
   # Charts
-  syncfusion_flutter_charts: ^23.2.7
+  syncfusion_flutter_charts: ^27.1.48
 
   # icon바꿔주기 패키지
   flutter_launcher_icons: ^0.13.1
