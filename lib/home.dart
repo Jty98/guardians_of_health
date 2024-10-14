@@ -12,7 +12,7 @@ import 'package:guardians_of_health_project/View/near_toilet_view.dart';
 import 'package:guardians_of_health_project/View/setting_view.dart';
 import 'package:guardians_of_health_project/VM/home_ctrl.dart';
 import 'package:guardians_of_health_project/View/mainpage_view.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class Home extends StatelessWidget {
   final Function(ThemeMode) onChangeTheme; 
@@ -26,9 +26,8 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: const MyAppBar(),
       body: PersistentTabView(
-        context,
         controller: homecontroller.tabController,
-        screens: _buildScreens(), // 탭바누르면 이동할 페이지들 함수
+        // screens: 
         items: _navBarsItems(context), // 탭들 디자인하는 함수
         confineInSafeArea: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -39,7 +38,12 @@ class Home extends StatelessWidget {
           borderRadius: BorderRadius.circular(30.0.r),
         ),
         navBarHeight: 80.h,
-        navBarStyle: NavBarStyle.style11,
+        navBarStyle: NavBarStyle.style11, 
+        tabs: [
+          _buildScreens(), // 탭바누르면 이동할 페이지들 함수
+        ],
+
+        
       ),
     );
   }
